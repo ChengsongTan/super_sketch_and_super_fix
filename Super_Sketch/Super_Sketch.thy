@@ -13,7 +13,7 @@ theory Super_Sketch
 begin
 
 
-ML_file "../ml/Sledgehammer_Commands1.ML"
+ML_file "./ml/Sledgehammer_Commands1.ML"
             
 
 ML \<open>

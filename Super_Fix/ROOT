@@ -1,7 +1,7 @@
 session "Super_Fix" = HOL +
   options [document = false]
   directories
-    "../ml/"
+    ml
   theories
     Super_Fix
 

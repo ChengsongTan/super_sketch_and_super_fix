@@ -1,6 +1,6 @@
 session "Super_Sketch" = HOL +
   options [document = false]
   directories
-    "../ml/"
+    ml
   theories
     Super_Sketch
