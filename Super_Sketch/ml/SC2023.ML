@@ -1,7 +1,9 @@
 (*  
+  Mantainers: 
+    Chengsong Tan -- c.tan[at]imperial[dot]ac[dot]uk
 
 Adds "sledgehammer" and related commands to Isabelle/Isar's outer syntax.
-author: I tweaked this file to easily call sledgehammer on a proof state, also incuded
+Super_sketch tweaked this file to easily call sledgehammer on a proof state, also incuded
 utilities for removing comments in generated one-liners.
 *)
 

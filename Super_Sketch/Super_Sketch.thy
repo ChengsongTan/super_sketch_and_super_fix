@@ -1,16 +1,19 @@
-(*   Title:   Super.thy
-     Author:  Chengsong Tan, adapted from Sketch_and_Explore.thy by Florian Haftmann
+(* 
+  Mantainers: 
+    Chengsong Tan -- c.tan[at]imperial[dot]ac[dot]uk
+
+Note: Adapted from Sketch_and_Explore.thy by Florian Haftmann
 *)
 
 chapter \<open>Experimental commands \<^text>\<open>sketch\<close> and \<^text>\<open>explore\<close>\<close>
 
-theory Super2023
+theory Super_Sketch
   imports Main \<comment> \<open>TODO: generalize existing sledgehammer functions to Pure\<close>
-  keywords "sketch" "explore" "sketch_subgoals" "super_sketch" "super_sketch3" "super_sketch3p" "super_sketch2b" "super_sketch2bp" "nsketch" :: diag
+  keywords "sketch" "explore" "sketch_subgoals" "super_sketch" "super_sketch3" "super_sketch2b" :: diag
 begin
 
 
-ML_file "SC2023.ML"
+ML_file "./ml/Sledgehammer_Commands1.ML"
             
 
 ML \<open>
@@ -25,12 +28,8 @@ open Sledgehammer_Prover
 open Sledgehammer_Prover_SMT
 open Sledgehammer_Prover_Minimize
 open Sledgehammer_MaSh
-
+open Sledgehammer
 open Sledgehammer_Commands1
-
-
-
-
 
 open Subgoal
 open Binding
@@ -50,32 +49,26 @@ fun split_clause t =
     val concl = Logic.strip_imp_concl horn;
   in (fixes, assms, concl) end;
 
-fun maybe_quote ctxt =
-  ATP_Util.maybe_quote (Thy_Header.get_keywords' ctxt);
-
 fun print_typ ctxt T =
   T
   |> Syntax.string_of_typ ctxt
-  |> maybe_quote ctxt;
+  |> ATP_Util.maybe_quote ctxt;
 
 fun print_term ctxt t =
   t
   |> singleton (Syntax.uncheck_terms ctxt)
   |> Sledgehammer_Isar_Annotate.annotate_types_in_term ctxt
-      \<comment> \<open>TODO pointless to annotate explicit fixes in term\<close>
   |> Print_Mode.setmp [] (Syntax.unparse_term ctxt #> Pretty.string_of)
   |> Sledgehammer_Util.simplify_spaces
-  |> maybe_quote ctxt;
+  |> ATP_Util.maybe_quote ctxt;
 
-fun eigen_context_for_statement (fixes, assms, concl) ctxt =
+fun eigen_context_for_statement (params, assms, concl) ctxt =
   let
-    val (fixes', ctxt') = Variable.add_fixes (map fst fixes) ctxt;
-    val subst_free = AList.lookup (op =) (map fst fixes ~~ fixes')
-    val subst = map_aterms (fn Free (v, T) => Free (the_default v (subst_free v), T)
-      | t => t)
-    val assms' = map subst assms;
-    val concl' = subst concl;
-  in ((fixes, assms', concl'), ctxt') end;
+    val fixes = map (fn (s, T) => (Binding.name s, SOME T, NoSyn)) params
+    val ctxt' = ctxt |> Variable.set_body false |> Proof_Context.add_fixes fixes |> snd
+      handle ERROR _ =>
+      ctxt |> Variable.set_body true |> Proof_Context.add_fixes fixes |> snd
+  in ((params, assms, concl), ctxt') end;
 
 fun print_isar_skeleton ctxt indent keyword stmt =
   let
@@ -115,48 +108,7 @@ fun print_skeleton ctxt indent keyword stmt =
 fun print_sketch ctxt method_text clauses =
   "proof" ^ method_text :: separate "next" (map (print_skeleton ctxt 2 "show") clauses) @ ["qed"];
 
-fun print_numbered_isar_skeleton ctxt indent keyword stmt i state  =
-  let
-    val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt;
-    val prefix = replicate_string indent " ";
-      \<comment> \<open>TODO consider pre-existing indentation -- how?\<close>
-    val prefix_sep = "\n" ^ prefix ^ "    and ";
-    val show_s = prefix ^ keyword ^ " goal" ^ Int.toString i ^ ": " ^ print_term ctxt' concl;
-    val if_s = if null assms then NONE
-      else SOME (prefix ^ "  if " ^ space_implode prefix_sep
-        (map (fn t => print_term ctxt' t ) assms));
-    val for_s = if null fixes then NONE
-      else SOME (prefix ^ "  for " ^ space_implode prefix_sep
-        (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt T) fixes));
 
-
-  
-
-    val message1 = ( "sorry");
-
-
-    val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
-      [ prefix ^  "  " ^ (if is_none if_s then "" else "using that ") ^ message1]);
-  in
-    s
-  end;
-
-
-
-fun print_numbered_sketch  ctxt method_text1 clauses state =
-  let 
-    val n = subgoal_count state;
-    val t_start = Timing.start ();
-    val s = "proof" ^ method_text1 :: map (fn (stmt, i) => print_numbered_isar_skeleton ctxt 2 "show" stmt i state) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
-    val t_end = Timing.result t_start;
-  in
-    writeln (Timing.message t_end);
-    s
-  end;
-
-fun not_needed i = (if i <= 20 andalso i >= 18 orelse i <= 47 andalso i >= 42 orelse i <= 66 andalso i >= 51 orelse  i >= 68 andalso i <= 199 andalso i <> 84 andalso i <> 135 orelse 
-  i = 202 orelse i = 203 orelse i >= 205 andalso i <= 206 orelse i >= 208 andalso i <= 209 orelse i = 213 orelse i = 214 orelse i >= 216 andalso i <= 220 orelse
-i >= 222 andalso i <= 234 orelse i >= 236 andalso i <= 237 orelse i >= 241 andalso i < 360 andalso i <> 249 orelse i > 360 then true else false) 
 
 
 fun print_exploration ctxt method_text [clause] =
@@ -265,49 +217,6 @@ fun print_super_isar_skeleton2b ctxt indent keyword stmt i state extra_method_re
     s
   end;
 
-
-fun print_super_isar_skeleton2bp ctxt indent keyword stmt i state extra_method_ref extra_method_text  =
-  let
-    val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt;
-    val prefix = replicate_string indent " ";
-      \<comment> \<open>TODO consider pre-existing indentation -- how?\<close>
-    val prefix_sep = "\n" ^ prefix ^ "    and ";
-    val show_s = prefix ^ keyword ^ " goal" ^ Int.toString i ^ ": " ^ print_term ctxt' concl;
-(*
-    val state_insert = (case m3ref of (SOME m3) =>  (Seq.the_result "" (Proof.apply m3 (Proof.prefer i state)))
-                                         | NONE => state )*)
-    val ngoals = subgoal_count state
-    val state_simp = (case extra_method_ref of (SOME m2) =>  (Seq.the_result "" (Proof.apply m2 (Proof.prefer i state)))
-                                         | NONE => Proof.prefer i state )
-    val nsgoals = subgoal_count state_simp
-    val extra_method_text = (if not_needed i then " - " else extra_method_text)
-    val done_or_nil = (if ngoals = 1 then "" else " done")
-    val outcome_messages = (if ngoals > nsgoals then [("success", "apply " ^ extra_method_text ^ " (*good, solved without s/h*)")] else 
-      Par_List.map (fn (st, txt) => let val p = my_hammer_away 1 st in (fst p, "apply " ^ txt ^ " " ^ Sledgehammer_Commands1.extract_one_liner_proof (snd p)) end) [(state_simp, extra_method_text) (*, (state_insert, m3txt)*)])
-    val (retry_outcome, retry_message) = (find_first (fn ("success", _) => true | _ => false) outcome_messages) |> the_default ("failed", "sorry (*failed to find proof*)")
-    val (retry_outcome1, retry_message1) = (if retry_outcome = "failed" then (let val sh = my_hammer_away i state in (fst sh, Sledgehammer_Commands1.extract_one_liner_proof (snd sh)) end) else (retry_outcome, retry_message))
-
-
-    val message1 = (case retry_outcome1 of
-        "success" =>   retry_message1 ^ done_or_nil  | 
-        _ => "sorry (*failed to find proof*)")
-
-    val inserted_ctxt = ctxt
-    val ((inserted_fixes, inserted_assms, inserted_concl), inserted_ctxt') = eigen_context_for_statement stmt inserted_ctxt;
-    val if_s = if null inserted_assms then NONE
-      else SOME (prefix ^ "  if " ^ space_implode prefix_sep
-        (map (fn t => print_term inserted_ctxt' t ) inserted_assms));
-    val for_s = if null inserted_fixes then NONE
-      else SOME (prefix ^ "  for " ^ space_implode prefix_sep
-        (map (fn (v, T) => v ^ " :: " ^ print_typ inserted_ctxt T) inserted_fixes));
-
-    val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
-      [ prefix ^  "  " ^ (if is_none if_s then "" else "using that ") ^ message1]);
-  in
-    s
-  end;
-
-
 fun hammer_maybe_twice i state =
   let
     val statei = Proof.prefer i state
@@ -333,7 +242,7 @@ fun generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_re
     val outcome_type_list = map fst string_pairs_list;
     val final_outcome = List.foldl (fn (s, acc) => if s = "success" andalso acc then true else false) true outcome_type_list;
     val done_or_nil = (if sub_subgoals_num = 1 then [] else [" done\n"])
-    val text = (if final_outcome then cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil) else "sorry (*failed to find proof in multi-steps, partial results commented:" ^ (cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil)) ^ "*)\n" );
+    val text = (if final_outcome then cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil) else "sorry (*failed to find proof in multi-steps*)\n");
   in text end;
     
     
@@ -356,7 +265,7 @@ fun print_super_isar_skeleton3 ctxt indent keyword stmt i state extra_method_ref
     val state_insert = (case m3ref of (SOME m3) =>  (Seq.the_result "" (Proof.apply m3 (Proof.prefer i state)))
                                          | NONE => Proof.prefer i state )
     val insert_count = subgoal_count state_insert;
-    val (outcome_type_string, message) = (if insert_count < total_count then ("success", "Try this:        (>1.0s)") else hammer_maybe_twice 1 state_insert );
+    val (outcome_type_string, message) = (if insert_count < total_count then ("success", "Try this:        (>1.0s)") else my_hammer_away 1 state_insert);
     val done_or_nil = (if insert_count < 2 then "" else "done")
     val message1 = (if outcome_type_string = "success" then "apply " ^ m3txt ^ "(**)" ^  Sledgehammer_Commands1.extract_one_liner_proof message ^ done_or_nil else generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_ref mreduce_txt);
 
@@ -367,37 +276,6 @@ fun print_super_isar_skeleton3 ctxt indent keyword stmt i state extra_method_ref
     s
   end;
 
-
-fun print_super_isar_skeleton3p ctxt indent keyword stmt i state extra_method_ref extra_method_text m3ref m3txt msplit_ref msplit_txt mreduce_ref mreduce_txt=
-  let
-    val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt;
-    val prefix = replicate_string indent " ";
-      \<comment> \<open>TODO consider pre-existing indentation -- how?\<close>
-    val prefix_sep = "\n" ^ prefix ^ "    and ";
-    val show_s = prefix ^ keyword ^ " goal" ^ Int.toString i ^ ": " ^ print_term ctxt' concl;
-    val if_s = if null assms then NONE
-      else SOME (prefix ^ "  if " ^ space_implode prefix_sep
-        (map (fn t => print_term ctxt' t ) assms));
-    val for_s = if null fixes then NONE
-      else SOME (prefix ^ "  for " ^ space_implode prefix_sep
-        (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt T) fixes));
-
-    val total_count = subgoal_count state;
-    val state_insert = (if not_needed i then (case extra_method_ref of (SOME m2) =>  (Seq.the_result "" (Proof.apply m2 (Proof.prefer i state)))
-                                         | NONE => Proof.prefer i state ) else (case m3ref of (SOME m3) =>  (Seq.the_result "" (Proof.apply m3 (Proof.prefer i state)))
-                                         | NONE => Proof.prefer i state ))  
-    val insert_count = subgoal_count state_insert;
-    val (outcome_type_string, message) = (if insert_count < total_count then ("success", "Try this:        (>1.0s)") else hammer_maybe_twice 1 state_insert);
-    val done_or_nil = (if insert_count < 2 then "" else "done")
-    val m3txt = (if not_needed i then extra_method_text else m3txt)
-    val message1 = (if outcome_type_string = "success" then "apply " ^ m3txt ^ "(**)" ^  Sledgehammer_Commands1.extract_one_liner_proof message ^ done_or_nil else generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_ref mreduce_txt);
-
-
-    val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
-      [ prefix ^  "  " ^ (if is_none if_s then "" else "using that ") ^ message1]);
-  in
-    s
-  end;
 
 fun print_super_isar_skeleton ctxt indent keyword stmt i state  =
   let
@@ -414,7 +292,7 @@ fun print_super_isar_skeleton ctxt indent keyword stmt i state  =
         (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt T) fixes));
 
     val state_i_moved_to_1 = Proof.prefer i state
-    val (outcome_type_string, message) = my_hammer_away 1 state_i_moved_to_1;  
+    val (outcome_type_string, message) = my_hammer_away 1 state_i_moved_to_1;
     val done_or_nil = (if subgoal_count state < 2 then "" else "done")
     val message1 = (if outcome_type_string = "success" then Sledgehammer_Commands1.extract_one_liner_proof message ^ done_or_nil else "sorry (*failed to find sledgehammer proof*)");
 
@@ -427,25 +305,11 @@ fun print_super_isar_skeleton ctxt indent keyword stmt i state  =
 
 
 
-
-
-
 fun print_super_sketch2b group_size ctxt method_text1 clauses state method2_ref method_text2  =
   let 
     val n = subgoal_count state;
     val t_start = Timing.start ();
     val s = "proof" ^ method_text1 :: Par_List.map (fn (stmt, i) => print_super_isar_skeleton2b ctxt 2 "show" stmt i state method2_ref method_text2) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
-    val t_end = Timing.result t_start;
-  in
-    writeln (Timing.message t_end);
-    s
-  end;
-
-fun print_super_sketch2bp group_size ctxt method_text1 clauses state method2_ref method_text2  =
-  let 
-    val n = subgoal_count state;
-    val t_start = Timing.start ();
-    val s = "proof" ^ method_text1 :: Par_List.map (fn (stmt, i) => print_super_isar_skeleton2bp ctxt 2 "show" stmt i state method2_ref method_text2) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
     val t_end = Timing.result t_start;
   in
     writeln (Timing.message t_end);
@@ -463,17 +327,6 @@ fun print_super_sketch3 group_size ctxt method_text1 clauses state method2_ref m
     s
   end;
 
-
-fun print_super_sketch3p group_size ctxt method_text1 clauses state method2_ref method_text2 m3ref m3txt msplit_ref msplit_txt mreduce_ref mreduce_txt =
-  let 
-    val n = subgoal_count state;
-    val t_start = Timing.start ();
-    val s = "proof" ^ method_text1 :: Par_List.map (fn (stmt, i) => print_super_isar_skeleton3p ctxt 2 "show" stmt i state method2_ref method_text2 m3ref m3txt msplit_ref msplit_txt mreduce_ref mreduce_txt) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
-    val t_end = Timing.result t_start;
-  in
-    writeln (Timing.message t_end);
-    s
-  end;
 
 fun print_super_sketch group_size ctxt method_text1 clauses state =
   let 
@@ -515,18 +368,11 @@ fun subgoals_cmd (modes, method_ref) =
     Toplevel.keep_proof (K () o subgoals (is_prems, is_for, is_sh) method_ref o Toplevel.proof_of)
   end
 
-fun writeFileln dirname content =
-    let val fd = TextIO.openAppend (dirname  ^  ".txt")
-        val _ = TextIO.output (fd, String.concat [content, "\n"]) handle e => (TextIO.closeOut fd; raise e)
-        val _ = writeln content
-        val _ = TextIO.closeOut fd
-    in () end;
-
 fun print_proof_text_from_state_generate_oneliners2b print m1 m2  state =
   let
     (*val state' = Seq.the_result "" (Proof.proof (Option.map fst m1) state)*)
 
-    val t_start = Timing.start()
+  
     val state'' = state 
           |> (fn s => (case Option.map fst m1 of SOME m => Seq.the_result "" (Proof.apply m s) | NONE => s))
           
@@ -559,52 +405,12 @@ fun print_proof_text_from_state_generate_oneliners2b print m1 m2  state =
 
     val lines = lines ;
     val raw_str = cat_lines lines;
-    val t_end = Timing.result t_start;
     val message = Active.sendback_markup_properties [] (raw_str);
-    val _ = writeFileln (OS.FileSys.getDir() ^ "/FormaliSE" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) ("time_it_took:" ^ Timing.message t_end ^ "\n"^ raw_str);
-  
+    (*val _ = writeFileln ("C:\\Users\\Chengsong\\Documents\\GitHub\\cxl-formalisation\\Results" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) raw_str;*)
   in
     (state |> tap (fn _ => Output.information message))
   end
 
-fun nprint_proof_text_from_state_generate_oneliners print m1 state =
-  let
-
-  (*  val state' = Seq.the_result "" (Proof.proof (Option.map fst m1) state) *)
-
-  
-    val state'' = state 
-          |> (fn s => (case Option.map fst m1 of SOME m => Seq.the_result "" (Proof.apply m s) | NONE => s))
-          
-    val { context = ctxt, facts = _, goal } = Proof.goal state'';
-
-    val ctxt_print = fold (fn opt => Config.put opt false)
-      [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts] ctxt
-
-    val method_text1 = case m1 of
-        NONE => " -"
-      | SOME (_, toks) => " " ^ coalesce_method_txt (map Token.unparse toks);
-        \<comment> \<open>TODO proper printing required\<close>
-
-
-
-
-    val goal_props = Logic.strip_imp_prems (Thm.prop_of goal);
-    val clauses = map split_clause goal_props;
-
-    val lines = if null clauses then
-      if is_none m1 then ["  .."]
-      else ["  by" ^ method_text1]
-      else (print ctxt_print method_text1 clauses state'');
-
-
-    val lines = lines ;
-    val raw_str = cat_lines lines;
-    val message = Active.sendback_markup_properties [] (raw_str);
-    val _ = writeFileln (OS.FileSys.getDir() ^ "/" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) raw_str;
-  in
-    (state |> tap (fn _ => Output.information message))
-  end
 
 
 fun print_proof_text_from_state_generate_oneliners print m1 state =
@@ -641,7 +447,7 @@ fun print_proof_text_from_state_generate_oneliners print m1 state =
     val lines = lines ;
     val raw_str = cat_lines lines;
     val message = Active.sendback_markup_properties [] (raw_str);
-    val _ = writeFileln (OS.FileSys.getDir() ^ "/Results" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) raw_str;
+    (*val _ = writeFileln ("C:\\Users\\Chengsong\\Documents\\GitHub\\cxl-formalisation\\Results" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) raw_str; *)
   in
     (state |> tap (fn _ => Output.information message))
   end
@@ -652,7 +458,7 @@ fun print_proof_text_from_state_generate_oneliners3 print m1 m2 m3 msplit mreduc
   let
     (*val state' = Seq.the_result "" (Proof.proof (Option.map fst m1) state)*)
 
-    val t_start = Timing.start ();
+  
     val state'' = state 
           |> (fn s => (case Option.map fst m1 of SOME m => Seq.the_result "" (Proof.apply m s) | NONE => s))
           
@@ -699,12 +505,10 @@ fun print_proof_text_from_state_generate_oneliners3 print m1 m2 m3 msplit mreduc
         method_ref5 method_text5);
 
 
-
+    val lines = lines ;
     val raw_str = cat_lines lines;
-    val t_end = Timing.result t_start;
     val message = Active.sendback_markup_properties [] (raw_str);
-    val _ = writeFileln (OS.FileSys.getDir() ^ "/FormaliSE" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) ("time_it_took:" ^ Timing.message t_end ^ "\n"^ raw_str);
-  
+    (*val _ = writeFileln ("C:\\Users\\Chengsong\\Documents\\GitHub\\cxl-formalisation\\Results" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) raw_str; *)
   in
     (state |> tap (fn _ => Output.information message))
   end
@@ -739,15 +543,6 @@ val _ =
             val pstate = Toplevel.proof_of state;
           in print_proof_text_from_state_generate_oneliners2b (print_super_sketch2b 1) meth1_ref meth2_ref pstate; () end)));
 
-val _ = 
-  Outer_Syntax.command \<^command_keyword>\<open>super_sketch2bp\<close>
-    "print sketch of Isar proof text after method application, with oneliners auto generated"
-    ((Scan.option (Scan.trace Method.parse) -- Scan.option (Scan.trace Method.parse) ) >> 
-      (fn (meth1_ref, meth2_ref) =>
-        Toplevel.keep_proof (fn state => 
-          let 
-            val pstate = Toplevel.proof_of state;
-          in print_proof_text_from_state_generate_oneliners2b (print_super_sketch2bp 1) meth1_ref meth2_ref pstate; () end)));
 
 
 val _ = 
@@ -762,17 +557,6 @@ val _ =
 
 
 val _ = 
-  Outer_Syntax.command \<^command_keyword>\<open>super_sketch3p\<close>
-    "print sketch of Isar proof text after method application, with oneliners auto generated"
-    ((Scan.option (Scan.trace Method.parse) -- Scan.option (Scan.trace Method.parse) -- Scan.option (Scan.trace Method.parse) -- Scan.option (Scan.trace Method.parse) -- Scan.option (Scan.trace Method.parse)) >> 
-      (fn ((((meth1_ref, meth2_ref), meth3_ref), msplit_ref), mreduce_ref) =>
-        Toplevel.keep_proof (fn state => 
-          let 
-            val pstate = Toplevel.proof_of state;
-          in print_proof_text_from_state_generate_oneliners3 (print_super_sketch3p 1) meth1_ref meth2_ref meth3_ref msplit_ref mreduce_ref pstate; () end)));
-
-
-val _ = 
   Outer_Syntax.command \<^command_keyword>\<open>super_sketch\<close>
     "print sketch of Isar proof text after method application, with oneliners auto generated"
     ((Scan.option (Scan.trace Method.parse) ) >> 
@@ -781,16 +565,6 @@ val _ =
           let 
             val pstate = Toplevel.proof_of state;
           in print_proof_text_from_state_generate_oneliners (print_super_sketch 1) meth1_ref  pstate; () end)));
-
-val _ = 
-  Outer_Syntax.command \<^command_keyword>\<open>nsketch\<close>
-    "print sketch of Isar proof text after method application, with oneliners auto generated"
-    ((Scan.option (Scan.trace Method.parse) ) >> 
-      (fn meth1_ref =>
-        Toplevel.keep_proof (fn state => 
-          let 
-            val pstate = Toplevel.proof_of state;
-          in nprint_proof_text_from_state_generate_oneliners (print_numbered_sketch) meth1_ref  pstate; () end)));
 
 
 
