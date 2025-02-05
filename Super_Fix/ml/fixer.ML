@@ -94,7 +94,9 @@ fun process_all {err_timeout_in_secs=t} acts =
     (* Handling incorrectly placed done's after Sledgehammer uses a by *)
     fun is_illegal_app_mssg ((_, txt), _) = Pred.contains "Illegal application of proof" txt;
     fun is_failed_finished_mssg ((_, txt), _) = Pred.contains "Failed to finish" txt;
-    fun is_ill_app_done (act, exn) = exists (is_illegal_app_mssg orf is_failed_finished_mssg) (Runtime.exn_messages exn)
+    fun is_done_in_bad_ctxt_mssg ((_, txt), _) = Pred.contains "Bad context for command \"done\"" (YXML.content_of txt);
+    val wrong_done_cmmnd_cases = [is_illegal_app_mssg, is_failed_finished_mssg, is_done_in_bad_ctxt_mssg]
+    fun is_ill_app_done (act, exn) = exists (Pred.disjunct wrong_done_cmmnd_cases) (Runtime.exn_messages exn)
       andalso (Pred.is "done" (Actions.kind_of act))
     fun fix_ill_app_done st = let val _ = warning "fixing ill app done" in [(Actions.void, st, NONE)] end
 
@@ -153,7 +155,13 @@ fun process_all {err_timeout_in_secs=t} acts =
         in result end
       else let
         val (st', err') = Actions.apply_safe act' st
-      in [(act', st', err')] end
+        val result =
+            (case err' of
+              SOME (exn, _) =>
+                if is_ill_app_done (act', exn) then fix_ill_app_done st
+                else [(act', st', err')]
+              | NONE => [(act', st', err')])
+        in result end
   in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, NONE) acts end;
 
 fun fix_end_to_end thy0 old_name new_name path =
