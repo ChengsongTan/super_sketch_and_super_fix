@@ -20,14 +20,20 @@ sig
   val ends_with: string -> string -> bool
   val contains: string -> string -> bool
   val is_dynamic: Proof.context -> string * thm list -> bool
+  val cons_if: ('a -> bool) -> 'a -> 'a list -> 'a list
   val find_first: ('a -> bool) -> 'a list -> 'a option
   val split: ('a -> bool) -> 'a list -> 'a list list
   val positions: ('a -> bool) -> 'a list -> int list
   val nhds: ('a -> bool) -> int -> 'a list -> ('a * 'a list) list
   val log_fold: ('b -> bool) -> ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b list * 'a list
   val take_until: ('a -> bool) -> 'a list -> 'a list
+  val take_until': ('a -> bool) -> 'a list -> 'a list
+  val drop_until: ('a -> bool) -> 'a list -> 'a list
+  val take_while: ('a -> bool) -> 'a list -> 'a list
+  val drop_while: ('a -> bool) -> 'a list -> 'a list
   val bifurcate_ifL: ('a -> bool) -> 'a list -> 'a list * 'a list
   val split_whenL: ('a -> bool) -> 'a list -> 'a list list
+  val find_files: (Path.T -> bool) -> Path.T -> Path.T list
 end;
 
 
@@ -52,33 +58,26 @@ fun is_not x y = not (x = y);
 
 (** PREDICATES **)
 
-(* has_many: 'a list -> bool *)
 fun has_many xs = length xs > 1;
 
-(* starts_with: string -> string -> bool *)
 fun starts_with str name = String.isPrefix str name;
 
-(* ends_with: string -> string -> bool *)
 fun ends_with str name = String.isSuffix str name;
 
-(* nth_letter_is: int -> string -> string -> bool *)
 fun nth_letter_is n str name = nth_string name n = str;
 
-(* contains: string -> string -> bool *)
 fun contains str name =  String.isSubstring str name;
 
-(* is_dynamic: Proof.context -> string * thm list -> bool *)
 fun is_dynamic ctxt (name:string, _: thm list) 
   = (#dynamic (Facts.retrieve (Context.Proof ctxt) (Proof_Context.facts_of ctxt) (name, Position.none)));
 
+fun cons_if P x xs = if P x then x :: xs else xs;
 
 (** LIST OPERATORS **)
 
-(* find_first: ('a -> bool) -> 'a list -> 'a option *)
 fun find_first _ [] = NONE
   | find_first P (x::xs) = if P x then SOME x else find_first P xs;
 
-(* split: ('a -> bool) -> 'a list -> 'a list list *)
 fun split _ [] = []
   | split P (x :: xs) =
   let
@@ -88,14 +87,12 @@ fun split _ [] = []
     val start = if P x then (true, [[x]]) else (false, [[x]])
   in rev (map rev (#2 (fold decide xs start))) end;
 
-(* positions: ('a -> bool) -> 'a list -> int list *)
 fun positions P xs = 
   let
     fun count _ [] = []
       | count n (y :: ys) = if P y then n :: count (n + 1) ys else count (n + 1) ys;
   in count 0 xs end;
 
-(* nhds: ('a -> bool) -> int -> 'a list -> ('a * 'a list) list *)
 (* neighbourhoods such that the center satisfies P *)
 fun nhds _ _ [] = []
   | nhds _ 0 _ = []
@@ -113,7 +110,6 @@ fun nhds _ _ [] = []
       val (_, rev_result)  = fold do_next (x :: xs) ([], [])
     in map (fn (_, res, nhd) => (res, nhd)) (rev rev_result) end;
 
-(* log_fold: ('b -> bool) -> ('a -> 'b) -> 'a list -> 'b list * 'a list  *)
 (* while-loop *)
 fun log_fold _ _ [] _ = ([], [])
   | log_fold P f (x :: xs) y = 
@@ -124,11 +120,19 @@ fun log_fold _ _ [] _ = ([], [])
       in (y':: ys', xs') end
     else ([], x :: xs) end
 
-(* take_until: ('a -> bool) -> 'a list -> 'a list *)
 fun take_until _ [] = []
-  | take_until P (x :: xs) = if P x then [x] else x :: (take_until P xs)
+  | take_until P (x :: xs) = if P x then [x] else x :: (take_until P xs);
 
-(* bifurcate_ifL: ('a -> bool) -> 'a list -> 'a list * 'a list *)
+fun take_until' _ [] = []
+  | take_until' P (x :: xs) = if P x then [] else x :: (take_until' P xs);
+
+fun drop_until _ [] = []
+  | drop_until P (x :: xs) = if P x then x :: xs else drop_until P xs;
+
+val take_while = Library.take_prefix
+
+val drop_while = Library.drop_prefix
+
 fun bifurcate_ifL _ [] = ([], [])
   | bifurcate_ifL P (c :: cs) = 
       if P c then ([c],cs)
@@ -136,10 +140,23 @@ fun bifurcate_ifL _ [] = ([], [])
         val (xs, ys) = bifurcate_ifL P cs
       in (c::xs, ys) end;
 
-(* splitL: ('a -> bool) -> 'a list -> 'a list list *)
 fun split_whenL _ [] = []
   | split_whenL P (c :: cs) = 
       bifurcate_ifL P (c :: cs) 
       |> (fn (sub1, sub2) => sub1 :: (split_whenL P sub2));
+
+fun find_files P path =
+  let 
+    fun sub_elems dir_path = File.read_dir dir_path
+      |> map (Path.append dir_path o Path.explode);
+    fun conditionally_add elem so_fars =
+      if File.is_dir elem then 
+        let
+          val subs = sub_elems elem
+        in fold conditionally_add subs so_fars end
+      else if File.is_file elem andalso P elem then elem :: so_fars
+      else if File.exists elem then so_fars
+      else error ("Path does not exists " ^ (Path.implode elem));
+  in conditionally_add path [] end;
 
 end;

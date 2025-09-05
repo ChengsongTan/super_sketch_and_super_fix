@@ -267,11 +267,14 @@ fun extract_params mode default_params override_params =
     val compress = Option.map (curry Real.max 1.0) (lookup_option lookup_real "compress")
     val try0 = lookup_bool "try0"
     val smt_proofs = lookup_bool "smt_proofs"
+    val instantiate = lookup_option lookup_bool "instantiate"
     val minimize = mode <> Auto_Try andalso lookup_bool "minimize"
     val slices = if mode = Auto_Try then 1 else Int.max (1, lookup_int "slices")
     val timeout = lookup_time "timeout"
     val preplay_timeout = lookup_time "preplay_timeout"
     val expect = lookup_string "expect"
+    val cache_dir = Option.mapPartial
+      (fn str => if str = "" then NONE else SOME (Path.explode str)) (lookup "cache_dir")
   in
     {debug = debug, verbose = verbose, overlord = overlord, spy = spy, provers = provers,
      abduce = abduce, falsify = falsify, type_enc = type_enc, strict = strict,
@@ -280,8 +283,8 @@ fun extract_params mode default_params override_params =
      fact_thresholds = fact_thresholds, max_mono_iters = max_mono_iters,
      max_new_mono_instances = max_new_mono_instances, max_proofs = max_proofs,
      isar_proofs = isar_proofs, compress = compress, try0 = try0, smt_proofs = smt_proofs,
-     minimize = minimize, slices = slices, timeout = timeout, preplay_timeout = preplay_timeout,
-     expect = expect}
+     instantiate = instantiate, minimize = minimize, slices = slices, timeout = timeout, preplay_timeout = preplay_timeout,
+     expect = expect, cache_dir = cache_dir}
   end
 
 fun get_params mode = extract_params mode o default_raw_params
@@ -306,6 +309,7 @@ val parse_fact_override_chunk =
   || (Args.del |-- Args.colon |-- parse_fact_refs >> del_fact_override)
   || (Args.del |-- Args.colon |-- Scan.succeed [] >> del_fact_override)
   || (parse_fact_refs >> only_fact_override)
+
 val parse_fact_override =
   Scan.optional (Args.parens (Scan.repeat parse_fact_override_chunk >> merge_fact_overrides))
     no_fact_override
@@ -408,16 +412,6 @@ fun extract_one_liner_proof input_string =
                 end
           | _ => "(*error in extract_one_liner_proof function: didn't find s/h proof"  (* In case the expected patterns are not found *)
     end;
-
-(* Example usage *)
-val input_string = "Try this: by (smt (verit) one_le_numeral power2_less_eq_zero_iff power_increasing power_one_right power_zero_numeral) (187 ms)"
-
-val input_string1 = "Try this: by (metis add.commute add_0 add_diff_eq add_increasing2 diff_diff_eq2 diff_ge_0_iff_ge mult.right_neutral mult_1 power2_eq_square right_diff_distrib zero_le_mult_iff zero_le_square) (> 1.0 s, timed out)";
-val result = extract_one_liner_proof(input_string);
-val _ = writeln result
-
-
-
 
 
 end;

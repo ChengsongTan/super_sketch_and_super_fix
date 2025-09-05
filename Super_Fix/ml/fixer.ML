@@ -38,7 +38,7 @@ fun repair_sorrys stacts =
           Exn.Exn _ => ("timed out", "timed out")
           | Exn.Res res => res)
         val sorry_fix = (if (Pred.contains "imed out" orf Pred.contains "No proof found") str2 then "sorry" else "")
-        val actual_fix = (if sorry_fix = "" then (Hammer_Alt.extract_one_liner_proof (YXML.content_of str2)) else sorry_fix)
+        val actual_fix = (if sorry_fix = "" then (Hammer_Alt.extract_one_liner_proof (Get.string_of_yxml str2)) else sorry_fix)
         val new_acts = Actions.make thy actual_fix;
         val _ = warning ("Adopted proof: " ^ actual_fix)
         val act_st_err_list = Actions.apply_all new_acts st;
@@ -94,7 +94,7 @@ fun process_all {err_timeout_in_secs=t} acts =
     (* Handling incorrectly placed done's after Sledgehammer uses a by *)
     fun is_illegal_app_mssg ((_, txt), _) = Pred.contains "Illegal application of proof" txt;
     fun is_failed_finished_mssg ((_, txt), _) = Pred.contains "Failed to finish" txt;
-    fun is_done_in_bad_ctxt_mssg ((_, txt), _) = Pred.contains "Bad context for command \"done\"" (YXML.content_of txt);
+    fun is_done_in_bad_ctxt_mssg ((_, txt), _) = Pred.contains "Bad context for command \"done\"" (Get.string_of_yxml txt);
     val wrong_done_cmmnd_cases = [is_illegal_app_mssg, is_failed_finished_mssg, is_done_in_bad_ctxt_mssg]
     fun is_ill_app_done (act, exn) = exists (Pred.disjunct wrong_done_cmmnd_cases) (Runtime.exn_messages exn)
       andalso (Pred.is "done" (Actions.kind_of act))

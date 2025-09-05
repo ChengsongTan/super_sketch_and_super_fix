@@ -267,11 +267,14 @@ fun extract_params mode default_params override_params =
     val compress = Option.map (curry Real.max 1.0) (lookup_option lookup_real "compress")
     val try0 = lookup_bool "try0"
     val smt_proofs = lookup_bool "smt_proofs"
+    val instantiate = lookup_option lookup_bool "instantiate"
     val minimize = mode <> Auto_Try andalso lookup_bool "minimize"
     val slices = if mode = Auto_Try then 1 else Int.max (1, lookup_int "slices")
     val timeout = lookup_time "timeout"
     val preplay_timeout = lookup_time "preplay_timeout"
     val expect = lookup_string "expect"
+    val cache_dir = Option.mapPartial
+      (fn str => if str = "" then NONE else SOME (Path.explode str)) (lookup "cache_dir")
   in
     {debug = debug, verbose = verbose, overlord = overlord, spy = spy, provers = provers,
      abduce = abduce, falsify = falsify, type_enc = type_enc, strict = strict,
@@ -280,8 +283,8 @@ fun extract_params mode default_params override_params =
      fact_thresholds = fact_thresholds, max_mono_iters = max_mono_iters,
      max_new_mono_instances = max_new_mono_instances, max_proofs = max_proofs,
      isar_proofs = isar_proofs, compress = compress, try0 = try0, smt_proofs = smt_proofs,
-     minimize = minimize, slices = slices, timeout = timeout, preplay_timeout = preplay_timeout,
-     expect = expect}
+     instantiate = instantiate, minimize = minimize, slices = slices, timeout = timeout, preplay_timeout = preplay_timeout,
+     expect = expect, cache_dir = cache_dir}
   end
 
 fun get_params mode = extract_params mode o default_raw_params

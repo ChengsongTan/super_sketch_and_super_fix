@@ -34,6 +34,7 @@ open Sledgehammer_Commands1
 open Subgoal
 open Binding
 
+val print_name = Token.print_name o Thy_Header.get_keywords';
 
 fun createList(start, ending) = 
   if start = ending then []
@@ -126,7 +127,7 @@ fun print_subgoal apply_line_opt (is_prems, is_for, is_sh) ctxt indent stmt =
     val fixes_s =
       if not is_for orelse null fixes then NONE
       else SOME ("for " ^ space_implode " "
-        (map (fn (v, _) => Proof_Context.print_name ctxt' v) fixes));
+        (map (fn (v, _) => print_name ctxt' v) fixes));
     val premises_s = if is_prems then SOME "premises prems" else NONE;
     val sh_s = if is_sh then SOME "sledgehammer" else NONE;
     val subgoal_s = map_filter I [SOME "subgoal", premises_s, fixes_s]
