@@ -163,7 +163,7 @@ fun upd_with_final_thy thy_path graph =
 
 fun upd_ancesters_of thy_path graph =
   if not (Path_Graph.defined graph thy_path)
-  then raise Fail ("Imports.load_upto: not a valid import: " ^ Path.implode thy_path)
+  then raise Fail ("Imports.upd_ancesters_of: not a valid import: " ^ Path.implode thy_path)
   else let
     val ancesters = List.rev (tl (Path_Graph.all_succs graph [thy_path]));
     fun load_next ancester graph =
