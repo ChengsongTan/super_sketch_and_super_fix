@@ -13,8 +13,13 @@ theory Super_Sketch
 begin
 
 
-ML_file "./ml/Sledgehammer_Commands1.ML"
-            
+ML_file "../Super_Fix/ml/pred.ML"
+ML_file "../Super_Fix/ml/ops.ML"
+ML_file "../Super_Fix/ml/imports.ML"
+ML_file "../Super_Fix/ml/get.ML"
+ML_file "ml/Sledgehammer_Commands1.ML"
+ML_file "../Super_Fix/ml/HammerAlt.ML"
+          
 
 ML \<open>
 open ATP_Util
@@ -294,8 +299,8 @@ fun print_super_isar_skeleton ctxt indent keyword stmt i state  =
 
     val state_i_moved_to_1 = Proof.prefer i state
     val (outcome_type_string, message) = my_hammer_away 1 state_i_moved_to_1;
-    val done_or_nil = (if subgoal_count state < 2 then "" else "done")
-    val message1 = (if outcome_type_string = "success" then Sledgehammer_Commands1.extract_one_liner_proof message ^ done_or_nil else "sorry (*failed to find sledgehammer proof*)");
+    val done_or_nil = (if subgoal_count state < 2 then "" else "\ndone")
+    val message1 = (if outcome_type_string = "success" then Hammer_Alt.extract_one_liner_proof' message ^ done_or_nil else "sorry (*failed to find sledgehammer proof*)");
 
 
     val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @

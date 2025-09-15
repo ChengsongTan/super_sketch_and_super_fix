@@ -19,6 +19,7 @@ sig
   val hammer_away: int -> Proof.state -> (string * string)
   val my_verbose_hammer_away: int -> Proof.state -> int -> (string * string)
   val extract_one_liner_proof: string -> string
+  val extract_one_liner_proof': string -> string
 end;
 
 structure Hammer_Alt : HAMMER_ALT =
@@ -353,6 +354,20 @@ fun my_verbose_hammer_away i state0 n_proofs =
       error ("Unknown subcommand: " ^ quote subcommand)
   end
 
+val remove_time = String.explode
+  #> rev 
+  #> Pred.drop_until' (fn c => (case Char.fromCString "(" of SOME d => c = d | _ => false))
+  #> rev
+  #> String.implode;
+
+fun trim substr target_str =
+  (if Pred.starts_with substr target_str then Library.unprefix substr target_str else target_str)
+  |> (fn mid_str => if Pred.ends_with substr mid_str then Library.unsuffix substr mid_str else mid_str)
+  
+fun extract_one_liner_proof' input_str =
+  (if Pred.contains "ms)" input_str then remove_time input_str else input_str)
+  |> (fn mid_str => Library.unprefix "Try this:" mid_str)
+  |> trim " "
 
 fun extract_one_liner_proof input_string =
     let

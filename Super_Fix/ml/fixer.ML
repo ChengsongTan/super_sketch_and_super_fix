@@ -177,9 +177,8 @@ fun process_all {err_timeout_in_secs=t} acts =
     fun is_ill_app_done (act, exn) 
       = exists (Pred.disjunct wrong_done_cmmnd_cases) (Runtime.exn_messages exn)
         andalso (Pred.is "done" (Actions.kind_of act))
-    fun fix_ill_app_done st act = 
+    fun fix_ill_app_done st = 
       let 
-        val 
         val _ = Output.tracing "Fixing ill app done at" 
       in [(Actions.void, st, NONE)] end;
 
