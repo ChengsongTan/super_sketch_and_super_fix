@@ -19,7 +19,7 @@ ML_file "../Super_Fix/ml/imports.ML"
 ML_file "../Super_Fix/ml/get.ML"
 ML_file "ml/Sledgehammer_Commands1.ML"
 ML_file "../Super_Fix/ml/HammerAlt.ML"
-          
+
 
 ML \<open>
 open ATP_Util
