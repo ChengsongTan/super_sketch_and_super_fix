@@ -1,14 +1,14 @@
 (* Mantainers: 
-    Jonathan Julián Huerta y Munive -- huertjon[at]cvut[dot]cz
+    Jonathan Julián Huerta y Munive huertjon[at]cvut[dot]cz
 
-Part of project DeepIsaHOL (latest version at https://github.com/yonoteam/DeepIsaHOL).
-Generic frequently used ML operations.
+Part of project DeepIsaHOL. Generic frequently used ML operations.
 *)
 
 signature OPS =
 sig
   (* Generic operations *)
   val ith: int -> 'a list -> 'a
+  val linspan: int -> int -> int -> int list
   val last: 'a list -> 'a
   val intersp: 'a list -> 'a list -> 'a list
   val enumerate_from: int -> 'a list -> (int * 'a) list
@@ -45,6 +45,15 @@ struct
 (** GENERIC OPERATIONS **)
 
 fun ith i xs = (if i>=0 then nth xs i else nth (rev xs) (~i - 1));
+
+fun linspan i a b =
+  if b < a then 
+    raise Fail ("Ops.linspan: " ^ Value.print_int a ^ " should be less than " ^ Value.print_int b)
+  else let
+    fun add_next [] = add_next [a]
+      | add_next (x :: xs) = let val next = x + i
+          in if next > b then x :: xs else add_next (next :: x :: xs) end
+  in rev (add_next []) end;
 
 fun last [] = raise List.Empty
   | last [x] = x
@@ -255,5 +264,6 @@ fun read_file fname =
     val _ = TextIO.closeIn IO_instream;
     val result = Exn.release err
   in result end;
+
 
 end;

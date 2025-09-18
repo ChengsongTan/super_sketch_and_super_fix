@@ -1,16 +1,11 @@
-(* 
-  Mantainers: 
-    Jonathan Julián Huerta y Munive -- huertjon[at]cvut[dot]cz
+(* Mantainers: 
+    Jonathan Julián Huerta y Munive huertjon[at]cvut[dot]cz
 
-Part of project DeepIsaHOL (latest version at https://github.com/yonoteam/DeepIsaHOL). 
-Utility for retrieving Isabelle data/information.
+Part of project DeepIsaHOL. Utilities for retrieving data from Isabelle.
 *)
 
 signature GET =
 sig
-  val string_of_yxml: string -> string
-  val string_of_state: Toplevel.state -> string
-
   (* FILE INFORMATION *)
   val start_thy_of: string -> theory
   val final_thy_of: string -> theory
@@ -28,7 +23,7 @@ sig
   val command_keywords: theory -> string list
   val grouped_commands: theory -> (string * string list) list
   val deps: theory -> thm list -> (Thm_Name.T * thm) list
-  val tokens: Proof.context -> string -> Token.T list
+  val tokens: {filtered:bool} -> Proof.context -> string -> Token.T list
   val methods: Proof.context -> string list
 
   (* THEOREM INFORMATION *)
@@ -53,10 +48,6 @@ end;
 
 structure Get: GET =
 struct
-
-val string_of_yxml = YXML.parse_body #> XML.content_of;
-
-val string_of_state = Toplevel.pretty_state #> Pretty.chunks #> Pretty.string_of;
 
 
 (** FILE INFORMATION **)
@@ -109,13 +100,15 @@ fun state_transitions thy0 thy_file =
 fun user_state {break_lines=breaking} state =
   let
     val base_string = if breaking 
-    then string_of_state state
+    then Toplevel.pretty_state state
+      |> Pretty.chunks
+      |> Pretty.string_of
     else Toplevel.pretty_state state
       |> Pretty.separate " " 
       |> Pretty.block 
       |> Pretty.unbreakable
       |> Pretty.string_of
-  in string_of_yxml base_string end;
+  in Print.yxml_to_string base_string end;
 
 fun minor_keywords thy = Scan.dest_lexicon (Keyword.minor_keywords (Thy_Header.get_keywords thy));
 
@@ -133,8 +126,10 @@ fun grouped_commands thy =
             else (kind, cmnds) :: add_command cmnd kcmndss;
   in fold add_command (Keyword.dest_commands kwrds) [] end;
 
-(* TODO: check if at right level *)
-fun tokens ctxt = Token.explode (Thy_Header.get_keywords' ctxt) Position.none;
+fun tokens {filtered=filtering} ctxt str =
+  let
+    val toks = Token.explode (Thy_Header.get_keywords' ctxt) Position.none str;
+  in if filtering then filter Token.is_proper toks else toks end
 
 fun methods ctxt = Name_Space.get_names (Method.method_space (Context.Proof ctxt));
 
@@ -201,7 +196,7 @@ fun filtered_thms filters ctxt =
 
 fun thms ctxt name =
   let
-    val toks = tokens ctxt (name ^ " ")
+    val toks = tokens {filtered=false} ctxt (name ^ " ")
     val refs_toks = (fst o Parse.thms1) toks;
     val thms = Attrib.eval_thms ctxt refs_toks
   in thms end;

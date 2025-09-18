@@ -572,8 +572,6 @@ val _ =
             val pstate = Toplevel.proof_of state;
           in print_proof_text_from_state_generate_oneliners (print_super_sketch 1) meth1_ref  pstate; () end)));
 
-
-
 \<close>
 
 
