@@ -109,7 +109,7 @@ fun repair_sorrys_with_hammer st_act_errs =
           if (Pred.contains "imed out" orf Pred.contains "No proof found") str2 
           then "sorry" else ""
         val actual_fix = if sorry_fix = "" 
-          then (Hammer_Alt.extract_one_liner_proof (Get.string_of_yxml str2)) 
+          then (Hammer_Alt.extract_one_liner_proof (Print.yxml_to_string str2)) 
           else sorry_fix
         val new_acts = Actions.make thy actual_fix;
         val _ = warning ("Adopted proof: " ^ actual_fix)
@@ -169,7 +169,7 @@ fun process_all {err_timeout_in_secs=t} acts =
     fun is_failed_finished_mssg ((_, txt), _) 
       = Pred.contains "Failed to finish" txt;
     fun is_done_in_bad_ctxt_mssg ((_, txt), _) 
-      = Pred.contains "Bad context for command \"done\"" (Get.string_of_yxml txt);
+      = Pred.contains "Bad context for command \"done\"" (Print.yxml_to_string txt);
     val wrong_done_cmmnd_cases = [
       is_illegal_app_mssg, 
       is_failed_finished_mssg,
