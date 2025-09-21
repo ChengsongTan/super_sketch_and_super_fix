@@ -1,8 +1,7 @@
 (* Mantainers: 
-    Jonathan Julián Huerta y Munive -- huertjon[at]cvut[dot]cz
+    Jonathan Julián Huerta y Munive huertjon[at]cvut[dot]cz
 
-Part of project DeepIsaHOL (latest version at https://github.com/yonoteam/DeepIsaHOL). 
-Utility for finding the keywords separating beginnings and ends of code-block in an Isabelle .thy file.
+Part of project DeepIsaHOL. Utility for finding the keywords separating beginnings and ends of code-block in an Isabelle .thy file.
 *)
 
 signature SEPS =
@@ -143,6 +142,8 @@ val documentN = "document"
 
 fun is_document_step grpd_cmmnds = 
   is_in_group_where grpd_cmmnds (Pred.contains documentN)
+
+
 
 
 end;

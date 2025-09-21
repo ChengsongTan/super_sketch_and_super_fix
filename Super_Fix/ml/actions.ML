@@ -1,9 +1,7 @@
-(* 
-  Mantainers: 
-    Jonathan Julián Huerta y Munive -- huertjon[at]cvut[dot]cz
+(* Mantainers: 
+    Jonathan Julián Huerta y Munive huertjon[at]cvut[dot]cz
 
-Part of project DeepIsaHOL (latest version at https://github.com/yonoteam/DeepIsaHOL). 
-Representation of Isabelle's transitions as user actions.
+Part of project DeepIsaHOL. Representation of Isabelle's transitions as user actions.
 *)
 
 signature ACTIONS =
@@ -19,18 +17,20 @@ sig
   val on_kind: (string -> 'a) -> T -> 'a
   val make: theory -> string -> T list
   val make_one: theory -> string -> T
-  val make': theory -> string -> T list
+  val make_filtered: theory -> string -> T list
+  val make_upto: string -> int -> T list
 
   (* Application *)
-  val apply_safe: T -> Toplevel.state -> Toplevel.state * (exn * string) option
-  val apply: T -> Toplevel.state -> Toplevel.state
-  val apply_all: T list -> Toplevel.state -> (T * Toplevel.state * (exn * string) option) list
-  val apply_all': T list -> Toplevel.state -> (Toplevel.state * T * (exn * string) option) list
-  val apply_while: (Toplevel.state * T * (exn * string) option -> bool) -> T list  -> Toplevel.state
-    -> (Toplevel.state * T * (exn * string) option) list * T list
-  val timed_apply_all: {debug: bool, no_batches: int, timeout_in_secs: int} -> T list 
-    -> Toplevel.state -> (T * Toplevel.state * (exn * string) option) list
-
+  val apply: T -> Toplevel.state -> Toplevel.state * Runtime.error list
+  val apply': T -> Toplevel.state -> Toplevel.state
+  val apply_all: T list -> Toplevel.state 
+      -> (T * Toplevel.state * Runtime.error list) list
+  val apply_while: (T * Toplevel.state * Runtime.error list -> bool)
+      -> T list -> Toplevel.state 
+      -> (T * Toplevel.state * Runtime.error list) list * T list
+  val timed_apply_all: {timeout_in_secs: int} 
+      -> T list -> Toplevel.state
+      -> (T * Toplevel.state * Runtime.error list) list
 end;
 
 
@@ -56,18 +56,16 @@ fun kind_of (Action a) = Toplevel.name_of (#transition a);
 
 fun pos_of (Action a) = Toplevel.pos_of (#transition a);
 
-(* on_text: (string -> 'a) -> Actions.T -> 'a *)
 fun on_text f act = f (text_of act);
 
-(* on_kind: (string -> 'a) -> Actions.T -> 'a *)
 fun on_kind f act = f (kind_of act);
 
-(* inspired by Portal-to-Isabelle's parse_text MLFunction2 *)
-(* make: theory -> string -> Actions.T list *)
 fun make thy0 thy_text =
   let
     val trs = Get.transitions thy0 Position.start thy_text;
-    fun dist tr1 tr2 = Option.valOf (Position.distance_of (Toplevel.pos_of tr1, Toplevel.pos_of tr2));
+    fun dist tr1 tr2 = 
+      Position.distance_of (Toplevel.pos_of tr1, Toplevel.pos_of tr2)
+      |> Option.valOf;
     fun record_acts syms [tr] = [build (implode syms) tr]
       | record_acts _ [] = []
       | record_acts syms (tr1 :: tr2 :: trs) = 
@@ -77,114 +75,54 @@ fun make thy0 thy_text =
           in act :: record_acts syms2 (tr2 :: trs) end;
   in record_acts (Symbol.explode thy_text) trs end;
 
-(* make_one: theory -> string -> Actions.T *)
 fun make_one thy0 thy_text = hd (make thy0 thy_text)
 
-(* make': theory -> string -> Actions.T list *)
-fun make' thy0 thy_text =
+fun make_filtered thy0 thy_text =
   let
     val does_something = on_kind (
       Pred.is_not "<ignored>" 
       andf Pred.neg (Seps.is_document_step (Get.grouped_commands thy0)))
   in void :: (filter does_something (make thy0 thy_text)) end;
 
+fun make_upto thy_file line_num =
+  if line_num <= 0 then raise Fail ("Invalid line number " ^ (Value.print_int line_num))
+  else let
+    val thy0 = Get.start_thy_of thy_file;
+    fun is_below n a = n < the (Position.line_of (Toplevel.pos_of (transition_of a)))
+    val acts = 
+      make thy0 (File.read (Path.explode thy_file))
+      |> Pred.take_until' (is_below line_num)
+  in acts end;
+
 
 (** APPLICATION **)
 
-(* apply_safe: Actions.T -> Toplevel.state -> Toplevel.state * (exn * string) option *)
-fun apply_safe (Action a) st = Toplevel.transition true (#transition a) st;
+fun apply (Action a) st = 
+  let 
+    val (errs', opt_st) = Toplevel.command_errors true (#transition a) st;
+    val final_st = (case opt_st of
+      NONE => st
+      | SOME st' => st')
+  in (final_st, errs') end;
 
-(* apply: Actions.T -> Toplevel.state -> Toplevel.state *)
-fun apply act st = fst (apply_safe act st);
+fun apply' act st = fst (apply act st);
 
-(* apply_all: Actions.T list -> Toplevel.state 
-  -> (Actions.T * Toplevel.state * (exn * string) option) list *)
+fun iter_next apply_fun act' (_: T, st: Toplevel.state, _: Runtime.error list) =
+  let
+    val (st', errs') = apply_fun act' st;
+  in (act', st', errs') end;
+
 fun apply_all [] _ = []
-  | apply_all acts st =
+  | apply_all acts opt_st = Ops.log_fold (iter_next apply) (void, opt_st, []) acts;
+
+fun apply_while P acts opt_st = Pred.log_fold P (iter_next apply) acts (void, opt_st, []);
+
+fun timed_apply_all {timeout_in_secs=t} acts st =
   let
-    fun do_next act' (_, st, _) =
-      let
-        val (st', err') = apply_safe act' st
-      in (act', st', err') end;
-  in Ops.log_fold do_next (void, st, NONE) acts end;
-
-(* apply_all': Actions.T list -> Toplevel.state 
-  -> (Toplevel.state * Actions.T * (exn * string) option) list *)
-fun apply_all' [] st = [(st, void, NONE)]
-  | apply_all' acts st =
-  let
-    fun do_next act (st, so_far) =
-      let
-        val (st', err') = apply_safe act st;
-      in (st', (st, act, err') :: so_far) end;
-    val (_, rev_result) = fold do_next acts (st, [])
-  in rev rev_result end;
-
-(* apply_while: (Toplevel.state * Actions.T * (exn * string) option -> bool) 
-  -> Actions.T list -> Toplevel.state 
-  -> (Toplevel.state * Actions.T * (exn * string) option) list * Actions.T list *)
-fun apply_while P acts st =
-  let
-    fun do_next act' (st, _, _) =
-      let
-        val (st', err') = apply_safe act' st;
-      in (st', act', err') end;
-  in Pred.log_fold P do_next acts (st, void, NONE) end;
-
-(* timed_apply_all: {debug: bool, no_batches: int, timeout_in_secs: int} 
-  -> Actions.T list -> Toplevel.state 
-  -> (Actions.T * Toplevel.state * (exn * string) option) list *)
-fun timed_apply_all {timeout_in_secs=t, no_batches=n, debug=debugging} acts st =
-  if n < 2 orelse t < 0 then raise Fail "negative time or less than 2 batches"
-  else let
-    (* Preliminary defs *)
-    val timeout = Time.fromSeconds t
-    val is_sledgehammer_step = on_kind (Pred.is "apply") 
-      andf on_text (Pred.contains "smt" orf Pred.contains "metis")
-    fun get_last_st stateful_trs = #2 (Ops.last stateful_trs);
-
-    (* Single batch processing *)
-    fun debug_report batch = if debugging then
-      let
-        val report_size = n div 2
-        val text =
-          Ops.range 0 report_size (rev batch)
-          |> rev o map text_of
-          |> Library.cat_lines
-      in tracing ("Just processed\n" ^ text) end
-      else ()
-    fun do_next_batch batch (st, good_so_far, [], _) = 
-      let
-        val exn_result = Ops.apply_with_timeout timeout (apply_all batch) st;
-        val result  = (case exn_result of 
-          Exn.Exn _ => (st, good_so_far, batch, [])
-          | Exn.Res ress => (get_last_st ress, good_so_far @ ress, [], []))
-        val _ = debug_report batch;
-      in result end
-      (* if there is an error, do_next_batch stops processing the remaining batches *)
-      | do_next_batch batch (st, goods, some_errs, rest) = (st, goods, some_errs, rest @ batch);
-
-    (* Multiple batch processing *)
-    (* prev_sts: (Actions.T * Toplevel.state * (exn * string) option) list *)
-    fun process_in_batches st0 prev_sts [] [] = (st0, prev_sts, [], [])
-      | process_in_batches st0 prev_sts after_acts [] = process_in_batches st0 prev_sts [] after_acts
-      | process_in_batches st0 prev_sts after_acts [curr_act] = 
-        let
-          val new_sts = prev_sts @ [(curr_act, st0, SOME (Timeout.TIMEOUT timeout, "TIMEOUT_ERROR"))]
-        in process_in_batches st0 new_sts [] after_acts end
-      | process_in_batches st0 prev_sts after_acts curr_acts = 
-        (* Large processing *)
-        if length curr_acts > n
-        then let
-            val batches = Ops.split_into n curr_acts;
-            val (st', goods', bads, rest) = fold do_next_batch batches (st0, [], [], []);
-          in process_in_batches st' (prev_sts @ goods') (rest @ after_acts) bads end
-        (* Fine-grained processing *)
-        else let
-            val batches = Pred.split is_sledgehammer_step curr_acts;
-            val (st', goods', bads, rest) = fold do_next_batch batches (st0, [], [], []);
-          in process_in_batches st' (prev_sts @ goods') (rest @ after_acts) bads end
-  in #2 (process_in_batches st [] [] acts) end;
-
+    val t' = Time.fromSeconds t
+    fun timeout_apply act' st = case Ops.apply_with_timeout t' (apply act') st of
+        Exn.Exn exn => (st, Runtime.exn_messages exn)
+      | Exn.Res result => result;
+  in Ops.log_fold (iter_next timeout_apply) (void, st, []) acts end;
 
 end;

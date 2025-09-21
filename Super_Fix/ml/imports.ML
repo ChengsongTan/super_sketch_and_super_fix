@@ -119,7 +119,7 @@ fun init_deps paths =
 fun init_for path =
   let
     val thy_paths = Pred.find_files (Pred.ends_with ".thy" o Path.implode) path;
-    val graph = init_deps thy_paths;
+    val graph = init_deps thy_paths;  
   in change_to {work_path=path, thy_paths=thy_paths, graph=graph} end;
 
 

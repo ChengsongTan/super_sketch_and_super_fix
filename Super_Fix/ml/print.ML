@@ -1,8 +1,7 @@
 (* Mantainers: 
-    Jonathan Julián Huerta y Munive -- huertjon[at]cvut[dot]cz
+    Jonathan Julián Huerta y Munive huertjon[at]cvut[dot]cz
 
-Part of project DeepIsaHOL (latest version at https://github.com/yonoteam/DeepIsaHOL).
-Utilities for printing Isabelle data to various channels and outputs.
+Part of project DeepIsaHOL. Utilities for printing Isabelle data to various channels and outputs.
 *)
 
 signature PRINT =

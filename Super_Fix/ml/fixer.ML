@@ -9,10 +9,10 @@ Main implementation of super_fix's algorithm
 signature FIXER =
 sig
   val log_fold_list: ('a -> 'b -> 'b list) -> 'b -> 'a list -> 'b list
-  val repair_sorrys: string -> (Actions.T * Toplevel.state * (exn * string) option) list 
-    -> (Actions.T * Toplevel.state * (exn * string) option) list
+  val repair_sorrys: string -> (Actions.T * Toplevel.state * Runtime.error list) list 
+    -> (Actions.T * Toplevel.state * Runtime.error list) list
   val process_all: {err_timeout_in_secs: int} -> Actions.T list 
-    -> (Actions.T * Toplevel.state * (exn * string) option) list
+    -> (Actions.T * Toplevel.state * Runtime.error list) list
   val fix_end_to_end: {strategy: string} -> theory -> string -> string -> string -> unit
 end;
 
@@ -72,7 +72,7 @@ fun repair_sorrys_with_llm st_act_errs =
             let
               val attempt = Actions.make (Toplevel.theory_of st) response
                 |> (fn acts => Actions.apply_all acts st);
-              val failed = exists is_some (map (fn (_, _, opt_err) => opt_err) attempt);
+              val failed = exists (not o null) (map (fn (_, _, opt_err) => opt_err) attempt);
               fun warn_failure () =
                 let 
                   val suggestions = map (fn (act, _, _) => Actions.text_of act) attempt;
@@ -91,7 +91,7 @@ fun repair_sorrys_with_llm st_act_errs =
         val proof_so_far' = update_proof_so_far (act', st') st proof_so_far;
       in (proof_so_far', result_so_far @ act_st_errs') end;
     val _ = Client.connect_to_server 5006;
-    val (_, result) = fold do_next st_act_errs ([], [(Actions.void, Toplevel.make_state NONE, NONE)]);
+    val (_, result) = fold do_next st_act_errs ([], [(Actions.void, Toplevel.make_state NONE, [])]);
     val _ = Client.disconnect ();
   in result end;
 
@@ -103,10 +103,10 @@ fun repair_sorrys_with_hammer st_act_errs =
         val timeout = Time.fromSeconds 90;
         val timed_hammer = Ops.apply_with_timeout timeout (Hammer_Alt.hammer_away 1)
         val (_, str2) = (case timed_hammer (Toplevel.proof_of st) of
-          Exn.Exn _ => ("timed out", "timed out")
+          Exn.Exn _ => ("timeout", "timeout")
           | Exn.Res res => res)
         val sorry_fix = 
-          if (Pred.contains "imed out" orf Pred.contains "No proof found") str2 
+          if (Pred.contains "imeout" orf Pred.contains "No proof found") str2 
           then "sorry" else ""
         val actual_fix = if sorry_fix = "" 
           then (Hammer_Alt.extract_one_liner_proof (Print.yxml_to_string str2)) 
@@ -115,17 +115,17 @@ fun repair_sorrys_with_hammer st_act_errs =
         val _ = warning ("Adopted proof: " ^ actual_fix)
         val act_st_err_list = Actions.apply_all new_acts st;
       in act_st_err_list end
-    fun do_next (act', st', err') (_:Actions.T, st, _:(exn * string) option) =
+    fun do_next (act', st', err') (_:Actions.T, st, _:Runtime.error list) =
       if Actions.on_kind (Pred.is "sorry") act'
       then fix_using_sledgehammer st
       else [(act', st', err')]
-  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, NONE) st_act_errs end;
+  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, []) st_act_errs end;
 
 fun process_all {err_timeout_in_secs=t} acts =
   let
     (* Handling "Failed to refine any pending goal" *)
     fun is_refine_mssg ((_, txt), _) = Pred.contains "Failed to refine any pending goal" txt;
-    fun is_refine (act, exn) = exists is_refine_mssg (Runtime.exn_messages exn)
+    fun is_refine (act, errs) = exists is_refine_mssg errs
       andalso (member (op =) ["have", "hence", "show", "thus"] (Actions.kind_of act));
     fun fix_refine_goal st act' =
       let
@@ -135,7 +135,7 @@ fun process_all {err_timeout_in_secs=t} acts =
         val prf_goals = #goal (Proof.goal prf);
         val (objs, _) = Logic.strip_horn (Thm.prop_of prf_goals);
         val (new_act, new_st, new_err) = if null objs
-          then (Actions.void, st, NONE)
+          then (Actions.void, st, [])
           else let
             val nxt_goal = hd objs; (* ideally we would find the objective most similar
               to the original action, and not the head *)
@@ -148,19 +148,19 @@ fun process_all {err_timeout_in_secs=t} acts =
             val new_act = Actions.make_one thy (declaration ^ " " ^ (enclose "\"" "\"" goal_txt));
             val _ = Output.tracing ("Fixed '" ^ Actions.text_of act' ^ "'")
             val _ = Output.tracing ("  to '"  ^ Actions.text_of new_act ^ "'")
-            val (new_st, new_err) = Actions.apply_safe new_act st;
+            val (new_st, new_err) = Actions.apply new_act st;
           in (new_act, new_st, new_err) end
        in [(new_act, new_st, new_err)] end
 
     (* Handling proof timeouts *)
     val timeout = Time.fromSeconds t
     val might_timeout = Actions.on_kind (Pred.is "apply");
-    fun is_timeout exn = (case exn of Timeout.TIMEOUT _ => true | _ => false);
+    fun is_timeout errs = exists (fn ((_, err_str), _) => Pred.contains "imeout" err_str) errs;
     fun fix_using_sorry st =
       let
         val thy = Toplevel.theory_of st;
         val new_act = Actions.make_one thy "sorry";
-        val (new_st, new_err) = Actions.apply_safe new_act st;
+        val (new_st, new_err) = Actions.apply new_act st;
       in [(new_act, new_st, new_err)] end
 
     (* Handling incorrectly placed done's after a by *)
@@ -174,24 +174,24 @@ fun process_all {err_timeout_in_secs=t} acts =
       is_illegal_app_mssg, 
       is_failed_finished_mssg,
       is_done_in_bad_ctxt_mssg]
-    fun is_ill_app_done (act, exn) 
-      = exists (Pred.disjunct wrong_done_cmmnd_cases) (Runtime.exn_messages exn)
+    fun is_ill_app_done (act, errs) 
+      = exists (Pred.disjunct wrong_done_cmmnd_cases) errs
         andalso (Pred.is "done" (Actions.kind_of act))
     fun fix_ill_app_done st = 
       let 
         val _ = Output.tracing "Fixing ill app done at" 
-      in [(Actions.void, st, NONE)] end;
+      in [(Actions.void, st, [])] end;
 
     (* Handling non timed-out bad Sledgehammer proofs *)
     fun is_failed_mthd_mssg ((_, txt), _) = 
       Pred.contains "Failed to apply proof method" txt 
       orelse Pred.contains "terminated abnormally" txt
       orelse Pred.contains "Undefined fact:" txt;
-    fun is_failed_mthd (act, exn) = exists is_failed_mthd_mssg (Runtime.exn_messages exn)
+    fun is_failed_mthd (act, errs) = exists is_failed_mthd_mssg errs
       andalso Actions.on_text (Pred.contains "smt" orf Pred.contains "metis" orf Pred.contains "apply") act;
 
     (* Handling incomplete proofs calling qed *)
-    fun is_failed_qed (act, exn) = exists (is_failed_finished_mssg) (Runtime.exn_messages exn)
+    fun is_failed_qed (act, errs) = exists (is_failed_finished_mssg) errs
       andalso (Pred.is "qed" (Actions.kind_of act))
     fun fix_incomplete_qed st =
       let
@@ -201,7 +201,7 @@ fun process_all {err_timeout_in_secs=t} acts =
         val prf_goals = #goal (Proof.goal prf);
         val (objs, _) = Logic.strip_horn (Thm.prop_of prf_goals);
         val result = if null objs
-          then [(Actions.void, st, NONE)]
+          then [(Actions.void, st, [])]
           else let
             fun txt_of goal = Print.string_of_pretty (Syntax.pretty_term ctxt goal);
             fun act_of goal = Actions.make_one thy ("show " ^ enclose "\"" "\"" (txt_of goal));
@@ -215,37 +215,37 @@ fun process_all {err_timeout_in_secs=t} acts =
        in result end
 
     (* Main body: combines all the handlings above *)
-    (* fun do_next act' (_:Actions.T, st, _:(exn * string) option) = *)
-    fun do_next act' (_:Actions.T, st, _:(exn * string) option) =
+    (* fun do_next act' (_:Actions.T, st, _:Runtime.error list) = *)
+    fun do_next act' (_:Actions.T, st, _:Runtime.error list) =
       if Toplevel.is_proof st
       then
         let
           val (st', err') = if might_timeout act' then
-              (case Ops.apply_with_timeout timeout (Actions.apply_safe act') st of
-                Exn.Exn exn => (st, SOME (exn, "TIMEOUT"))
+              (case Ops.apply_with_timeout timeout (Actions.apply act') st of
+                Exn.Exn exn => (st, Runtime.exn_messages exn)
                 | Exn.Res res => res)
-            else Actions.apply_safe act' st
+            else Actions.apply act' st
           val result =
             (case err' of
-              SOME (exn, _) =>
-                if is_refine (act', exn) then fix_refine_goal st act'
-                else if is_timeout exn then fix_using_sorry st
-                else if is_failed_mthd (act', exn) then fix_using_sorry st
-                else if is_ill_app_done (act', exn) then fix_ill_app_done st
-                else if is_failed_qed (act', exn) then fix_incomplete_qed st
+              errs as (_ :: _) =>
+                if is_refine (act', errs) then fix_refine_goal st act'
+                else if is_timeout errs then fix_using_sorry st
+                else if is_failed_mthd (act', errs) then fix_using_sorry st
+                else if is_ill_app_done (act', errs) then fix_ill_app_done st
+                else if is_failed_qed (act', errs) then fix_incomplete_qed st
                 else [(act', st', err')]
-              | NONE => [(act', st', err')])
+              | [] => [(act', st', err')])
         in result end
       else let
-        val (st', err') = Actions.apply_safe act' st
+        val (st', err') = Actions.apply act' st
         val result =
             (case err' of
-              SOME (exn, _) =>
-                if is_ill_app_done (act', exn) then fix_ill_app_done st
+              errs as (_ :: _) =>
+                if is_ill_app_done (act', errs) then fix_ill_app_done st
                 else [(act', st', err')]
-              | NONE => [(act', st', err')])
+              | [] => [(act', st', err')])
         in result end
-  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, NONE) acts end;
+  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, []) acts end;
 
 fun repair_sorrys fixer st_act_errs =
   if Pred.is fixer "sledgehammer" then repair_sorrys_with_hammer st_act_errs
@@ -254,7 +254,7 @@ fun repair_sorrys fixer st_act_errs =
 
 fun fix_end_to_end {strategy=fixer} thy0 old_name new_name path =
   let 
-    val actions = Actions.make' thy0 (File.read (Path.explode old_name));
+    val actions = Actions.make_filtered thy0 (File.read (Path.explode old_name));
     val sorryed_trace = process_all {err_timeout_in_secs=45} actions;
     val fixed_trace = repair_sorrys fixer sorryed_trace;
     val new_texts = Library.separate "\n" (map (fn (act, _, _) => Actions.text_of act) fixed_trace);
