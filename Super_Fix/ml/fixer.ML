@@ -51,12 +51,10 @@ fun generic_repair_sorrys fixer act_st_errs =
             then prev_act_st
             else (act', st');
         in (upd_act_st, to_prove_sts) end;
-    val _ = Output.tracing "Checkpoint 1"
     val pre_sorry_stacts = 
       ((Actions.void, Toplevel.make_state NONE), [])
       |> fold add_next_to_prove id_stacts
       |> snd |> rev;
-    val _ = Output.tracing "Checkpoint 2"
     val fixed_strs = Par_List.map (fn (id, i, (act, st)) =>
       let
         val goal_no_str = "goal " ^ Value.print_int i;
@@ -186,10 +184,10 @@ fun apply_hammer params st =
     Sledgehammer_Fact.no_fact_override
   );
 
-fun apply_timed_hammer timeout_in_secs params st = 
+(* fun apply_timed_hammer timeout_in_secs params st = 
   Ops.apply_with_timeout 
     (Time.fromSeconds timeout_in_secs) 
-    (apply_hammer params);
+    (apply_hammer params); *)
 
 fun fix_with_hammer st =
   let
@@ -234,6 +232,7 @@ val repair_sorrys_with_hammer = generic_repair_sorrys fix_with_hammer;
 
 
 (* Fixer operations *)
+fun string_all errs = Library.space_implode " " (map (fn ((_, txt), _) => txt) errs);
 
 fun process_all {err_timeout_in_secs=t} acts =
   let
@@ -248,8 +247,8 @@ fun process_all {err_timeout_in_secs=t} acts =
         val prf = Toplevel.proof_of st;
         val prf_goals = #goal (Proof.goal prf);
         val (objs, _) = Logic.strip_horn (Thm.prop_of prf_goals);
-        val (new_act, new_st, new_err) = if null objs
-          then (Actions.void, st, [])
+        val fix = if null objs
+          then []
           else let
             val nxt_goal = hd objs; (* ideally we would find the objective most similar
               to the original action, and not the head *)
@@ -263,12 +262,16 @@ fun process_all {err_timeout_in_secs=t} acts =
             val _ = Output.tracing ("Fixed '" ^ Actions.text_of act' ^ "'")
             val _ = Output.tracing ("  to '"  ^ Actions.text_of new_act ^ "'")
             val (new_st, new_err) = Actions.apply new_act st;
-          in (new_act, new_st, new_err) end
-       in [(new_act, new_st, new_err)] end
+          in [(new_act, new_st, new_err)] end
+       in fix end
 
     (* Handling proof timeouts *)
     val timeout = Time.fromSeconds t
-    val might_timeout = Actions.on_kind (Pred.is "apply");
+    val might_timeout = Actions.on_kind (Pred.is "apply")
+      andf Actions.on_text (
+        Pred.contains "smt" 
+        orf Pred.contains "metis" 
+        orf Pred.contains "simp");
     fun is_timeout errs = exists (fn ((_, err_str), _) => Pred.contains "imeout" err_str) errs;
     fun fix_using_sorry st =
       let
@@ -291,10 +294,6 @@ fun process_all {err_timeout_in_secs=t} acts =
     fun is_ill_app_done (act, errs) 
       = exists (Pred.disjunct wrong_done_cmmnd_cases) errs
         andalso (Pred.is "done" (Actions.kind_of act))
-    fun fix_ill_app_done st = 
-      let 
-        val _ = Output.tracing "Fixing ill app done at" 
-      in [(Actions.void, st, [])] end;
 
     (* Handling non timed-out bad Sledgehammer proofs *)
     fun is_failed_mthd_mssg ((_, txt), _) = 
@@ -302,7 +301,10 @@ fun process_all {err_timeout_in_secs=t} acts =
       orelse Pred.contains "terminated abnormally" txt
       orelse Pred.contains "Undefined fact:" txt;
     fun is_failed_mthd (act, errs) = exists is_failed_mthd_mssg errs
-      andalso Actions.on_text (Pred.contains "smt" orf Pred.contains "metis" orf Pred.contains "apply") act;
+      andalso Actions.on_text (
+        Pred.contains "smt" 
+        orf Pred.contains "metis" 
+        orf Pred.contains "apply") act;
 
     (* Handling incomplete proofs calling qed *)
     fun is_failed_qed (act, errs) = exists (is_failed_finished_mssg) errs
@@ -321,7 +323,8 @@ fun process_all {err_timeout_in_secs=t} acts =
             fun act_of goal = Actions.make_one thy ("show " ^ enclose "\"" "\"" (txt_of goal));
             val sorry_action = Actions.make_one thy ("sorry")
             val qed_action = Actions.make_one thy ("qed")
-            val new_acts = (Library.separate sorry_action (map act_of objs)) @ [sorry_action, qed_action];
+            val new_acts = (Library.separate sorry_action (map act_of objs)) 
+              @ [sorry_action, qed_action];
             val new_acts_text = implode (Library.separate "\n" (map Actions.text_of new_acts));
             val _ = tracing ("Adding missing actions:\n" ^ new_acts_text)
             val to_add = Actions.apply_all new_acts st;
@@ -330,7 +333,8 @@ fun process_all {err_timeout_in_secs=t} acts =
 
     (* Main body: combines all the handlings above *)
     (* fun do_next act' (_:Actions.T, st, _:Runtime.error list) = *)
-    fun do_next act' (_:Actions.T, st, _:Runtime.error list) =
+    fun do_next _ [] = raise Fail "Empty input list to do_next"
+      | do_next act' (prevs as (_:Actions.T, st, _:Runtime.error list) :: _) =
       if Toplevel.is_proof st
       then
         let
@@ -343,23 +347,30 @@ fun process_all {err_timeout_in_secs=t} acts =
             (case err' of
               errs as (_ :: _) =>
                 if is_refine (act', errs) then fix_refine_goal st act'
-                else if is_timeout errs then fix_using_sorry st
+                else if is_timeout errs then
+                  let 
+                    val errors_mssg = "Errors were: " ^ string_all errs;
+                    val act_mssg = "Fixing action: " ^ Actions.text_of act' ^ " with sorry."
+                    val _ = Output.tracing (act_mssg ^ " " ^ errors_mssg)
+                  in fix_using_sorry st end
                 else if is_failed_mthd (act', errs) then fix_using_sorry st
-                else if is_ill_app_done (act', errs) then fix_ill_app_done st
+                else if is_ill_app_done (act', errs) then []
                 else if is_failed_qed (act', errs) then fix_incomplete_qed st
-                else [(act', st', err')]
+                else let 
+                    val _ = warning ("Unexpected error: " ^ string_all errs) 
+                  in [(act', st', err')] end
               | [] => [(act', st', err')])
-        in result end
+        in (rev result) @ prevs end
       else let
         val (st', err') = Actions.apply act' st
         val result =
             (case err' of
               errs as (_ :: _) =>
-                if is_ill_app_done (act', errs) then fix_ill_app_done st
+                if is_ill_app_done (act', errs) then []
                 else [(act', st', err')]
               | [] => [(act', st', err')])
-        in result end
-  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, []) acts end;
+        in (rev result) @ prevs end
+  in rev (fold do_next acts [(Actions.void, Toplevel.make_state NONE, [])]) end;
 
 fun repair_sorrys fixer st_act_errs =
   if Pred.is fixer "sledgehammer" then repair_sorrys_with_hammer st_act_errs
@@ -369,7 +380,7 @@ fun repair_sorrys fixer st_act_errs =
 fun fix_end_to_end {strategy=fixer_str} thy0 old_name new_name path =
   let 
     val actions = Actions.make thy0 (File.read (Path.explode old_name));
-    val sorryed_trace = process_all {err_timeout_in_secs=45} actions;
+    val sorryed_trace = process_all {err_timeout_in_secs=55} actions;
     val fixed_trace = repair_sorrys fixer_str sorryed_trace;
     val new_texts = map (fn (act, _, _) => Actions.text_of act) fixed_trace;
     val _ = Ops.create_file {force=true} path new_name (implode new_texts)

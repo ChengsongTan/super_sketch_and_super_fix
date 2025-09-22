@@ -1,0 +1,7 @@
+session "Test" = HOL +
+  options [document = false]
+  sessions
+    "Super_Fix"
+    "BaseProof"
+  theories
+    Test
