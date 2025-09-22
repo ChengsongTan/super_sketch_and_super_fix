@@ -9,7 +9,12 @@ Main implementation of super_fix's algorithm
 signature FIXER =
 sig
   val log_fold_list: ('a -> 'b -> 'b list) -> 'b -> 'a list -> 'b list
-  val repair_sorrys: string -> (Actions.T * Toplevel.state * Runtime.error list) list 
+  val fix_with_hammer: Toplevel.state -> string
+  val generic_repair_sorrys: (Toplevel.state -> string) 
+    -> (Actions.T * Toplevel.state * Runtime.error list) list 
+    -> (Actions.T * Toplevel.state * Runtime.error list) list
+  val repair_sorrys: string 
+    -> (Actions.T * Toplevel.state * Runtime.error list) list 
     -> (Actions.T * Toplevel.state * Runtime.error list) list
   val process_all: {err_timeout_in_secs: int} -> Actions.T list 
     -> (Actions.T * Toplevel.state * Runtime.error list) list
@@ -26,6 +31,64 @@ fun log_fold_list _ _ [] = []
     let 
       val vs = f x s 
     in vs @ log_fold_list f (List.last vs) xs end;
+
+fun generic_repair_sorrys fixer act_st_errs =
+  let
+    val id_stacts = Ops.enumerate act_st_errs;
+    val _ = Output.tracing "Retrieving sorry-locations...";
+    fun does_something st = Actions.on_kind (Pred.is_not "<ignored>" 
+          andf Pred.neg (Seps.is_document_step (Get.grouped_commands (Toplevel.theory_of st))));
+    fun add_next_to_prove (id, (act', st', _)) (prev_act_st, to_prove_sts) =
+      if Actions.on_kind (Pred.is "sorry") act'
+      then
+        let
+          val i' = if null to_prove_sts then 1 else (#2 (hd to_prove_sts)) + 1;
+        in ((act', st'), (id, i', prev_act_st) :: to_prove_sts) end
+      else
+        let
+          val upd_act_st = 
+            if Toplevel.is_proof st' andalso not (does_something st' act') 
+            then prev_act_st
+            else (act', st');
+        in (upd_act_st, to_prove_sts) end;
+    val _ = Output.tracing "Checkpoint 1"
+    val pre_sorry_stacts = 
+      ((Actions.void, Toplevel.make_state NONE), [])
+      |> fold add_next_to_prove id_stacts
+      |> snd |> rev;
+    val _ = Output.tracing "Checkpoint 2"
+    val fixed_strs = Par_List.map (fn (id, i, (act, st)) =>
+      let
+        val goal_no_str = "goal " ^ Value.print_int i;
+        val _ = Output.tracing ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
+        val start_time = Time.now ();
+        val result = fixer st;
+        val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
+        val _ = Output.tracing ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
+      in (id, result) end) pre_sorry_stacts;
+    val remove_ids = map snd;
+    val (repaired, unmodified) = fold
+      (fn (id, proof_txt) => fn (so_far, remaining) => 
+        let
+          val (seen, opt_stact, nexts) = Pred.trisect (fn (id',_) => id' = id) remaining;
+          val stacts' = (case opt_stact of 
+            NONE => []
+            | SOME (_, (_, st, _)) => 
+              let
+                val last_st = if null seen 
+                  then raise Fail "Trace should not start with 'sorry'" 
+                  else #2 (snd (Ops.last seen));
+              in Actions.make (Toplevel.theory_of st) proof_txt
+              |> (fn acts => Actions.timed_apply_all {timeout_in_secs=90} acts last_st)
+              end
+            )
+          val so_far' = so_far @ remove_ids seen @ stacts';
+        in (so_far', nexts) end
+      ) fixed_strs ([], id_stacts)
+  in repaired @ remove_ids unmodified end;
+
+
+(* Operations for LLMs *)
 
 fun make_parseable txt =
   let
@@ -95,31 +158,82 @@ fun repair_sorrys_with_llm st_act_errs =
     val _ = Client.disconnect ();
   in result end;
 
-fun repair_sorrys_with_hammer st_act_errs =
+
+(* Operations for Sledgehammer *)
+
+val hammer_silence_state =
+  Proof.map_contexts (Try0.silence_methods false #> Config.put SMT_Config.verbose false);
+
+val remove_hammer_time = String.explode
+  #> rev 
+  #> Pred.drop_until' (fn c => (case Char.fromCString "(" of SOME d => c = d | _ => false))
+  #> rev
+  #> String.implode;
+
+fun extract_str_proof input_str =
+  (if Pred.contains "ms)" input_str then remove_hammer_time input_str else input_str)
+  |> (fn mid_str => Library.unprefix "Try this:" mid_str)
+  |> Ops.unprefix_unsufix " ";
+
+fun apply_hammer params st =
+  Toplevel.proof_of st
+  |> hammer_silence_state
+  |> (Sledgehammer.run_sledgehammer 
+    params 
+    Sledgehammer_Prover.Normal 
+    NONE
+    1
+    Sledgehammer_Fact.no_fact_override
+  );
+
+fun apply_timed_hammer timeout_in_secs params st = 
+  Ops.apply_with_timeout 
+    (Time.fromSeconds timeout_in_secs) 
+    (apply_hammer params);
+
+fun fix_with_hammer st =
+  let
+    val thy = Toplevel.theory_of st;
+    val params = Sledgehammer_Commands.default_params thy [];
+    val (proved, (_, txt)) = apply_hammer params st;
+    (* val (proved, (_, txt)) = (case apply_timed_hammer 90 params st of
+      Exn.Exn _ => (false, (Sledgehammer.SH_TimeOut, "Timeout"))
+      | Exn.Res res => res); *)
+    val (output, origin) = if proved 
+      then (extract_str_proof (Print.yxml_to_string txt), "hammer proof: ")
+      else ("sorry", "no hammer proof: ");
+    val _ = Output.tracing ("Adopted " ^ origin ^ "'" ^ output ^ "'")
+  in output end;
+
+val repair_sorrys_with_hammer = generic_repair_sorrys fix_with_hammer;
+
+
+(* fun repair_sorrys_with_hammer st_act_errs =
   let
     fun fix_using_sledgehammer st =
       let
         val thy = Toplevel.theory_of st;
-        val timeout = Time.fromSeconds 90;
+        (* val timeout = Time.fromSeconds 90;
         val timed_hammer = Ops.apply_with_timeout timeout (Hammer_Alt.hammer_away 1)
         val (_, str2) = (case timed_hammer (Toplevel.proof_of st) of
           Exn.Exn _ => ("timeout", "timeout")
           | Exn.Res res => res)
         val sorry_fix = 
           if (Pred.contains "imeout" orf Pred.contains "No proof found") str2 
-          then "sorry" else ""
-        val actual_fix = if sorry_fix = "" 
-          then (Hammer_Alt.extract_one_liner_proof (Print.yxml_to_string str2)) 
-          else sorry_fix
+          then "sorry" else "" *)
+        val actual_fix = fix_with_hammer st;
         val new_acts = Actions.make thy actual_fix;
-        val _ = warning ("Adopted proof: " ^ actual_fix)
+        (* val _ = warning ("Adopted proof: " ^ actual_fix) *)
         val act_st_err_list = Actions.apply_all new_acts st;
       in act_st_err_list end
     fun do_next (act', st', err') (_:Actions.T, st, _:Runtime.error list) =
       if Actions.on_kind (Pred.is "sorry") act'
       then fix_using_sledgehammer st
       else [(act', st', err')]
-  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, []) st_act_errs end;
+  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, []) st_act_errs end; *)
+
+
+(* Fixer operations *)
 
 fun process_all {err_timeout_in_secs=t} acts =
   let
@@ -252,12 +366,12 @@ fun repair_sorrys fixer st_act_errs =
   else if Pred.is fixer "llm" then repair_sorrys_with_llm st_act_errs
   else raise Fail ("Unrecognized fixing strategy: " ^ fixer)
 
-fun fix_end_to_end {strategy=fixer} thy0 old_name new_name path =
+fun fix_end_to_end {strategy=fixer_str} thy0 old_name new_name path =
   let 
-    val actions = Actions.make_filtered thy0 (File.read (Path.explode old_name));
+    val actions = Actions.make thy0 (File.read (Path.explode old_name));
     val sorryed_trace = process_all {err_timeout_in_secs=45} actions;
-    val fixed_trace = repair_sorrys fixer sorryed_trace;
-    val new_texts = Library.separate "\n" (map (fn (act, _, _) => Actions.text_of act) fixed_trace);
+    val fixed_trace = repair_sorrys fixer_str sorryed_trace;
+    val new_texts = map (fn (act, _, _) => Actions.text_of act) fixed_trace;
     val _ = Ops.create_file {force=true} path new_name (implode new_texts)
   in () end
 

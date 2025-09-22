@@ -33,10 +33,6 @@ lemma sin_cos_squared_add4:
   apply simp
   done
 
-text\<open> You are free to prove all the upcoming exercises with the method of your preference. If you 
-have time to spare try to prove them without the classical reasoner, the simplifier and their 
-combinations: \<close>
-
 lemma "\<phi> \<longrightarrow> (\<psi> \<longrightarrow> \<phi>)"
   sorry
 
