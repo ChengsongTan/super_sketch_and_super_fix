@@ -38,11 +38,11 @@ fun log_fold_list _ _ [] = []
 
 local
 
-fun add_next_to_prove more_builder (id, (act', st', _)) ((old_act, old_st), to_proves) = 
+fun add_next_to_prove more_builder (id, (act', st', _)) ((old_count, old_act, old_st), to_proves) = 
   if Actions.on_kind (Pred.is "sorry") act'
   then
     let
-      val latest_relevant_st_act = (act', st');
+      val latest_relevant_st_act = (old_count + 1, act', st');
       val i' = if null to_proves then 1 else (#2 (hd to_proves)) + 1;
       val more = more_builder id;
     in (latest_relevant_st_act, (id, i', old_act, old_st, more) :: to_proves) end
@@ -51,8 +51,8 @@ fun add_next_to_prove more_builder (id, (act', st', _)) ((old_act, old_st), to_p
       val latest_relevant_st_act =
         if Toplevel.is_proof st' 
           andalso not (Actions.does_something (Toplevel.theory_of st') act')
-        then (old_act, old_st)
-        else (act', st')
+        then (old_count, old_act, old_st)
+        else (old_count, act', st')
     in (latest_relevant_st_act, to_proves) end;
 
 in
@@ -61,19 +61,22 @@ fun generic_repair_sorrys sequential more_builder fixer act_st_errs =
   let
     val id_stacts = Ops.enumerate act_st_errs;
     val _ = Output.tracing "Retrieving sorry-locations...";
-    val pre_sorry_stacts = 
-      ((Actions.void, Toplevel.make_state NONE), [])
-      |> fold (add_next_to_prove (more_builder id_stacts)) id_stacts
-      |> snd |> rev;
+    val ((count, _, _), rev_sorry_stacts) = 
+      ((0, Actions.void, Toplevel.make_state NONE), [])
+      |> fold (add_next_to_prove (more_builder id_stacts)) id_stacts;
+    val count_str = Value.print_int count;
+    val pre_sorry_stacts = rev rev_sorry_stacts;
     val mmap = if sequential then map else Par_List.map
     val fixed_strs = mmap (fn (id, i, act, st, more) =>
       let
-        val goal_no_str = "goal " ^ Value.print_int i;
-        val _ = Output.tracing ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
+        val goal_no_str = "goal " ^ Value.print_int i ^ " of " ^ count_str;
+        val _ = Output.tracing 
+          ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
         val start_time = Time.now ();
         val result = fixer more st;
         val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
-        val _ = Output.tracing ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
+        val _ = Output.tracing 
+          ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
       in (id, result) end) pre_sorry_stacts;
     val remove_ids = map snd;
     val (repaired, unmodified) = fold
