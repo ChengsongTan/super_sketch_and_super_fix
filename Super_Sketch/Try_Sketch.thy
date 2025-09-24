@@ -1,5 +1,5 @@
 theory Try_Sketch
-  imports "Complex_Main"
+  imports "Main"
   keywords "try_sketch" :: diag
 begin
 
@@ -52,14 +52,6 @@ fun header_string thy_name imports state =
       |> Ops.intersp [sep]
       |> Library.implode_space;
   in "theory " ^ thy_name ^ sep ^ "imports " ^ imports' ^ "\nbegin" end;
-
-fun coalesce_method_txt [] = ""
-  | coalesce_method_txt [s] = s
-  | coalesce_method_txt (s1 :: s2 :: ss) =
-      if s1 = "(" orelse s1 = "["
-        orelse s2 = ")" orelse s2 = "]" orelse s2= ":"
-      then s1 ^ coalesce_method_txt (s2 :: ss)
-      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
 
 fun print_term ctxt t = 
   Print.string_of_term ctxt t
@@ -159,10 +151,10 @@ fun fix_with_try st =
 
 fun get_fixer mode =
   (case mode of
-    SORRYS => (fn _ => "sorry")
-    | TRY0 => fix_with_try0
-    | HAMMER => Fixer.fix_with_hammer
-    | TRY => fix_with_try);
+    SORRYS => (fn _ => fn _ => "sorry")
+    | TRY0 => (fn _ => fix_with_try0)
+    | HAMMER => (fn _ => Fixer.fix_with_hammer)
+    | TRY => (fn _ => fix_with_try));
 
 fun make_proof_qed_skel format first_mthd ctxt clauses =
   map (sketch_as format ctxt (init_indent_of format)) clauses
@@ -173,7 +165,7 @@ fun make_proof_qed_skel format first_mthd ctxt clauses =
 fun print_proof mode format opt_mrange_toks state = 
   let
     val (opt_m, m_txt) = case opt_mrange_toks of 
-      SOME (m,toks) => (SOME m, coalesce_method_txt (map Token.unparse toks))
+      SOME (m,toks) => (SOME m, Fixer.coalesce_method_txt (map Token.unparse toks))
       | NONE => (NONE, "-");
     val prf_st = if is_some opt_m
       then state
@@ -202,7 +194,7 @@ fun print_proof mode format opt_mrange_toks state =
             |> (fn acts => Actions.apply_all acts state);
           val results = if mode = SORRYS 
             then skel_stacts
-            else Fixer.generic_repair_sorrys (get_fixer mode) skel_stacts;
+            else Fixer.generic_repair_sorrys false (fn _ => fn _ => []) (get_fixer mode) skel_stacts;
           val get_texts = map (fn (act, _, _) => Actions.text_of act);
         in get_texts results end
     )
@@ -221,14 +213,36 @@ val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch\<close>
    ));
 \<close>
 
-
 (* example *)
 
 lemma 
   assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
   shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
   using assms
-  try_sketch SORRYS -
-  oops
+  try_sketch SORRYS (intro conjI)
+proof-
+  show goal1: "P a \<and> P b \<and> P c \<and> P d \<and> P e"
+    if "\<forall>x. P x"
+      and "\<forall>x. Q x"
+      and "R"
+    for a :: "'a"
+      and b :: "'a"
+    using that
+    oops
+
+
+lemma length_upt: "length ([0 ..< n]) = n"
+  (* try_sketch HAMMER (induct n) *)
+proof(induct n)
+  show goal1: "length [0..<0] = 0"
+    by simp
+next
+  show goal2: "length [0..<Suc n] = Suc n"
+    if "length [0..<n] = n"
+    for n :: "nat"
+    using that
+    by fastforce
+qed
+
 
 end

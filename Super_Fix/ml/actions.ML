@@ -15,6 +15,8 @@ sig
   val pos_of: T -> Position.T
   val on_text: (string -> 'a) -> T -> 'a
   val on_kind: (string -> 'a) -> T -> 'a
+  val does_something: theory -> T -> bool
+  val is_malformed: T -> bool
   val make: theory -> string -> T list
   val make_one: theory -> string -> T
   val make_filtered: theory -> string -> T list
@@ -77,12 +79,13 @@ fun make thy0 thy_text =
 
 fun make_one thy0 thy_text = hd (make thy0 thy_text)
 
-fun make_filtered thy0 thy_text =
-  let
-    val does_something = on_kind (
-      Pred.is_not "<ignored>" 
-      andf Pred.neg (Seps.is_document_step (Get.grouped_commands thy0)))
-  in void :: (filter does_something (make thy0 thy_text)) end;
+fun does_something thy0 = on_kind (
+  Pred.is_not "<ignored>" 
+  andf Pred.neg (Seps.is_document_step (Get.grouped_commands thy0)));
+
+val is_malformed = on_kind (Pred.is "<malformed>");
+
+fun make_filtered thy0 thy_text = void :: (filter (does_something thy0) (make thy0 thy_text));
 
 fun make_upto thy_file line_num =
   if line_num <= 0 then raise Fail ("Invalid line number " ^ (Value.print_int line_num))

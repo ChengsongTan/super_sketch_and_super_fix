@@ -9,8 +9,12 @@ Main implementation of super_fix's algorithm
 signature FIXER =
 sig
   val log_fold_list: ('a -> 'b -> 'b list) -> 'b -> 'a list -> 'b list
+  val turn_by_to_apply: Proof.context -> Actions.T -> string
+  val coalesce_method_txt: string list -> string
   val fix_with_hammer: Toplevel.state -> string
-  val generic_repair_sorrys: (Toplevel.state -> string) 
+  val generic_repair_sorrys: bool
+    -> ((int * (Actions.T * Toplevel.state * Runtime.error list)) list -> int -> 'a) 
+    -> ('a -> Toplevel.state -> string) 
     -> (Actions.T * Toplevel.state * Runtime.error list) list 
     -> (Actions.T * Toplevel.state * Runtime.error list) list
   val repair_sorrys: string 
@@ -32,35 +36,42 @@ fun log_fold_list _ _ [] = []
       val vs = f x s 
     in vs @ log_fold_list f (List.last vs) xs end;
 
-fun generic_repair_sorrys fixer act_st_errs =
+local
+
+fun add_next_to_prove more_builder (id, (act', st', _)) ((old_act, old_st), to_proves) = 
+  if Actions.on_kind (Pred.is "sorry") act'
+  then
+    let
+      val latest_relevant_st_act = (act', st');
+      val i' = if null to_proves then 1 else (#2 (hd to_proves)) + 1;
+      val more = more_builder id;
+    in (latest_relevant_st_act, (id, i', old_act, old_st, more) :: to_proves) end
+  else
+    let
+      val latest_relevant_st_act =
+        if Toplevel.is_proof st' 
+          andalso not (Actions.does_something (Toplevel.theory_of st') act')
+        then (old_act, old_st)
+        else (act', st')
+    in (latest_relevant_st_act, to_proves) end;
+
+in
+
+fun generic_repair_sorrys sequential more_builder fixer act_st_errs =
   let
     val id_stacts = Ops.enumerate act_st_errs;
     val _ = Output.tracing "Retrieving sorry-locations...";
-    fun does_something st = Actions.on_kind (Pred.is_not "<ignored>" 
-          andf Pred.neg (Seps.is_document_step (Get.grouped_commands (Toplevel.theory_of st))));
-    fun add_next_to_prove (id, (act', st', _)) (prev_act_st, to_prove_sts) =
-      if Actions.on_kind (Pred.is "sorry") act'
-      then
-        let
-          val i' = if null to_prove_sts then 1 else (#2 (hd to_prove_sts)) + 1;
-        in ((act', st'), (id, i', prev_act_st) :: to_prove_sts) end
-      else
-        let
-          val upd_act_st = 
-            if Toplevel.is_proof st' andalso not (does_something st' act') 
-            then prev_act_st
-            else (act', st');
-        in (upd_act_st, to_prove_sts) end;
     val pre_sorry_stacts = 
       ((Actions.void, Toplevel.make_state NONE), [])
-      |> fold add_next_to_prove id_stacts
+      |> fold (add_next_to_prove (more_builder id_stacts)) id_stacts
       |> snd |> rev;
-    val fixed_strs = Par_List.map (fn (id, i, (act, st)) =>
+    val mmap = if sequential then map else Par_List.map
+    val fixed_strs = mmap (fn (id, i, act, st, more) =>
       let
         val goal_no_str = "goal " ^ Value.print_int i;
         val _ = Output.tracing ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
         val start_time = Time.now ();
-        val result = fixer st;
+        val result = fixer more st;
         val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
         val _ = Output.tracing ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
       in (id, result) end) pre_sorry_stacts;
@@ -85,6 +96,7 @@ fun generic_repair_sorrys fixer act_st_errs =
       ) fixed_strs ([], id_stacts)
   in repaired @ remove_ids unmodified end;
 
+end
 
 (* Operations for LLMs *)
 
@@ -101,7 +113,141 @@ fun make_parseable txt =
     |> Library.enclose quote quote
   end;
 
-fun repair_sorrys_with_llm st_act_errs =
+fun get_proof_so_far id_stacts id = Pred.take_while (fn (n, _) => n <= id) id_stacts
+  |> rev
+  |> Pred.take_while (fn (_, (_, st, _)) => Toplevel.is_proof st)
+  |> rev;
+
+fun make_llm_text prf_so_far st =
+  let
+    val prf_so_far_att =
+      prf_so_far
+      |> map (fn (_:int, (a, _:Toplevel.state, _:Runtime.error list)) => Actions.text_of a)
+      |> Library.space_implode "\n"
+      |> make_parseable
+      |> Pretty.str |> Print.pretty_json_elem "proof_so_far";
+    val usr_st_att = 
+      Get.user_state {break_lines=false} st
+      |> make_parseable
+      |> Pretty.str |> Print.pretty_json_elem "user_state";
+    val prf_data =
+      Print.pretty_json_attribs false "{" "}" 0 [usr_st_att, prf_so_far_att]
+      |> Print.string_of_pretty;
+  in prf_data end;
+
+fun coalesce_method_txt [] = ""
+  | coalesce_method_txt [s] = s
+  | coalesce_method_txt (s1 :: s2 :: ss) =
+      if Library.member (op =) ["(", "["] s1
+        orelse Library.member (op =) [")", "]", ":", ";"] s2
+      then s1 ^ coalesce_method_txt (s2 :: ss)
+      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
+
+fun turn_by_to_apply ctxt act =  
+  let
+    val mk_toks = Get.tokens {filtered=true} ctxt;
+    val untoks = coalesce_method_txt o map Token.content_of;
+    val no_by_txt = unprefix "by" (Actions.text_of act);
+    (* adding a `by` at the end to make the parers work correctly *)
+    val toks_to_parse = mk_toks (no_by_txt ^ " by"); 
+    val untoked_txt = untoks toks_to_parse;
+    val opt_parsed = try (Method.parse -- Scan.option Method.parse) toks_to_parse;
+    val result = (case opt_parsed of 
+      SOME ((_, opt_m2), rest_toks) => (case opt_m2 of 
+        SOME _ => let
+            val m1_rest_txt = untoks (snd (Method.parse toks_to_parse));
+            val m2_txt = unsuffix (untoks rest_toks) m1_rest_txt;
+            val m1_txt = unsuffix m1_rest_txt untoked_txt;
+          in "apply " ^ m1_txt ^ "\n  apply " ^ m2_txt end
+        | NONE => "apply " ^ (unsuffix (untoks rest_toks) untoked_txt))
+      | NONE => "apply" ^ no_by_txt)
+  in result end;
+
+(* decides whether the by-suggestions are (partially) correct *)
+fun do_next_from_llm act' (finished, last_st, resp_so_far) =
+  if finished then (finished, last_st, resp_so_far)
+  else if Actions.on_kind (Pred.is "by") act'
+  then let 
+    val thy = Toplevel.theory_of last_st;
+    val ctxt = Toplevel.context_of last_st;
+    val new_acts = Actions.make thy (turn_by_to_apply ctxt act');
+    val _ = Output.tracing ("Turned into '" ^ implode (map Actions.text_of new_acts) ^ "'")
+    val st_acts = Actions.timed_apply_all {timeout_in_secs=10} new_acts last_st;
+    fun build_next (a', s', es') (proved, so_far) =
+      if proved then (proved, so_far)
+      else if Pred.no_subgoals s' then (true, so_far @ [(a', s', es')])
+      else if null es' then (proved, so_far @ [(a', s', es')])
+      else (proved, so_far)
+    val (proved, pre_stacts) = fold build_next st_acts (false, []);
+    fun recover stacts = 
+      Actions.make_one thy ("by" ^ (unprefix "apply" (Actions.text_of (#1 (hd stacts)))))
+      |> (fn act => Actions.apply_all [act] last_st);
+    fun get_last_st stacts = #2 (Ops.last stacts);
+    val result = if null pre_stacts 
+        then (finished, last_st, resp_so_far)
+      else if length pre_stacts < length st_acts
+        then if not proved 
+          then (finished, get_last_st pre_stacts, resp_so_far @ pre_stacts)
+          else (true, get_last_st pre_stacts, resp_so_far @ (recover pre_stacts))
+      else if not proved 
+        then (finished, get_last_st pre_stacts, resp_so_far @ pre_stacts)
+      else (true, get_last_st pre_stacts, resp_so_far @ (Actions.apply_all [act'] last_st))
+    in result end
+  else let
+      val (_, st', errs') = hd (Actions.timed_apply_all {timeout_in_secs=10} [act'] last_st);
+    in if null errs' 
+      then (Pred.no_subgoals st', st', resp_so_far @ [(act', st', errs')])
+      else (finished, last_st, resp_so_far)
+    end;
+(* 
+fun turn_bys_to_applys' thy ctxt acts =
+  let
+    val (pre_by, opt_by, pos_by) = Pred.trisect (Actions.on_kind (Pred.is "by")) acts;
+    val result = (case opt_by of
+      NONE => pre_by
+      | SOME by_act => 
+        let
+          val new_acts = Actions.make thy (turn_by_to_apply ctxt by_act);
+        in pre_by @ new_acts @ turn_bys_to_applys' thy ctxt pos_by end)
+  in result end; *)
+
+fun mk_sorry_idd_stacts st = 
+  Ops.enumerate (Actions.apply_all (Actions.make (Toplevel.theory_of st) "sorry") st)
+
+fun llm_dfs max_depth proved (depth, prf_so_far, last_st) =
+  if proved then prf_so_far
+  else if depth > max_depth then prf_so_far @ mk_sorry_idd_stacts last_st
+  else let
+    val prf_data = make_llm_text prf_so_far last_st;
+    val _ = Client.communicate prf_data;
+    val llm_response = Client.get_last_response ();
+    val result = (case llm_response of
+      SOME response => 
+        let
+          val thy = Toplevel.theory_of last_st;
+          val _ = Output.tracing ("Trying suggestion '" ^ response ^ "' at depth " ^ Value.print_int depth)
+          val response_acts =
+            Actions.make thy response
+            |> filter (not o Actions.is_malformed)
+          val (proved', st', final_stacts) = 
+            fold do_next_from_llm response_acts (false, last_st, []);
+        in llm_dfs max_depth proved' (depth + 1, prf_so_far @ Ops.enumerate final_stacts, st') end
+      | NONE => prf_so_far)
+  in result end;
+
+fun fix_with_llm max_depth prf_so_far st =
+  let
+    val prf_so_far' = llm_dfs max_depth false (1, prf_so_far, st);
+  in implode (map (fn (_, (a, _, _)) => Actions.text_of a) prf_so_far') end;
+
+fun repair_sorrys_with_llm stacts =
+  let
+    val _ = Client.connect_to_server 5006;
+    val result = generic_repair_sorrys true get_proof_so_far (fix_with_llm 1) stacts;
+    val _ = Client.disconnect ();
+  in result end;
+
+(* fun repair_sorrys_with_llm st_act_errs =
   let
     fun update_proof_so_far (act', st') st proof_so_far =
       let
@@ -154,7 +300,7 @@ fun repair_sorrys_with_llm st_act_errs =
     val _ = Client.connect_to_server 5006;
     val (_, result) = fold do_next st_act_errs ([], [(Actions.void, Toplevel.make_state NONE, [])]);
     val _ = Client.disconnect ();
-  in result end;
+  in result end; *)
 
 
 (* Operations for Sledgehammer *)
@@ -203,7 +349,8 @@ fun fix_with_hammer st =
     val _ = Output.tracing ("Adopted " ^ origin ^ "'" ^ output ^ "'")
   in output end;
 
-val repair_sorrys_with_hammer = generic_repair_sorrys fix_with_hammer;
+val repair_sorrys_with_hammer = 
+  generic_repair_sorrys false (fn _ => fn _ => []) (fn _ => fn st => fix_with_hammer st);
 
 
 (* fun repair_sorrys_with_hammer st_act_errs =
@@ -253,11 +400,9 @@ fun process_all {err_timeout_in_secs=t} acts =
             val nxt_goal = hd objs; (* ideally we would find the objective most similar
               to the original action, and not the head *)
             val goal_txt = Print.string_of_pretty (Syntax.pretty_term ctxt nxt_goal);
-            val splitted = Pred.split (fn c => str c = "\"") (String.explode (Actions.text_of act'))
+            val splitted = Pred.group_by (fn c => str c = "\"") (String.explode (Actions.text_of act'))
             val _ = if null splitted then Output.error_message "empty splitted" else ();
-            val declaration =
-              Pred.split (fn c => str c = "\"") (String.explode (Actions.text_of act'))
-              |> hd |> String.implode;
+            val declaration = splitted |> hd |> String.implode;
             val new_act = Actions.make_one thy (declaration ^ " " ^ (enclose "\"" "\"" goal_txt));
             val _ = Output.tracing ("Fixed '" ^ Actions.text_of act' ^ "'")
             val _ = Output.tracing ("  to '"  ^ Actions.text_of new_act ^ "'")
