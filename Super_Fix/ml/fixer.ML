@@ -14,7 +14,7 @@ sig
     -> Toplevel.state -> bool * (int * ((string * typ) list * term list * term)) list
   val turn_by_to_apply: Proof.context -> Actions.T -> string
   val fix_with_method: (Method.text_range * Token.T list) option 
-    -> Toplevel.state -> bool * string
+    -> Toplevel.state -> bool * bool * string
   val fix_with_try0: Toplevel.state -> string
   val fix_with_try: Toplevel.state -> string
   val fix_with_llm: int -> (int * (Actions.T * Toplevel.state * Runtime.error list)) list
@@ -90,8 +90,8 @@ fun fix_with_method opt_m st =
     val proved = null clauses;
     val final_str = if proved
       then if m_txt = "-" then "done" else "by " ^ m_txt
-      else if not applied_m then "sorry" else "apply " ^ m_txt ^ " sorry"
-  in (proved, final_str) end;
+      else if not applied_m then "" else "apply " ^ m_txt
+  in (proved, applied_m, final_str) end;
 
 fun fix_with_try0 st = 
   (case Try0.try0 (SOME (Time.fromSeconds 30)) [] (Toplevel.proof_of st) of 
@@ -150,13 +150,17 @@ fun apply_fixer sequential count_str fixer ms to_fix_stacts =
           else fold (fn m => fn (proved, prf_so_far) => 
             if proved then (proved, prf_so_far)
             else let 
-              val (proved', str) = fix_with_method m st 
+              val (proved', _, str) = fix_with_method m st 
             in (proved', prf_so_far @ [str]) end) ms (false, []);
-        val result = if proved then partials else partials @ [fixer more st];
+        val result = 
+          (if proved then partials else partials @ [fixer more st])
+          |> filter_out (Pred.is "")
+          |> Ops.intersp ["\n    "]
+          |> implode;
         val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
         val _ = Output.tracing 
           ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
-      in (id, implode (Ops.intersp ["\n    "] result)) end) to_fix_stacts;
+      in (id, result) end) to_fix_stacts;
   in fixed_strs end;
 
 fun add_fixes_without_ids fixed_strs id_stacts =
