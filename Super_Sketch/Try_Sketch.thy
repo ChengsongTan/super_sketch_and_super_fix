@@ -19,12 +19,6 @@ ML_file "../../super_sketch_and_super_fix/Super_Fix/ml/fixer.ML"
 (* meta-data operations *)
 
 ML \<open>
-fun split_clause t =
-  let
-    val (fixes, horn) = funpow_yield (length (Term.strip_all_vars t)) Logic.dest_all_global t;
-    val assms = Logic.strip_imp_prems horn;
-    val concl = Logic.strip_imp_concl horn;
-  in (fixes, assms, concl) end;
 
 fun upd_context_with (var_typs, assms, concl) ctxt =
   let
@@ -129,19 +123,21 @@ fun make_proof_qed_skel first_mthd =
   #> (fn skel => "proof" ^ first_mthd ^ "\n" ^ skel ^ "\n" ^ "qed");
 \<close>
 
+(* sketching operations *)
+
 ML \<open>
 
 datatype sketch_mode = 
   SORRYS 
-  | TRY0 
-  | TRY 
+  | TRY0 of (Method.text_range * Token.T list) list
+  | TRY of (Method.text_range * Token.T list) list
   | HAMMER of (Method.text_range * Token.T list) list
 
 fun mode_of_str str ms =
   (case str of 
     "SORRYS" => SORRYS
-    | "TRY0" => TRY0
-    | "TRY" => TRY
+    | "TRY0" => TRY0 ms
+    | "TRY" => TRY ms
     | "HAMMER" => HAMMER ms
     | another => raise Fail ("mode_of_str: unknown mode" ^ another));
 
@@ -152,22 +148,25 @@ val parse_mode = (Parse.embedded -- (Scan.option parse_methods))
     mode_of_str mode_txt (case opt_ms of NONE => [] | SOME ms' => ms')
   );
 
-fun fix_with_try0 st = 
-  (case Try0.try0 (SOME (Time.fromSeconds 30)) [] (Toplevel.proof_of st) of 
-    [] => "sorry"
-    | {command, ...} :: _ => command);
-
-fun fix_with_try st = 
-  (case Try.try_tools (Toplevel.proof_of st) of
-    SOME (_, outcome) => "by " ^ outcome
-    | NONE => "sorry");
-
 fun get_fixer mode =
   (case mode of
     SORRYS => (fn _ => fn _ => "sorry")
-    | TRY0 => (fn _ => fix_with_try0)
+    | TRY0 _ => (fn _ => Fixer.fix_with_try0)
     | HAMMER _ => (fn _ => Fixer.fix_with_hammer)
-    | TRY => (fn _ => fix_with_try));
+    | TRY _ => (fn _ => Fixer.fix_with_try));
+
+fun get_methods mode =
+  (case mode of
+    SORRYS => []
+    | TRY0 ms => ms
+    | HAMMER ms => ms
+    | TRY ms => ms);
+
+\<close>
+
+(* try_sketch main *)
+
+ML \<open>
 
 (* TODO: add behaviour of LEMMAS *)
 fun sketch_prove_all_at st (mode:sketch_mode) format m_txt sketches =
@@ -184,60 +183,17 @@ fun sketch_prove_all_at st (mode:sketch_mode) format m_txt sketches =
             |> (fn acts => Actions.apply_all acts st);
           val results = (case mode of 
             SORRYS => skel_stacts
-            | _ => Fixer.generic_repair_sorrys false 
-              (fn _ => fn _ => []) (get_fixer mode) skel_stacts);
+            | mode => Fixer.generic_repair_sorrys false 
+              (fn _ => fn _ => []) (get_fixer mode) (map SOME (get_methods mode)) skel_stacts);
           val get_texts = map (fn (act, _, _) => Actions.text_of act);
         in get_texts results end
     );
 
-fun get_method_txt opt_m = case opt_m of 
-  SOME (_,toks) => Fixer.coalesce_method_txt (map Token.unparse toks)
-  | NONE => "-";
-
-fun get_goals_after opt_m st =
-  let
-    val (opt_m', m_txt) = (case opt_m of 
-      SOME (m,toks) => (SOME m, Fixer.coalesce_method_txt (map Token.unparse toks))
-      | NONE => (NONE, "-"));
-    val apply_m = Toplevel.proof_of #> Proof.proof opt_m' #> Seq.the_result "";
-    val (applied_m, prf_st) = if is_some opt_m'
-      then (case try apply_m st 
-        of NONE => (false, Toplevel.proof_of st) 
-        | SOME state => (true, state))
-      else (false, Toplevel.proof_of st);
-    val {context = _, facts = _, goal} = Proof.goal prf_st;
-    val clauses = Ops.enumerate (map split_clause (Logic.strip_imp_prems (Thm.prop_of goal)));
-    val _ = if applied_m orelse is_none opt_m' then ()
-      else Output.tracing ("Could not apply method " ^ m_txt ^ ". Skipping...");
-  in (applied_m, clauses) end;
-
-fun fix_with_method opt_m st =
-  let
-    val m_txt = get_method_txt opt_m;
-    val (applied_m, clauses) = get_goals_after opt_m st;
-    val final_str = if null clauses 
-      then if m_txt = "-" then "  done" else "  by " ^ m_txt
-      else if not applied_m then "" else "  apply " ^ m_txt
-  in final_str end;
-
-fun get_goals_after' opt_m st =
-  let
-    val opt_m' = Option.map fst opt_m;
-    val prf_st = if is_some opt_m'
-      then st
-        |> Toplevel.proof_of
-        |> Proof.proof opt_m'
-        |> Seq.the_result ""
-      else Toplevel.proof_of st;
-    val {context = _, facts = _, goal} = Proof.goal prf_st;
-    val clauses = Ops.enumerate (map split_clause (Logic.strip_imp_prems (Thm.prop_of goal)));
-  in clauses end;
-
 fun try_sketch mode format opt_m st = 
   let
-    val m_txt = get_method_txt opt_m;
+    val m_txt = Fixer.get_method_txt opt_m;
     val _ = Output.tracing "Producing goals to try..."
-    val (_, goals) = get_goals_after opt_m st;
+    val (_, goals) = Fixer.get_goals_after opt_m st;
     val final_texts = if null goals 
       then if m_txt = "-" then ["  done"] else ["  by " ^ m_txt]
       else if length goals = 1 then [(get_fixer mode) [] st]
@@ -258,12 +214,7 @@ val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch\<close>
         in () end
       )
    ));
-\<close>
 
-ML \<open>
-val to_parse = Get.tokens {filtered=true} \<^context> "HAMMER(intro conjI)";
-
-(Parse.embedded -- (Scan.option parse_methods)) to_parse
 \<close>
 
 (* example *)
@@ -272,7 +223,7 @@ lemma
   assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
   shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
   using assms
-  try_sketch SORRYS (intro allI)
+  try_sketch TRY0[simp] (intro conjI)
 proof-
   show goal1: "P a \<and> P b \<and> P c \<and> P d \<and> P e"
     if "\<forall>x. P x"

@@ -9,12 +9,21 @@ Main implementation of super_fix's algorithm
 signature FIXER =
 sig
   val log_fold_list: ('a -> 'b -> 'b list) -> 'b -> 'a list -> 'b list
+  val get_method_txt: (Method.text_range * Token.T list) option -> string
+  val get_goals_after: (Method.text_range * Token.T list) option 
+    -> Toplevel.state -> bool * (int * ((string * typ) list * term list * term)) list
   val turn_by_to_apply: Proof.context -> Actions.T -> string
-  val coalesce_method_txt: string list -> string
+  val fix_with_method: (Method.text_range * Token.T list) option 
+    -> Toplevel.state -> bool * string
+  val fix_with_try0: Toplevel.state -> string
+  val fix_with_try: Toplevel.state -> string
+  val fix_with_llm: int -> (int * (Actions.T * Toplevel.state * Runtime.error list)) list
+    -> Toplevel.state -> string
   val fix_with_hammer: Toplevel.state -> string
   val generic_repair_sorrys: bool
-    -> ((int * (Actions.T * Toplevel.state * Runtime.error list)) list -> int -> 'a) 
-    -> ('a -> Toplevel.state -> string) 
+    -> ((int * (Actions.T * Toplevel.state * Runtime.error list)) list -> int -> 'a list) 
+    -> ('a list -> Toplevel.state -> string) 
+    -> (Method.text_range * Token.T list) option list
     -> (Actions.T * Toplevel.state * Runtime.error list) list 
     -> (Actions.T * Toplevel.state * Runtime.error list) list
   val repair_sorrys: string 
@@ -36,10 +45,74 @@ fun log_fold_list _ _ [] = []
       val vs = f x s 
     in vs @ log_fold_list f (List.last vs) xs end;
 
+(* Operations with methods *)
+
+fun split_clause t =
+  let
+    val (fixes, horn) = funpow_yield (length (Term.strip_all_vars t)) Logic.dest_all_global t;
+    val assms = Logic.strip_imp_prems horn;
+    val concl = Logic.strip_imp_concl horn;
+  in (fixes, assms, concl) end;
+
+fun coalesce_method_txt [] = ""
+  | coalesce_method_txt [s] = s
+  | coalesce_method_txt (s1 :: s2 :: ss) =
+      if Library.member (op =) ["(", "["] s1
+        orelse Library.member (op =) [")", "]", ":", ";"] s2
+      then s1 ^ coalesce_method_txt (s2 :: ss)
+      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
+
+fun get_method_txt opt_m = case opt_m of 
+  SOME (_,toks) => coalesce_method_txt (map Token.unparse toks)
+  | NONE => "-";
+
+fun get_goals_after opt_m st =
+  let
+    val (opt_m', m_txt) = (case opt_m of 
+      SOME (m,toks) => (SOME m, coalesce_method_txt (map Token.unparse toks))
+      | NONE => (NONE, "-"));
+    val apply_m = Toplevel.proof_of #> Proof.proof opt_m' #> Seq.the_result "";
+    val (applied_m, prf_st) = if is_some opt_m'
+      then (case try apply_m st 
+        of NONE => (false, Toplevel.proof_of st) 
+        | SOME state => (true, state))
+      else (false, Toplevel.proof_of st);
+    val {context = _, facts = _, goal} = Proof.goal prf_st;
+    val clauses = Ops.enumerate (map split_clause (Logic.strip_imp_prems (Thm.prop_of goal)));
+    val _ = if applied_m orelse is_none opt_m' then ()
+      else Output.tracing ("Could not apply method " ^ m_txt ^ ". Skipping...");
+  in (applied_m, clauses) end;
+
+fun fix_with_method opt_m st =
+  let
+    val m_txt = get_method_txt opt_m;
+    val (applied_m, clauses) = get_goals_after opt_m st;
+    val proved = null clauses;
+    val final_str = if proved
+      then if m_txt = "-" then "done" else "by " ^ m_txt
+      else if not applied_m then "sorry" else "apply " ^ m_txt ^ " sorry"
+  in (proved, final_str) end;
+
+fun fix_with_try0 st = 
+  (case Try0.try0 (SOME (Time.fromSeconds 30)) [] (Toplevel.proof_of st) of 
+    [] => "sorry"
+    | {command, ...} :: _ => command);
+
+fun fix_with_try st = 
+  (case Try.try_tools (Toplevel.proof_of st) of
+    SOME (_, outcome) => "by " ^ outcome
+    | NONE => "sorry");
+
+
+(* Generic repair *)
+
 local
 
-fun add_next_to_prove more_builder (id, (act', st', _)) ((old_count, old_act, old_st), to_proves) = 
-  if Actions.on_kind (Pred.is "sorry") act'
+fun add_next_to_prove 
+  more_builder 
+  (id, (act', st', _)) 
+  ((old_count, old_act, old_st), to_proves) 
+  = if Actions.on_kind (Pred.is "sorry") act'
   then
     let
       val latest_relevant_st_act = (old_count + 1, act', st');
@@ -55,17 +128,17 @@ fun add_next_to_prove more_builder (id, (act', st', _)) ((old_count, old_act, ol
         else (old_count, act', st')
     in (latest_relevant_st_act, to_proves) end;
 
-in
-
-fun generic_repair_sorrys sequential more_builder fixer act_st_errs =
+fun count_find_sorrys more_builder id_stacts =
   let
-    val id_stacts = Ops.enumerate act_st_errs;
     val _ = Output.tracing "Retrieving sorry-locations...";
     val ((count, _, _), rev_sorry_stacts) = 
       ((0, Actions.void, Toplevel.make_state NONE), [])
       |> fold (add_next_to_prove (more_builder id_stacts)) id_stacts;
     val count_str = Value.print_int count;
-    val pre_sorry_stacts = rev rev_sorry_stacts;
+  in (count_str, rev rev_sorry_stacts) end;
+
+fun apply_fixer sequential count_str fixer ms to_fix_stacts =
+  let
     val mmap = if sequential then map else Par_List.map
     val fixed_strs = mmap (fn (id, i, act, st, more) =>
       let
@@ -73,12 +146,21 @@ fun generic_repair_sorrys sequential more_builder fixer act_st_errs =
         val _ = Output.tracing 
           ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
         val start_time = Time.now ();
-        val result = fixer more st;
+        val (proved, partials) = if null ms then (false, [])
+          else fold (fn m => fn (proved, prf_so_far) => 
+            if proved then (proved, prf_so_far)
+            else let 
+              val (proved', str) = fix_with_method m st 
+            in (proved', prf_so_far @ [str]) end) ms (false, []);
+        val result = if proved then partials else partials @ [fixer more st];
         val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
         val _ = Output.tracing 
           ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
-      in (id, result) end) pre_sorry_stacts;
-    val remove_ids = map snd;
+      in (id, implode (Ops.intersp ["\n    "] result)) end) to_fix_stacts;
+  in fixed_strs end;
+
+fun add_fixes_without_ids fixed_strs id_stacts =
+  let
     val (repaired, unmodified) = fold
       (fn (id, proof_txt) => fn (so_far, remaining) => 
         let
@@ -94,10 +176,20 @@ fun generic_repair_sorrys sequential more_builder fixer act_st_errs =
               |> (fn acts => Actions.timed_apply_all {timeout_in_secs=90} acts last_st)
               end
             )
-          val so_far' = so_far @ remove_ids seen @ stacts';
+          val so_far' = so_far @ map snd seen @ stacts';
         in (so_far', nexts) end
       ) fixed_strs ([], id_stacts)
-  in repaired @ remove_ids unmodified end;
+  in repaired @ map snd unmodified end;
+
+in
+
+(* TODO: make more efficient *)
+fun generic_repair_sorrys sequential more_builder fixer ms act_st_errs =
+  let
+    val id_stacts = Ops.enumerate act_st_errs;
+    val (count_str, pre_sorry_stacts) = count_find_sorrys more_builder id_stacts;
+    val fixed_strs = apply_fixer sequential count_str fixer ms pre_sorry_stacts;
+  in add_fixes_without_ids fixed_strs id_stacts end;
 
 end
 
@@ -137,14 +229,6 @@ fun make_llm_text prf_so_far st =
       Print.pretty_json_attribs false "{" "}" 0 [usr_st_att, prf_so_far_att]
       |> Print.string_of_pretty;
   in prf_data end;
-
-fun coalesce_method_txt [] = ""
-  | coalesce_method_txt [s] = s
-  | coalesce_method_txt (s1 :: s2 :: ss) =
-      if Library.member (op =) ["(", "["] s1
-        orelse Library.member (op =) [")", "]", ":", ";"] s2
-      then s1 ^ coalesce_method_txt (s2 :: ss)
-      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
 
 fun turn_by_to_apply ctxt act =  
   let
@@ -246,7 +330,7 @@ fun fix_with_llm max_depth prf_so_far st =
 fun repair_sorrys_with_llm stacts =
   let
     val _ = Client.connect_to_server 5006;
-    val result = generic_repair_sorrys true get_proof_so_far (fix_with_llm 1) stacts;
+    val result = generic_repair_sorrys true get_proof_so_far (fix_with_llm 1) [] stacts;
     val _ = Client.disconnect ();
   in result end;
 
@@ -353,7 +437,7 @@ fun fix_with_hammer st =
   in output end;
 
 val repair_sorrys_with_hammer = 
-  generic_repair_sorrys false (fn _ => fn _ => []) (fn _ => fn st => fix_with_hammer st);
+  generic_repair_sorrys false (fn _ => fn _ => []) (fn _ => fn st => fix_with_hammer st) [];
 
 
 (* fun repair_sorrys_with_hammer st_act_errs =
