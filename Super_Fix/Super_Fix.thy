@@ -11,6 +11,7 @@ ML_file "./ml/seps.ML"
 ML_file "./ml/actions.ML"
 ML_file "./ml/client.ML"
 ML_file "./ml/HammerAlt.ML"
+ML_file "./ml/sketcher.ML"
 ML_file "./ml/fixer.ML"
 
 end

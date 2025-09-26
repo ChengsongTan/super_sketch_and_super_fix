@@ -9,17 +9,14 @@ Main implementation of super_fix's algorithm
 signature FIXER =
 sig
   val log_fold_list: ('a -> 'b -> 'b list) -> 'b -> 'a list -> 'b list
-  val get_method_txt: (Method.text_range * Token.T list) option -> string
-  val get_goals_after: (Method.text_range * Token.T list) option 
-    -> Toplevel.state -> bool * (int * ((string * typ) list * term list * term)) list
   val turn_by_to_apply: Proof.context -> Actions.T -> string
   val fix_with_method: (Method.text_range * Token.T list) option 
-    -> Toplevel.state -> bool * bool * string
-  val fix_with_try0: Toplevel.state -> string
-  val fix_with_try: Toplevel.state -> string
+    -> Toplevel.state -> string
   val fix_with_llm: int -> (int * (Actions.T * Toplevel.state * Runtime.error list)) list
     -> Toplevel.state -> string
   val fix_with_hammer: Toplevel.state -> string
+  val fix_with_try0: Toplevel.state -> string
+  val fix_with_try: Toplevel.state -> string
   val generic_repair_sorrys: bool
     -> ((int * (Actions.T * Toplevel.state * Runtime.error list)) list -> int -> 'a list) 
     -> ('a list -> Toplevel.state -> string) 
@@ -47,61 +44,48 @@ fun log_fold_list _ _ [] = []
 
 (* Operations with methods *)
 
-fun split_clause t =
+fun try_methods_sequentially ms st =
   let
-    val (fixes, horn) = funpow_yield (length (Term.strip_all_vars t)) Logic.dest_all_global t;
-    val assms = Logic.strip_imp_prems horn;
-    val concl = Logic.strip_imp_concl horn;
-  in (fixes, assms, concl) end;
+    fun apply_next_method m (proved, curr_st, prf_so_far) =
+      if proved then (proved, curr_st, prf_so_far)
+      else let 
+        val (proved', applied_m, prf_str, st') = Sketcher.try_method m curr_st;
+        val result = if applied_m then (proved', st', prf_so_far @ [prf_str])
+          else (proved', curr_st, prf_so_far)
+      in result end;
+  in fold apply_next_method ms (false, st, []) end;
 
-fun coalesce_method_txt [] = ""
-  | coalesce_method_txt [s] = s
-  | coalesce_method_txt (s1 :: s2 :: ss) =
-      if Library.member (op =) ["(", "["] s1
-        orelse Library.member (op =) [")", "]", ":", ";"] s2
-      then s1 ^ coalesce_method_txt (s2 :: ss)
-      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
+fun fix_with_method opt_m st = #3 (Sketcher.try_method opt_m st)
 
-fun get_method_txt opt_m = case opt_m of 
-  SOME (_,toks) => coalesce_method_txt (map Token.unparse toks)
-  | NONE => "-";
-
-fun get_goals_after opt_m st =
+fun fix_with_some_method_in ms st =
   let
-    val (opt_m', m_txt) = (case opt_m of 
-      SOME (m,toks) => (SOME m, coalesce_method_txt (map Token.unparse toks))
-      | NONE => (NONE, "-"));
-    val apply_m = Toplevel.proof_of #> Proof.proof opt_m' #> Seq.the_result "";
-    val (applied_m, prf_st) = if is_some opt_m'
-      then (case try apply_m st 
-        of NONE => (false, Toplevel.proof_of st) 
-        | SOME state => (true, state))
-      else (false, Toplevel.proof_of st);
-    val {context = _, facts = _, goal} = Proof.goal prf_st;
-    val clauses = Ops.enumerate (map split_clause (Logic.strip_imp_prems (Thm.prop_of goal)));
-    val _ = if applied_m orelse is_none opt_m' then ()
-      else Output.tracing ("Could not apply method " ^ m_txt ^ ". Skipping...");
-  in (applied_m, clauses) end;
+    fun try_next_method m (proved, opt_str_proof) = 
+      if proved then (proved, opt_str_proof)
+      else let 
+        val (proved', _, str, _) = Sketcher.try_method m st 
+      in if proved' then (proved', SOME str) 
+        else (proved', opt_str_proof) end;
+  in fold try_next_method ms (false, NONE) end;
 
-fun fix_with_method opt_m st =
+
+(* Sketching operations *)
+
+(* fun fix_with_sketch indent opt_m alt st =
   let
-    val m_txt = get_method_txt opt_m;
-    val (applied_m, clauses) = get_goals_after opt_m st;
-    val proved = null clauses;
-    val final_str = if proved
-      then if m_txt = "-" then "done" else "by " ^ m_txt
-      else if not applied_m then "" else "apply " ^ m_txt
-  in (proved, applied_m, final_str) end;
-
-fun fix_with_try0 st = 
-  (case Try0.try0 (SOME (Time.fromSeconds 30)) [] (Toplevel.proof_of st) of 
-    [] => "sorry"
-    | {command, ...} :: _ => command);
-
-fun fix_with_try st = 
-  (case Try.try_tools (Toplevel.proof_of st) of
-    SOME (_, outcome) => "by " ^ outcome
-    | NONE => "sorry");
+    val sep = Symbol.spaces indent;
+    val m_txt = Sketcher.sketch_method opt_m;
+    val (proved, applied_m, final_str) = Sketcher.try_method opt_m st;
+    val final_text = if proved
+      then if m_txt = "-" 
+        then sep ^ "done"
+        else sep ^ "by " ^ m_txt
+      else if null (tl goals) then if applied_m 
+        then sep ^ "apply " ^ m_txt
+        else sep ^ alt indent
+      else let
+        val sketches = Par_List.map (basic_sketcher indent) goals;
+      in make_proof_qed_skel m_txt sketches end
+  in "" end; *)
 
 
 (* Generic repair *)
@@ -137,6 +121,19 @@ fun count_find_sorrys more_builder id_stacts =
     val count_str = Value.print_int count;
   in (count_str, rev rev_sorry_stacts) end;
 
+(* fun apply_fixer goal_count_str goal_num fixer st =
+  let
+    val goal_no_str = "goal " ^ Value.print_int i ^ " of " ^ goal_count_str;
+    val _ = Output.tracing 
+      ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
+    val start_time = Time.now ();
+    val (proved, opt_proof) = fix_with_some_method_in ms st;
+    val result = if proved then the opt_proof else fixer more st;
+    val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
+    val _ = Output.tracing 
+      ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
+  in () end; *)
+
 fun apply_fixer sequential count_str fixer ms to_fix_stacts =
   let
     val mmap = if sequential then map else Par_List.map
@@ -146,17 +143,8 @@ fun apply_fixer sequential count_str fixer ms to_fix_stacts =
         val _ = Output.tracing 
           ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
         val start_time = Time.now ();
-        val (proved, partials) = if null ms then (false, [])
-          else fold (fn m => fn (proved, prf_so_far) => 
-            if proved then (proved, prf_so_far)
-            else let 
-              val (proved', _, str) = fix_with_method m st 
-            in (proved', prf_so_far @ [str]) end) ms (false, []);
-        val result = 
-          (if proved then partials else partials @ [fixer more st])
-          |> filter_out (Pred.is "")
-          |> Ops.intersp ["\n    "]
-          |> implode;
+        val (proved, opt_proof) = fix_with_some_method_in ms st;
+        val result = if proved then the opt_proof else fixer more st;
         val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
         val _ = Output.tracing 
           ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
@@ -237,7 +225,7 @@ fun make_llm_text prf_so_far st =
 fun turn_by_to_apply ctxt act =  
   let
     val mk_toks = Get.tokens {filtered=true} ctxt;
-    val untoks = coalesce_method_txt o map Token.content_of;
+    val untoks = Sketcher.coalesce_method_txt o map Token.unparse;
     val no_by_txt = unprefix "by" (Actions.text_of act);
     (* adding a `by` at the end to make the parers work correctly *)
     val toks_to_parse = mk_toks (no_by_txt ^ " by"); 
@@ -442,6 +430,17 @@ fun fix_with_hammer st =
 
 val repair_sorrys_with_hammer = 
   generic_repair_sorrys false (fn _ => fn _ => []) (fn _ => fn st => fix_with_hammer st) [];
+
+(* TODO: make all fixers report whether they succeeded with a boolean *)
+fun fix_with_try0 st = 
+  (case Try0.try0 (SOME (Time.fromSeconds 30)) [] (Toplevel.proof_of st) of 
+    [] => "sorry"
+    | {command, ...} :: _ => command);
+
+fun fix_with_try st = 
+  (case Try.try_tools (Toplevel.proof_of st) of
+    SOME (_, outcome) => "by " ^ outcome
+    | NONE => "sorry");
 
 
 (* fun repair_sorrys_with_hammer st_act_errs =
