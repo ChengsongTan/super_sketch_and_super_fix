@@ -44,17 +44,6 @@ fun log_fold_list _ _ [] = []
 
 (* Operations with methods *)
 
-fun try_methods_sequentially ms st =
-  let
-    fun apply_next_method m (proved, curr_st, prf_so_far) =
-      if proved then (proved, curr_st, prf_so_far)
-      else let 
-        val (proved', applied_m, prf_str, st') = Sketcher.try_method m curr_st;
-        val result = if applied_m then (proved', st', prf_so_far @ [prf_str])
-          else (proved', curr_st, prf_so_far)
-      in result end;
-  in fold apply_next_method ms (false, st, []) end;
-
 fun fix_with_method opt_m st = #3 (Sketcher.try_method opt_m st)
 
 fun fix_with_some_method_in ms st =
@@ -62,7 +51,8 @@ fun fix_with_some_method_in ms st =
     fun try_next_method m (proved, opt_str_proof) = 
       if proved then (proved, opt_str_proof)
       else let 
-        val (proved', _, str, _) = Sketcher.try_method m st 
+        val (goal_count, _, str, _) = Sketcher.try_method m st;
+        val proved' = goal_count = 0;
       in if proved' then (proved', SOME str) 
         else (proved', opt_str_proof) end;
   in fold try_next_method ms (false, NONE) end;

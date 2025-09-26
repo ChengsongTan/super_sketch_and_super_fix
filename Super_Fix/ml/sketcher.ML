@@ -23,10 +23,12 @@ sig
   val sketch_as: format_mode -> int -> Toplevel.state 
     -> (int * ((bstring * typ) list * term list * term)) list
     -> string list
+  val get_goals_at: Proof.state ->
+      ((string * typ) list * term list * term) list
   val get_goals_after: (Method.text_range * Token.T list) option 
     -> Toplevel.state -> bool * (int * ((string * typ) list * term list * term)) list
   val try_method: (Method.text_range * Token.T list) option ->
-      Toplevel.state -> bool * bool * string * Toplevel.state
+      Toplevel.state -> int * bool * string * Toplevel.state
 end;
 
 structure Sketcher: SKETCHER =
@@ -168,15 +170,26 @@ fun try_method opt_m st =
   let
     val m_txt = sketch_method opt_m;
     val (applied_m, clauses) = get_goals_after opt_m st;
-    val proved = null clauses;
-    val final_str = if proved
+    val num_goals = length clauses;
+    val final_str = if num_goals = 0
       then if m_txt = "-" then "done" else "by " ^ m_txt
       else if not applied_m then "sorry" else "apply " ^ m_txt
     val final_st = if not applied_m then st
       else let
         val m_act = Actions.make_one (Toplevel.theory_of st) final_str;
       in fst (Actions.apply m_act st) end;
-  in (proved, applied_m, final_str, final_st) end;
+  in (num_goals, applied_m, final_str, final_st) end;
 
+fun try_methods_sequentially ms st =
+  let
+    fun apply_next_method m (proved, curr_st, prf_so_far) =
+      if proved then (proved, curr_st, prf_so_far)
+      else let 
+        val (goal_count, applied_m, prf_str, st') = try_method m curr_st;
+        val proved' = goal_count = 0;
+        val result = if applied_m then (proved', st', prf_so_far @ [prf_str])
+          else (proved', curr_st, prf_so_far)
+      in result end;
+  in fold apply_next_method ms (false, st, []) end;
 
 end;
