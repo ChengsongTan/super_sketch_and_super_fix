@@ -87,7 +87,7 @@ fun get_methods mode =
 ML \<open>
 
 (* TODO: add behaviour of LEMMAS *)
-fun sketch_prove_all_at st (mode:strategy) format m_txt sketches =
+(* fun sketch_prove_all_at st (mode:strategy) format m_txt sketches =
   (case format of
       Sketcher.LEMMAS (read_path, write_dir) => 
         (sketches
@@ -106,20 +106,35 @@ fun sketch_prove_all_at st (mode:strategy) format m_txt sketches =
           val get_texts = map (fn (act, _, _) => Actions.text_of act);
         in get_texts results end
     );
-
-fun try_sketch mode format opt_m st = 
+ *)
+fun try_sketch strategy format opt_m st = 
   let
-    val m_txt = Sketcher.sketch_method opt_m;
     val _ = Output.tracing "Producing goals to try..."
-    val (_, goals) = Sketcher.get_goals_after opt_m st;
-    val final_texts = if null goals 
-      then if m_txt = "-" then ["  done"] else ["  by " ^ m_txt]
-      else if length goals = 1 then [(get_fixer mode) [] st]
+    val sorryed_str = Fixer.fix_with_sketch format 0 (get_fixer strategy []) opt_m st;
+    (* val m_txt = Sketcher.sketch_method opt_m;
+       val (num_goals, _, fst_str, st') = Sketcher.try_method opt_m st;
+       val goals = Ops.enumerate (Sketcher.get_goals_at (Toplevel.proof_of st')); *)
+    (* val final_texts = if num_goals = 0
+      then ["  " ^ fst_str]
+      else if num_goals = 1 then [(get_fixer mode) [] st]
       else let
         val _ = Output.tracing "Making proof skeleton..."
-        val sketches = Sketcher.sketch_as format (Sketcher.init_indent_from format) st goals;
-      in sketch_prove_all_at st mode format m_txt sketches end;
-  in Library.space_implode "" final_texts end;
+        val start_indent = Sketcher.init_indent_from format;
+        val sketches = Sketcher.sketch_goals_at format start_indent st';
+    (* Sketcher.sketch_as format start_indent (Toplevel.context_of st) goals; *)
+      in sketch_prove_all_at st mode format m_txt sketches end;*)
+    val result = (case strategy of
+      SORRYS => sorryed_str
+      | mode =>
+        let 
+           val acts = Actions.make (Toplevel.theory_of st) sorryed_str
+           val fixed = Actions.apply_all acts st
+            |> Fixer.generic_repair_sorrys false 
+              (fn _ => fn _ => []) (get_fixer mode) (map SOME (get_methods mode))
+            |> map (fn (act, _, _) => Actions.text_of act)
+            |> Library.space_implode ""
+        in fixed end)
+  in result end;
 
 val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch\<close>
   "Makes a proof-sketch and attempts intermediate subgoals."
@@ -141,7 +156,7 @@ lemma
   assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
   shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
   using assms
-  try_sketch TRY0[-, (intro allI), simp] (intro conjI)
+  try_sketch TRY0[simp] (intro conjI)
 proof-
   show goal1: "P a \<and> P b \<and> P c \<and> P d \<and> P e"
     if "\<forall>x. P x"

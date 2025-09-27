@@ -12,6 +12,9 @@ sig
   val turn_by_to_apply: Proof.context -> Actions.T -> string
   val fix_with_method: (Method.text_range * Token.T list) option 
     -> Toplevel.state -> string
+  val fix_with_sketch: Sketcher.format_mode -> int -> (Toplevel.state -> string)
+    -> (Method.text_range * Token.T list) option 
+    -> Toplevel.state -> string
   val fix_with_llm: int -> (int * (Actions.T * Toplevel.state * Runtime.error list)) list
     -> Toplevel.state -> string
   val fix_with_hammer: Toplevel.state -> string
@@ -53,29 +56,27 @@ fun fix_with_some_method_in ms st =
       else let 
         val (goal_count, _, str, _) = Sketcher.try_method m st;
         val proved' = goal_count = 0;
-      in if proved' then (proved', SOME str) 
+      in if proved' then (proved', SOME str)
         else (proved', opt_str_proof) end;
   in fold try_next_method ms (false, NONE) end;
 
 
 (* Sketching operations *)
 
-(* fun fix_with_sketch indent opt_m alt st =
+fun fix_with_sketch format indent handler1 opt_m st =
   let
     val sep = Symbol.spaces indent;
     val m_txt = Sketcher.sketch_method opt_m;
-    val (proved, applied_m, final_str) = Sketcher.try_method opt_m st;
-    val final_text = if proved
-      then if m_txt = "-" 
-        then sep ^ "done"
-        else sep ^ "by " ^ m_txt
-      else if null (tl goals) then if applied_m 
-        then sep ^ "apply " ^ m_txt
-        else sep ^ alt indent
+    val (num_goals, applied_m, fst_str, st') = Sketcher.try_method opt_m st;
+    val final_text = if num_goals = 0
+      then sep ^ fst_str
+      else if num_goals = 1 
+        then if applied_m then fst_str ^ "\n" ^ sep ^ (handler1 st')
+        else sep ^ (handler1 st')
       else let
-        val sketches = Par_List.map (basic_sketcher indent) goals;
-      in make_proof_qed_skel m_txt sketches end
-  in "" end; *)
+        val sketches = Sketcher.sketch_goals_at format (indent+2) st';
+      in Sketcher.make_skeleton format indent m_txt sketches end
+  in final_text end;
 
 
 (* Generic repair *)
