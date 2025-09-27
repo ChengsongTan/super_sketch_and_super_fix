@@ -535,8 +535,8 @@ fun my_hammer_or_method_away i state0 (m_ref : (Method.text * Position.range)) (
     val sh_fut =
       Future.fork (fn () =>
         let val (outc, msg) = my_hammer_away i (Seq.the_result "" (Proof.apply adref state0))
-            val msg' = if outc = "success" then "apply " ^ adtxt ^ " " ^ remove_prefer i msg else msg
-        in win (outc, msg') um_ref end)
+            val msg' = if outc = "success" then remove_prefer i msg else msg
+        in win (outc, "apply " ^ adtxt ^ " " ^ msg') um_ref end)
     val _ = sh_ref := SOME sh_fut
 
     (* *)
