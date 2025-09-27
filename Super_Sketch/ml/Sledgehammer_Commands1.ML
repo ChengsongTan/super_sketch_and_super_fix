@@ -19,6 +19,7 @@ sig
   val my_hammer_away: int -> Proof.state -> (string * string)
   val my_verbose_hammer_away: int -> Proof.state -> int -> (string * string)
   val extract_one_liner_proof: string -> string
+  val my_hammer_or_method_away: int -> Proof.state -> (Method.text * Position.range)  -> string -> (Method.text * Position.range)  -> string -> (string * string)
 end;
 
 structure Sledgehammer_Commands1 : SLEDGEHAMMER_COMMANDS1 =
@@ -314,19 +315,40 @@ val parse_fact_override =
     no_fact_override
 
 
+fun remove_all_substrings sub s =
+  let
+    val n = String.size s
+    val m = String.size sub
+    fun loop i acc =
+      if i > n - m then String.implode (rev acc) ^ String.extract (s, i, NONE)
+      else if String.substring (s, i, m) = sub
+      then loop (i + m) acc
+      else loop (i + 1) (String.sub (s, i) :: acc)
+  in loop 0 [] end
+
+fun remove_prefer i s =
+  let
+    val base = "prefer " ^ Int.toString i
+    val s1 = remove_all_substrings base s
+    val s2 = remove_all_substrings (base ^ "; ") s1
+    val s3 = remove_all_substrings (base ^ "\n") s2
+    val s4 = remove_all_substrings (base ^ " ") s3
+    val s5 = remove_all_substrings base s4
+  in s5 end
+
 fun my_hammer_away i state0 =
   let
     val state = silence_state state0
     val thy = Proof.theory_of state
     val ctxt = Proof.context_of state
 
-    val override_params = [] |> map (normalize_raw_param ctxt)
+    val override_params = [("max_proofs", ["1"])] |> map (normalize_raw_param ctxt)
     val subcommand = runN
   in
     if subcommand = runN then
       let val i = the_default i NONE in
          (run_sledgehammer
-          (get_params Normal thy override_params) Normal NONE i Sledgehammer_Fact.no_fact_override state) |> (fn (bres, (_, msg)) => if bres then ("success", msg) else ("fail", msg))
+          (get_params Normal thy override_params) Normal NONE i Sledgehammer_Fact.no_fact_override state) |> (fn (bres, (_, msg)) => if bres then ("success", (remove_prefer i) msg) else ("fail", msg))
       end
     else
       error ("Unknown subcommand: " ^ quote subcommand)
@@ -335,82 +357,126 @@ fun my_hammer_away i state0 =
 
 
 fun my_verbose_hammer_away i state0 n_proofs =
-  let
+  let                            
     val state = silence_state state0
     val thy = Proof.theory_of state
     val ctxt = Proof.context_of state
 
-    val override_params =[] |> map (normalize_raw_param ctxt)
+    val override_params = [("max_proofs", [Int.toString n_proofs])] |> map (normalize_raw_param ctxt)
     val subcommand = runN
   in
     if subcommand = runN then
       let val i = the_default i NONE in
          (run_sledgehammer
-          (get_params Normal thy override_params) Normal NONE i Sledgehammer_Fact.no_fact_override state) |> (fn (bres, (_, msg)) => if bres then ("success", msg) else ("fail", msg))
+          (get_params Normal thy override_params) Normal NONE i Sledgehammer_Fact.no_fact_override state) |> (fn (bres, (_, msg)) => if bres then ("success", (remove_prefer i) msg) else ("fail", msg))
       end
     else
       error ("Unknown subcommand: " ^ quote subcommand)
   end
 
 
-fun extract_one_liner_proof input_string =
-    let
-        (* Define the substring we are looking for *)
-        val try_this_prefix = "Try this: "
-        val time_start = "(>"
-        val time_start2 = "("
-        
-        (* Function to find the position of a substring *)
-        fun find_substring(s, sub) =
-            let
-                val sub_len = String.size sub
-                fun search(i) =
-                    if i + sub_len > String.size s then
-                        NONE
-                    else if String.substring(s, i, sub_len) = sub then
-                        SOME i
-                    else
-                        search(i + 1)
-            in
-                search(0)
+fun extract_one_liner_proof (input: string) =
+  let
+    (* -------- helpers -------- *)
+    fun is_space c = Char.isSpace c
+    fun trim_left s =
+      let
+        val n = String.size s
+        fun go i = if i < n andalso is_space (String.sub (s, i)) then go (i+1) else i
+      in String.extract (s, go 0, NONE) end
+    fun trim_right s =
+      let
+        fun go i = if i > 0 andalso is_space (String.sub (s, i-1)) then go (i-1) else i
+        val k = go (String.size s)
+      in String.extract (s, 0, SOME k) end
+    fun squeeze_spaces s =
+      let
+        val n = String.size s
+        fun loop i seen acc =
+          if i = n then String.implode (rev acc)
+          else
+            let val c = String.sub (s, i) in
+              if is_space c then
+                loop (i+1) true (if seen then acc else #" " :: acc)
+              else loop (i+1) false (c :: acc)
             end
+      in trim_right (trim_left (loop 0 false [])) end
 
-        fun find_last_substring(s, sub) = 
-            let 
-                val sub_len = String.size sub
-                val len = String.size s
-                fun search(i) = 
-                    if i - sub_len < 0 then
-                      NONE
-                    else if String.substring(s, i - sub_len, sub_len) = sub then
-                      SOME i
-                    else 
-                      search(i - 1)
-            in
-              search(len)
-            end
+    fun find_sub (s, sub) =
+      let
+        val n = String.size s
+        val m = String.size sub
+        fun ok i = i + m <= n andalso String.substring (s, i, m) = sub
+        fun go i = if i + m > n then NONE else if ok i then SOME i else go (i+1)
+      in go 0 end
 
-        (* Find the starting position of "Try this: " *)
-        val start_pos = find_substring(input_string, try_this_prefix)
-        
-        (* Find the position of "(>" *)
-        val time_pos1 = find_substring(input_string, time_start)
-        val time_pos = (case time_pos1 of NONE => find_last_substring(input_string, time_start2) | s => s)
-    in
-        case (start_pos, time_pos) of
-            (SOME s, SOME t) =>
-                let
-                    (* Adjust to get the position after "Try this: " *)
-                    val proof_start = s + String.size try_this_prefix
-                    (* Adjust to get the position before the time information *)
-                    val proof_end = t - 1
-                    (* Extract the proof substring *)
-                    val proof_string = String.substring(input_string, proof_start, proof_end - proof_start)
-                in
-                     proof_string
-                end
-          | _ => "(*error in extract_one_liner_proof function: didn't find s/h proof"  (* In case the expected patterns are not found *)
-    end;
+    fun find_last_sub (s, sub) =
+      let
+        val n = String.size s
+        val m = String.size sub
+        fun ok i = i - m >= 0 andalso String.substring (s, i - m, m) = sub
+        fun go i = if i - m < 0 then NONE else if ok i then SOME (i - m) else go (i-1)
+      in go n end
+
+    (* looks like a trailing time tag starting exactly at position i (i.e. s[i] = '(') *)
+    fun looks_like_time_from s i =
+      let
+        val n = String.size s
+        fun digit j = j < n andalso Char.isDigit (String.sub (s, j))
+        fun skip_spaces j = if j < n andalso is_space (String.sub (s, j)) then skip_spaces (j+1) else j
+        val i1 = i + 1
+        val i2 = if i1 < n andalso String.sub (s, i1) = #">" then i1 + 1 else i1
+        fun read_digits j = if digit j then read_digits (j+1) else j
+        val j1 = read_digits i2
+        val j2 =
+          if j1 < n andalso String.sub (s, j1) = #"."
+          then read_digits (j1 + 1) else j1
+        val j3 = skip_spaces j2
+        val (j4, ok_unit) =
+          if j3 + 1 < n andalso String.sub (s, j3) = #"m" andalso String.sub (s, j3+1) = #"s"
+          then (j3 + 2, true)
+          else if j3 < n andalso String.sub (s, j3) = #"s"
+          then (j3 + 1, true)
+          else (j3, false)
+        val j5 = skip_spaces j4
+      in
+        if ok_unit andalso j5 < n andalso String.sub (s, j5) = #")"
+        then SOME (j5 + 1) else NONE
+      end
+
+    (* cut off a trailing time tag "(... ms|s)" if it ends the string *)
+    fun drop_trailing_time s =
+      let
+        val n = String.size s
+        fun rskip_spaces i = if i > 0 andalso is_space (String.sub (s, i-1)) then rskip_spaces (i-1) else i
+        val end0 = rskip_spaces n
+        fun find_last_open i =
+          if i = 0 then NONE
+          else if String.sub (s, i-1) = #"(" then SOME (i-1) else find_last_open (i-1)
+      in
+        case find_last_open end0 of
+          NONE => trim_right s
+        | SOME p =>
+            (case looks_like_time_from s p of
+               SOME endpos =>
+                 if endpos = end0
+                 then trim_right (String.extract (s, 0, SOME p))
+                 else trim_right s
+             | NONE => trim_right s)
+      end
+
+    (* -------- main -------- *)
+    val try_tag = "Try this:"
+    val start =
+      (case find_last_sub (input, try_tag) of
+         SOME k => k + String.size try_tag
+       | NONE => 0)
+
+    val after_tag = trim_left (String.extract (input, start, NONE))
+    val without_time = drop_trailing_time after_tag
+  in
+    squeeze_spaces without_time
+  end;
 
 (* Example usage *)
 val input_string = "Try this: by (smt (verit) one_le_numeral power2_less_eq_zero_iff power_increasing power_one_right power_zero_numeral) (187 ms)"
@@ -418,9 +484,74 @@ val input_string = "Try this: by (smt (verit) one_le_numeral power2_less_eq_zero
 val input_string1 = "Try this: by (metis add.commute add_0 add_diff_eq add_increasing2 diff_diff_eq2 diff_ge_0_iff_ge mult.right_neutral mult_1 power2_eq_square right_diff_distrib zero_le_mult_iff zero_le_square) (> 1.0 s, timed out)";
 val result = extract_one_liner_proof(input_string);
 val _ = writeln result
+val _ = writeln (extract_one_liner_proof "cvc5: Try this:\n  apply (metis CSTATE_disj4' CSTATE_starting_transaction_otherside_invariant1 HSTATE_X_Evict_invariant1 H_msg_P_same_def\n    MESI_State.distinct(11) SharedSnpInv'_CSTATE_invariant5 i23) (343 ms) ")
+
+
+(* ---------------- leaf: try user method once on subgoal i ------------------- *)
+(* m_ref_opt : (Method.text * Position.range) option 与你当前 Proof.apply 的类型一致 *)
+
+fun solved_by_method_message i state0 (m_ref : (Method.text * Position.range)) (method_text : string) =
+  (let
+       val st1 = Proof.prefer i (silence_state state0)
+       val n0  = subgoal_count st1
+       (* 注意：元素是 Proof.state Seq.result，而不是 Proof.state *)
+       val step_opt = Seq.pull (Proof.apply m_ref st1)
+     in
+       (case step_opt of
+          SOME (res, _) =>
+            (case res of
+               Seq.Result st' =>
+                 if subgoal_count st' = n0 - 1
+                 then let val _ = writeln "user method successfully solved goal"; in ("success", "cvc5: Try this: apply " ^ method_text ^ " (0 ms)") end
+                 else let val _ = writeln "user method didnt solve goal"; in ("fail", "user method did not close the subgoal") end
+             | Seq.Error _ =>
+                 ("fail", "user method raised error"))
+        | NONE =>
+            ("fail", "user method produced no state"))
+     end)
 
 
 
+
+(* --------------- race: Sledgehammer ⟂ user method on subgoal i ------------- *)
+(* 不引入新 API，只用 Future/Synchronized 进行“先成者胜并取消另一方” *)
+fun my_hammer_or_method_away i state0 (m_ref : (Method.text * Position.range)) (method_text : string) adref adtxt =
+  let
+    val done_flag   = Synchronized.var "race_done" false
+    val winner_slot = Synchronized.var "race_winner" (("","") : string * string)
+    val sh_ref = Unsynchronized.ref (NONE : (string * string) future option)
+    val um_ref = Unsynchronized.ref (NONE : (string * string) future option)
+
+    fun win res other_ref =
+      if #1 res = "success" then
+        (case Synchronized.change_result done_flag (fn d => if d then (false, d) else (true, true)) of
+           true => (Synchronized.change winner_slot (fn _ => res);
+                    (case !other_ref of SOME fut => Future.cancel fut | NONE => ());
+                    res)
+         | false => res)
+      else res
+
+    (* SH my_hammer_away i state0 *)
+    val sh_fut =
+      Future.fork (fn () =>
+        let val (outc, msg) = my_hammer_away i (Seq.the_result "" (Proof.apply adref state0))
+            val msg' = if outc = "success" then "apply " ^ adtxt ^ " " ^ remove_prefer i msg else msg
+        in win (outc, msg') um_ref end)
+    val _ = sh_ref := SOME sh_fut
+
+    (* *)
+    val um_fut =
+      Future.fork (fn () => win (solved_by_method_message i state0 m_ref method_text) sh_ref)
+    val _ = um_ref := SOME um_fut
+
+    fun wait () =
+      if Synchronized.value done_flag then Synchronized.value winner_slot
+      else if Future.is_finished sh_fut andalso Future.is_finished um_fut then
+             (case Synchronized.value winner_slot of
+                ("","") => ("fail", "no proof found")
+              | res => res)
+      else (OS.Process.sleep (Time.fromMilliseconds 10); wait ())
+  in wait () end
 
 
 end;

@@ -9,7 +9,7 @@ chapter \<open>Experimental commands \<^text>\<open>sketch\<close> and \<^text>\
 
 theory Super_Sketch
   imports Main \<comment> \<open>TODO: generalize existing sledgehammer functions to Pure\<close>
-  keywords "sketch" "explore" "sketch_subgoals" "super_sketch" "super_sketch3" "super_sketch2b" :: diag
+  keywords "sketch" "explore" "sketch_subgoals" "super_sketch" "super_sketch3" "super_sketch2b" "double_sketch" :: diag
 begin
 
 
@@ -19,6 +19,7 @@ ML_file "../Super_Fix/ml/imports.ML"
 ML_file "../Super_Fix/ml/get.ML"
 ML_file "ml/Sledgehammer_Commands1.ML"
 ML_file "../Super_Fix/ml/HammerAlt.ML"
+
 
 
 ML \<open>
@@ -38,7 +39,17 @@ open Sledgehammer_Commands1
 
 open Subgoal
 open Binding
+\<close>
 
+
+(*utility for removing "prefer i" from sledgehammer's generated proofs*)
+ML \<open>
+(* --- Remove "prefer i" from SH's suggested text --------------------------- *)
+(*now moved into sledgehammer_commands.ml*)
+\<close>
+
+ML \<open>
+val _ = Future.fork
 val print_name = Token.print_name o Thy_Header.get_keywords';
 
 fun createList(start, ending) = 
@@ -248,7 +259,8 @@ fun generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_re
     val outcome_type_list = map fst string_pairs_list;
     val final_outcome = List.foldl (fn (s, acc) => if s = "success" andalso acc then true else false) true outcome_type_list;
     val done_or_nil = (if sub_subgoals_num = 1 then [] else [" done\n"])
-    val text = (if final_outcome then cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil) else "sorry (*failed to find proof in multi-steps*)\n");
+    val text = (if final_outcome then cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil) 
+        else cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil));
   in text end;
     
     
@@ -271,9 +283,12 @@ fun print_super_isar_skeleton3 ctxt indent keyword stmt i state extra_method_ref
     val state_insert = (case m3ref of (SOME m3) =>  (Seq.the_result "" (Proof.apply m3 (Proof.prefer i state)))
                                          | NONE => Proof.prefer i state )
     val insert_count = subgoal_count state_insert;
-    val (outcome_type_string, message) = (if insert_count < total_count then ("success", "Try this:        (>1.0s)") else my_hammer_away 1 state_insert);
+    val (outcome_type_string, message) = (if insert_count < total_count then ("success", "Try this:        (>1.0s)") else ("failed", "must split subgoal"));
     val done_or_nil = (if insert_count < 2 then "" else "done")
-    val message1 = (if outcome_type_string = "success" then "apply " ^ m3txt ^ "(**)" ^  Sledgehammer_Commands1.extract_one_liner_proof message ^ done_or_nil else generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_ref mreduce_txt);
+    val message1 = (if outcome_type_string = "success" 
+      then "apply " ^ m3txt ^ "(**)" ^  
+           Sledgehammer_Commands1.extract_one_liner_proof message ^ done_or_nil 
+      else generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_ref mreduce_txt);
 
 
     val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
@@ -281,40 +296,141 @@ fun print_super_isar_skeleton3 ctxt indent keyword stmt i state extra_method_ref
   in
     s
   end;
+\<close>
 
 
-fun print_super_isar_skeleton ctxt indent keyword stmt i state  =
+ML \<open>
+
+
+
+(* remove time tags with second labels *)
+fun strip_time_tags (s: string) =
   let
-    val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt;
-    val prefix = replicate_string indent " ";
-      \<comment> \<open>TODO consider pre-existing indentation -- how?\<close>
-    val prefix_sep = "\n" ^ prefix ^ "    and ";
-    val show_s = prefix ^ keyword ^ " goal" ^ Int.toString i ^ ": " ^ print_term ctxt' concl;
-    val if_s = if null assms then NONE
-      else SOME (prefix ^ "  if " ^ space_implode prefix_sep
-        (map (fn t => print_term ctxt' t ) assms));
-    val for_s = if null fixes then NONE
-      else SOME (prefix ^ "  for " ^ space_implode prefix_sep
-        (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt T) fixes));
-
-    val state_i_moved_to_1 = Proof.prefer i state
-    val (outcome_type_string, message) = my_hammer_away 1 state_i_moved_to_1;
-    val done_or_nil = (if subgoal_count state < 2 then "" else "\ndone")
-    val message1 = (if outcome_type_string = "success" then Hammer_Alt.extract_one_liner_proof' message ^ done_or_nil else "sorry (*failed to find sledgehammer proof*)");
-
-
-    val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
-      [ prefix ^  "  " ^ (if is_none if_s then "" else "using that ") ^ message1]);
+    val n = size s
+    fun digit c = Char.isDigit c
+    fun rd_digits i =
+      if i < n andalso digit (String.sub (s, i)) then rd_digits (i+1) else i
+    fun rd_spaces i =
+      if i < n andalso Char.isSpace (String.sub (s, i)) then rd_spaces (i+1) else i
+    (* 若从位置 i 起是 "(<num>(.<num>)?<space>*s)", 返回匹配结束位置；否则返回 ~1 *)
+    fun try_at i =
+      if i < n andalso String.sub (s, i) = #"(" then
+        let
+          val j1 = rd_digits (i+1)
+          val j2 =
+            if j1 < n andalso String.sub (s, j1) = #"." then rd_digits (j1+1) else j1
+          val j3 = rd_spaces j2
+          val j4 = if j3 < n andalso String.sub (s, j3) = #"s" then j3+1 else ~1
+          val j5 = if j4 <> ~1 andalso j4 < n andalso String.sub (s, j4) = #")"
+                   then j4+1 else ~1
+        in j5 end
+      else ~1
+    fun loop i acc =
+      if i >= n then String.implode (rev acc)
+      else (case try_at i of
+              ~1 => loop (i+1) (String.sub (s, i) :: acc)
+            | j  => loop j acc)
   in
-    s
-  end;
+    loop 0 []
+  end
+
+
+(* 带叶子 solver 的版本：solver_ref / solver_txt 会在叶子与 SH 竞速 *)
+fun ppt_simp ms state js indent solver_ref solver_txt adref adtxt =
+(case ms of m1::ms_tl =>
+  let
+    val state'' =
+      state |> (fn s =>  Seq.the_result "" (Proof.apply (fst m1) s))
+
+    val { context = ctxt, facts = _, goal } = Proof.goal state''
+    val ctxt_print = fold (fn opt => Config.put opt false)
+      [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts] ctxt
+
+    val method_text1 = ( " " ^ coalesce_method_txt (map Token.unparse (snd m1)))
+    val goal_props = Logic.strip_imp_prems (Thm.prop_of goal)
+    val clauses = map split_clause goal_props
+    val tl_len = length ms_tl
+    val goal_numbers_prefix = String.concatWith "_" (map (fn i => Int.toString i) js) ^ "_"
+
+    fun pisk stmt i ms_tl =
+      let
+        val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt_print
+        val prefix = replicate_string indent " "
+        val prefix_sep = "\n" ^ prefix ^ "    and "
+        val show_s = prefix ^ "show goal" ^ goal_numbers_prefix ^ Int.toString i ^ ": " ^ print_term ctxt' concl
+        val if_s = if null assms then NONE
+          else SOME (prefix ^ "  if " ^ space_implode prefix_sep (map (fn t => print_term ctxt' t) assms))
+        val for_s = if null fixes then NONE
+          else SOME (prefix ^ "  for " ^ space_implode prefix_sep (map (fn (v,T) => v ^ " :: " ^ print_typ ctxt_print T) fixes))
+
+        val state_i_moved_to_1 = Proof.prefer i state''
+        val state_subgoaled = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) state_i_moved_to_1
+        val produced_proof =
+          if tl_len > 0
+          then ppt_simp ms_tl state_subgoaled (js@[i]) (indent+1) solver_ref solver_txt adref adtxt
+          else ppt_simp ms_tl state_i_moved_to_1 (js@[i]) (indent+1) solver_ref solver_txt adref adtxt
+
+        val line_end_if_not_last_layer = (if tl_len > 0 then "\n" else " ")
+        val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
+          [ prefix ^ "  " ^ (if is_none if_s then "" else "using that" ^ line_end_if_not_last_layer) ^ produced_proof ])
+      in s end
+
+    val n = subgoal_count state''
+    val t_start = Timing.start ()
+    val parlist_or_sequential = (if tl_len = 0 orelse n <= 100 then Par_List.map else map)
+    val whole =
+      "proof" ^ method_text1 ::
+      parlist_or_sequential (fn (stmt,i) => pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n)))
+      @ ["qed"]
+    val t_end = Timing.result t_start
+    val _ = writeln (Timing.message t_end)
+
+    val lines = if null clauses then (if is_none (SOME m1) then ["  .."] else ["  by" ^ method_text1]) else whole
+    val raw_str = cat_lines lines
+    val message = Active.sendback_markup_properties [] raw_str
+  in message end
+
+| [] =>
+  (* 叶子：用“最后一个方法”与 SH 竞速；若没有方法则只跑 SH *)
+  let
+    val (outcome, msg) =
+      Sledgehammer_Commands1.my_hammer_or_method_away 1 state solver_ref solver_txt adref adtxt
+    val one = Sledgehammer_Commands1.extract_one_liner_proof msg
+    val message1 =
+      (if outcome = "success"
+       then strip_time_tags one ^ " done"
+       else "sorry (*failed to find proof*)")
+  in message1 end)
+
+fun ppt_main_simp ms state js indent msimp adsimp =
+  let
+    val solver_ref = fst msimp  (* Method.text_range = Method.text * Position.range *)
+    val solver_txt =
+      " " ^ coalesce_method_txt (map Token.unparse (snd msimp)) 
+    val adref = fst adsimp  (* Method.text_range = Method.text * Position.range *)
+    val adtxt =
+      " " ^ coalesce_method_txt (map Token.unparse (snd adsimp)) 
+  in
+    (ppt_simp ms state js indent solver_ref solver_txt adref adtxt )
+    |> (fn s => Output.information s)
+  end
+
+\<close>
+
+
+
+
+
+
+
+ML \<open>
 
 
 
 fun print_super_sketch2b group_size ctxt method_text1 clauses state method2_ref method_text2  =
   let 
     val n = subgoal_count state;
-    val t_start = Timing.start ();
+    val t_start = Timing.start ();                                           
     val s = "proof" ^ method_text1 :: Par_List.map (fn (stmt, i) => print_super_isar_skeleton2b ctxt 2 "show" stmt i state method2_ref method_text2) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
     val t_end = Timing.result t_start;
   in
@@ -334,16 +450,7 @@ fun print_super_sketch3 group_size ctxt method_text1 clauses state method2_ref m
   end;
 
 
-fun print_super_sketch group_size ctxt method_text1 clauses state =
-  let 
-    val n = subgoal_count state;
-    val t_start = Timing.start ();
-    val s = "proof" ^ method_text1 :: Par_List.map (fn (stmt, i) => print_super_isar_skeleton ctxt 2 "show" stmt i state) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
-    val t_end = Timing.result t_start;
-  in
-    writeln (Timing.message t_end);
-    s
-  end;
+
 
 val sketch = print_proof_text_from_state print_sketch;
 
@@ -373,6 +480,90 @@ fun subgoals_cmd (modes, method_ref) =
   in
     Toplevel.keep_proof (K () o subgoals (is_prems, is_for, is_sh) method_ref o Toplevel.proof_of)
   end
+
+
+
+
+
+fun ppt ms state js indent =
+(case ms of m1::ms_tl =>
+  let
+    val state'' = state 
+          |> (fn s => (Seq.the_result "" (Proof.apply (fst m1) s)))
+          
+    val { context = ctxt, facts = _, goal } = Proof.goal state'';
+
+    val ctxt_print = fold (fn opt => Config.put opt false)
+      [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts] ctxt
+
+    val method_text1 = case m1 of
+         (_, toks) => " " ^ coalesce_method_txt (map Token.unparse toks);
+    val goal_props = Logic.strip_imp_prems (Thm.prop_of goal);
+    val clauses = map split_clause goal_props;
+    val tl_len = length ms_tl;
+    val goal_numbers_prefix = String.concatWith "_" (map (fn i => Int.toString i) (rev js)) ^ "_";
+
+    fun pisk stmt i ms_tl =
+      let
+        val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt_print;
+        val prefix = replicate_string indent " ";
+          \<comment> \<open>TODO consider pre-existing indentation -- how?\<close>
+        val prefix_sep = "\n" ^ prefix ^ "    and ";
+        val show_s = prefix ^ "show" ^ " goal" ^ goal_numbers_prefix ^ Int.toString i ^ ": " ^ print_term ctxt' concl;
+        val if_s = if null assms then NONE
+          else SOME (prefix ^ "  if " ^ space_implode prefix_sep
+            (map (fn t => print_term ctxt' t ) assms));
+        val for_s = if null fixes then NONE
+          else SOME (prefix ^ "  for " ^ space_implode prefix_sep
+            (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt_print T) fixes));
+    
+        val state_i_moved_to_1 = Proof.prefer i state''
+        val state_subgoaled = (#2 o 
+          Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) state_i_moved_to_1;
+        val produced_proof = (if tl_len > 0 then ppt ms_tl state_subgoaled (i::js) (indent+1) else ppt ms_tl state_i_moved_to_1 (i::js) (indent+1))
+
+
+        val line_end_if_not_last_layer = (if tl_len > 0 then "\n" else " ")
+        val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
+          [ prefix ^  "  " ^ (if is_none if_s then "" else "using that" ^ line_end_if_not_last_layer) ^ produced_proof]);
+      in
+        s
+      end;
+
+        val n = subgoal_count state'';
+        val t_start = Timing.start ();
+        val parlist_or_sequential_list = (if tl_len = 0 orelse n <= 100 then Par_List.map else map);
+        val whole_proof_of_this_goal = "proof" ^ method_text1 :: parlist_or_sequential_list (fn (stmt, i) => 
+          pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
+        val t_end = Timing.result t_start;
+        val _ = writeln (Timing.message t_end);
+  
+
+
+    val lines = if null clauses then
+      if is_none (SOME m1) then ["  .."]
+      else ["  by" ^ method_text1]
+      else (whole_proof_of_this_goal);
+
+
+    val lines = lines ;
+    val raw_str = cat_lines lines;
+    val message = Active.sendback_markup_properties [] (raw_str);
+    (*val _ = writeFileln ("C:\\Users\\Chengsong\\Documents\\GitHub\\cxl-formalisation\\Results" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) raw_str; *)
+  in
+     message
+  end
+| [] => let
+          val (outcome_type_string, message) = my_hammer_away (hd js) state;
+          (*val done_or_nil = (if subgoal_count state'' < 2 then "" else "\ndone")*)
+          val message1 = (if outcome_type_string = "success" 
+                          then strip_time_tags (Hammer_Alt.extract_one_liner_proof' message) ^ " done" 
+                          else "sorry (*failed to find sledgehammer proof*)");    
+        in message1 end
+)
+
+(*(state |> tap (fn _ => Output.information message));*)
+fun ppt_main ms state js indent = (ppt ms state js indent) |> (fn s => Output.information s)
 
 fun print_proof_text_from_state_generate_oneliners2b print m1 m2  state =
   let
@@ -416,49 +607,6 @@ fun print_proof_text_from_state_generate_oneliners2b print m1 m2  state =
   in
     (state |> tap (fn _ => Output.information message))
   end
-
-
-
-fun print_proof_text_from_state_generate_oneliners print m1 state =
-  let
-
-  (*  val state' = Seq.the_result "" (Proof.proof (Option.map fst m1) state) *)
-
-  
-    val state'' = state 
-          |> (fn s => (case Option.map fst m1 of SOME m => Seq.the_result "" (Proof.apply m s) | NONE => s))
-          
-    val { context = ctxt, facts = _, goal } = Proof.goal state'';
-
-    val ctxt_print = fold (fn opt => Config.put opt false)
-      [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts] ctxt
-
-    val method_text1 = case m1 of
-        NONE => " -"
-      | SOME (_, toks) => " " ^ coalesce_method_txt (map Token.unparse toks);
-        \<comment> \<open>TODO proper printing required\<close>
-
-
-
-
-    val goal_props = Logic.strip_imp_prems (Thm.prop_of goal);
-    val clauses = map split_clause goal_props;
-
-    val lines = if null clauses then
-      if is_none m1 then ["  .."]
-      else ["  by" ^ method_text1]
-      else (print ctxt_print method_text1 clauses state'');
-
-
-    val lines = lines ;
-    val raw_str = cat_lines lines;
-    val message = Active.sendback_markup_properties [] (raw_str);
-    (*val _ = writeFileln ("C:\\Users\\Chengsong\\Documents\\GitHub\\cxl-formalisation\\Results" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) raw_str; *)
-  in
-    (state |> tap (fn _ => Output.information message))
-  end
-
-
 
 fun print_proof_text_from_state_generate_oneliners3 print m1 m2 m3 msplit mreduce state =
   let
@@ -565,12 +713,29 @@ val _ =
 val _ = 
   Outer_Syntax.command \<^command_keyword>\<open>super_sketch\<close>
     "print sketch of Isar proof text after method application, with oneliners auto generated"
-    ((Scan.option (Scan.trace Method.parse) ) >> 
+    ( (Scan.trace Method.parse)  >> 
       (fn meth1_ref =>
         Toplevel.keep_proof (fn state => 
           let 
             val pstate = Toplevel.proof_of state;
-          in print_proof_text_from_state_generate_oneliners (print_super_sketch 1) meth1_ref  pstate; () end)));
+          in ppt_main [meth1_ref] pstate [] 2; () end)));
+
+
+val parse_adsimp = \<^keyword>\<open>[\<close> |-- (Scan.trace Method.parse) --| \<^keyword>\<open>]\<close>;
+
+
+
+val _ = 
+  Outer_Syntax.command \<^command_keyword>\<open>double_sketch\<close>
+    "print sketch of Isar proof text after method application, with oneliners auto generated"
+    ((Scan.repeat (Scan.trace Method.parse) -- parse_adsimp -- parse_adsimp) >> 
+      (fn ((meths, msimp), adsimp) =>
+        Toplevel.keep_proof (fn state => 
+          let 
+            val pstate = Toplevel.proof_of state;
+          in ppt_main_simp meths pstate [] 2 msimp adsimp; () end)));
+ 
+
 
 \<close>
 
