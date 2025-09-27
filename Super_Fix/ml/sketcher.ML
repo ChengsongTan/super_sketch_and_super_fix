@@ -11,6 +11,7 @@ sig
   val set_verbose: Proof.context -> Proof.context
   val sketch_term: Proof.context -> term -> string
   val sketch_typ: Proof.context -> typ -> string
+  val sketch_header: string -> string list -> Toplevel.state -> string
   val coalesce_method_txt: string list -> string
   val sketch_method: (Method.text_range * Token.T list) option -> string
   datatype format_mode = LEMMAS of Path.T * Path.T | SHOW_IFS
@@ -21,7 +22,6 @@ sig
   val sketch_goals_at: format_mode -> int -> Toplevel.state -> string list
   val try_method: (Method.text_range * Token.T list) option -> Toplevel.state 
     -> int * bool * string * Toplevel.state
-  val make_proof_qed_skel: int -> string -> string list -> string
 end;
 
 structure Sketcher: SKETCHER =
@@ -39,6 +39,19 @@ fun sketch_term ctxt t =
 fun sketch_typ ctxt T = 
   Print.string_of_type ctxt T
   |> Library.enclose "\"" "\"";
+
+fun sketch_header thy_name imports st =
+  let
+    val thy = Toplevel.theory_of st;
+    val merge = Library.union 
+      (fn (str1, str2) => Pred.contains str1 str2 
+        orelse Pred.contains str2 str1);
+    val sep = "\n" ^ (Symbol.spaces 2);
+    val imports' = 
+      merge imports (map fst (Resources.imports_of thy))
+      |> Ops.intersp [sep]
+      |> Library.implode_space;
+  in "theory " ^ thy_name ^ sep ^ "imports " ^ imports' ^ "\nbegin" end;
 
 
 (* methods *)
@@ -149,33 +162,11 @@ fun sketch_goal_as format indent ctxt (goal_num, goal_data) =
     val formatter = get_formatter format indent goal_num;
   in formatter (opt_fixes, opt_assumes, goal_str) end;
 
-fun sketch_as format indent st goals = 
-  Par_List.map (sketch_goal_as format indent st) goals;
-
 fun sketch_goals_at format indent st =
   let            
     val ctxt = set_verbose (Toplevel.context_of st);
     val goals = Ops.enumerate (get_goals_at (Toplevel.proof_of st));
   in Par_List.map (sketch_goal_as format indent ctxt) goals end;
-
-(* TODO: analyse efficiency and accuracy changes by working at the top level: 
-`val (act', st', err') 
-  = Actions.apply (Actions.make_one (Toplevel.theory_of st) ("apply " ^ m_txt)) st;` *)
-fun get_goals_after opt_m st =
-  let
-    val (opt_m', m_txt) = (case opt_m of 
-      SOME (m,toks) => (SOME m, coalesce_method_txt (map Token.unparse toks))
-      | NONE => (NONE, "-"));
-    val apply_m = Toplevel.proof_of #> Proof.proof opt_m' #> Seq.the_result "";
-    val (applied_m, prf_st) = if is_some opt_m'
-      then (case Ops.apply_with_timeout (Time.fromSeconds 10) apply_m st 
-        of Exn.Exn _ => (false, Toplevel.proof_of st) 
-        | Exn.Res state => (true, state))
-      else (false, Toplevel.proof_of st);
-    val clauses = Ops.enumerate (get_goals_at prf_st);
-    val _ = if applied_m orelse is_none opt_m' then ()
-      else Output.tracing ("Could not apply method " ^ m_txt ^ ". Skipping...");
-  in (applied_m, clauses) end;
 
 
 (* trying methods *)
@@ -197,20 +188,6 @@ fun try_method opt_m st =
       then if not there_is_method then "done" else "by " ^ m_txt
       else if not applied_m then "sorry" else "apply " ^ m_txt;
   in (length (get_goals_at (Toplevel.proof_of st')), applied_m, final_str, st') end;
-
-fun try_method_old opt_m st =
-  let
-    val m_txt = sketch_method opt_m;
-    val (applied_m, clauses) = get_goals_after opt_m st;
-    val num_goals = length clauses;
-    val final_str = if num_goals = 0
-      then if m_txt = "-" then "done" else "by " ^ m_txt
-      else if not applied_m then "sorry" else "apply " ^ m_txt
-    val final_st = if not applied_m then st
-      else let
-        val m_act = Actions.make_one (Toplevel.theory_of st) final_str;
-      in fst (Actions.apply m_act st) end;
-  in (num_goals, applied_m, final_str, final_st) end;
 
 fun try_methods_sequentially ms st =
   let

@@ -269,17 +269,6 @@ fun do_next_from_llm act' (finished, last_st, resp_so_far) =
       then (Pred.no_subgoals st', st', resp_so_far @ [(act', st', errs')])
       else (finished, last_st, resp_so_far)
     end;
-(* 
-fun turn_bys_to_applys' thy ctxt acts =
-  let
-    val (pre_by, opt_by, pos_by) = Pred.trisect (Actions.on_kind (Pred.is "by")) acts;
-    val result = (case opt_by of
-      NONE => pre_by
-      | SOME by_act => 
-        let
-          val new_acts = Actions.make thy (turn_by_to_apply ctxt by_act);
-        in pre_by @ new_acts @ turn_bys_to_applys' thy ctxt pos_by end)
-  in result end; *)
 
 fun mk_sorry_idd_stacts st = 
   Ops.enumerate (Actions.apply_all (Actions.make (Toplevel.theory_of st) "sorry") st)

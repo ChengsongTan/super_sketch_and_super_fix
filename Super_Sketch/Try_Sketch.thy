@@ -16,31 +16,6 @@ ML_file "../../super_sketch_and_super_fix/Super_Fix/ml/client.ML"
 ML_file "../../super_sketch_and_super_fix/Super_Fix/ml/sketcher.ML"
 ML_file "../../super_sketch_and_super_fix/Super_Fix/ml/fixer.ML"
 
-
-(* generic string operations *)
-ML \<open>
-
-fun header_string thy_name imports state =
-  let
-    val thy = Toplevel.theory_of state;
-    val merge = Library.union 
-      (fn (str1, str2) => Pred.contains str1 str2 
-        orelse Pred.contains str2 str1);
-    val sep = "\n" ^ (Symbol.spaces 2);
-    val imports' = 
-      merge imports (map fst (Resources.imports_of thy))
-      |> Ops.intersp [sep]
-      |> Library.implode_space;
-  in "theory " ^ thy_name ^ sep ^ "imports " ^ imports' ^ "\nbegin" end;
-
-\<close>
-
-(* formatting operations *)
-ML \<open>
-
-
-\<close>
-
 (* sketching operations *)
 
 ML \<open>
@@ -86,43 +61,10 @@ fun get_methods mode =
 
 ML \<open>
 
-(* TODO: add behaviour of LEMMAS *)
-(* fun sketch_prove_all_at st (mode:strategy) format m_txt sketches =
-  (case format of
-      Sketcher.LEMMAS (read_path, write_dir) => 
-        (sketches
-        |> Ops.intersp ["\nnext\n  "]
-        |> (curry (op ::)) ("proof" ^ m_txt ^ "\n")) @ ["\n" ^ "qed"]
-      | Sketcher.SHOW_IFS => 
-        let
-          val skel_stacts = 
-            Sketcher.make_proof_qed_skel m_txt sketches
-            |> Actions.make (Toplevel.theory_of st)
-            |> (fn acts => Actions.apply_all acts st);
-          val results = (case mode of 
-            SORRYS => skel_stacts
-            | mode => Fixer.generic_repair_sorrys false 
-              (fn _ => fn _ => []) (get_fixer mode) (map SOME (get_methods mode)) skel_stacts);
-          val get_texts = map (fn (act, _, _) => Actions.text_of act);
-        in get_texts results end
-    );
- *)
 fun try_sketch strategy format opt_m st = 
   let
     val _ = Output.tracing "Producing goals to try..."
     val sorryed_str = Fixer.fix_with_sketch format 0 (get_fixer strategy []) opt_m st;
-    (* val m_txt = Sketcher.sketch_method opt_m;
-       val (num_goals, _, fst_str, st') = Sketcher.try_method opt_m st;
-       val goals = Ops.enumerate (Sketcher.get_goals_at (Toplevel.proof_of st')); *)
-    (* val final_texts = if num_goals = 0
-      then ["  " ^ fst_str]
-      else if num_goals = 1 then [(get_fixer mode) [] st]
-      else let
-        val _ = Output.tracing "Making proof skeleton..."
-        val start_indent = Sketcher.init_indent_from format;
-        val sketches = Sketcher.sketch_goals_at format start_indent st';
-    (* Sketcher.sketch_as format start_indent (Toplevel.context_of st) goals; *)
-      in sketch_prove_all_at st mode format m_txt sketches end;*)
     val result = (case strategy of
       SORRYS => sorryed_str
       | mode =>
