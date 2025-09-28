@@ -15,8 +15,11 @@ begin
 
 ML_file "../Super_Fix/ml/pred.ML"
 ML_file "../Super_Fix/ml/ops.ML"
+ML_file "../Super_Fix/ml/print.ML"
 ML_file "../Super_Fix/ml/imports.ML"
 ML_file "../Super_Fix/ml/get.ML"
+ML_file "../Super_Fix/ml/seps.ML"
+ML_file "../Super_Fix/ml/actions.ML"
 ML_file "ml/Sledgehammer_Commands1.ML"
 ML_file "../Super_Fix/ml/HammerAlt.ML"
 
