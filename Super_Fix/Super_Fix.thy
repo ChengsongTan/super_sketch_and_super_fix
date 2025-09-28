@@ -1,5 +1,6 @@
 theory Super_Fix
   imports Main
+  keywords "super_fix" :: diag
 begin
 
 ML_file "./ml/pred.ML"
@@ -13,5 +14,22 @@ ML_file "./ml/client.ML"
 ML_file "./ml/HammerAlt.ML"
 ML_file "./ml/sketcher.ML"
 ML_file "./ml/fixer.ML"
+
+ML \<open>
+
+val _ = Outer_Syntax.command \<^command_keyword>\<open>super_fix\<close>
+  ("Takes an input .thy file and attempts to fix it "
+  ^ "according to the supplied strategy writing the "
+  ^ "result to the second input directory. It assumes "
+  ^ "that the imports from where it is called coincide "
+  ^ "with that of the input .thy file.")
+  ((Fixer.parse -- Parse.path -- Parse.path) >>
+    (fn ((fixer, read_thy_file), write_dir) => 
+        Toplevel.keep (fn st => 
+        Fixer.fix_end_to_end {fixer=fixer} (Toplevel.theory_of st) read_thy_file "Fixed.thy" write_dir
+        )
+    )
+  );
+\<close>
 
 end

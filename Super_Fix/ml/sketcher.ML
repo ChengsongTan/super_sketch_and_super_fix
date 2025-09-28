@@ -3,7 +3,7 @@
     Chengsong Tan -- c.tan[at]imperial[dot]ac[dot]uk
     Jonathan Julián Huerta y Munive -- huertjon[at]cvut[dot]cz
 
-Main implementation of super_fix's algorithm
+Generic sketching operations
 *)
 
 signature SKETCHER =
@@ -12,16 +12,16 @@ sig
   val sketch_term: Proof.context -> term -> string
   val sketch_typ: Proof.context -> typ -> string
   val sketch_header: string -> string list -> Toplevel.state -> string
+
+  type method = Method.text_range * Token.T list
   val coalesce_method_txt: string list -> string
-  val sketch_method: (Method.text_range * Token.T list) option -> string
-  datatype format_mode = LEMMAS of Path.T * Path.T | SHOW_IFS
-  val init_indent_from: format_mode -> int
-  val make_skeleton: format_mode -> int -> string -> string list -> string
-  val show_ifs_sketcher: int -> (int * (string option * string option * string)) -> string
-  val get_goals_at: Proof.state -> ((string * typ) list * term list * term) list
-  val sketch_goals_at: format_mode -> int -> Toplevel.state -> string list
-  val try_method: (Method.text_range * Token.T list) option -> Toplevel.state 
-    -> int * bool * string * Toplevel.state
+  val sketch_method: method option -> string
+
+  datatype format = LEMMAS of Path.T * Path.T | SHOW_IFS
+  val init_indent_from: format -> int
+  val make_skeleton: format -> int -> string -> string list -> string
+  val sketch_goals_at: format -> int -> Toplevel.state -> string list
+  val try_method: method option -> Toplevel.state -> int * bool * string * Toplevel.state
 end;
 
 structure Sketcher: SKETCHER =
@@ -55,6 +55,9 @@ fun sketch_header thy_name imports st =
 
 
 (* methods *)
+
+type method = Method.text_range * Token.T list
+
 fun coalesce_method_txt [] = ""
   | coalesce_method_txt [s] = s
   | coalesce_method_txt (s1 :: s2 :: ss) =
@@ -70,7 +73,7 @@ fun sketch_method opt_m = case opt_m of
 
 (* formats *)
 (* TODO: add SUBGOAL and ASSMS_SHOW *)
-datatype format_mode = 
+datatype format = 
   LEMMAS of Path.T * Path.T
   | SHOW_IFS
 

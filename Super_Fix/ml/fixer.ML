@@ -10,28 +10,31 @@ signature FIXER =
 sig
   val log_fold_list: ('a -> 'b -> 'b list) -> 'b -> 'a list -> 'b list
   val turn_by_to_apply: Proof.context -> Actions.T -> string
-  val fix_with_method: (Method.text_range * Token.T list) option 
-    -> Toplevel.state -> string
-  val fix_with_sketch: Sketcher.format_mode -> int -> (Toplevel.state -> string)
-    -> (Method.text_range * Token.T list) option 
-    -> Toplevel.state -> string
-  val fix_with_llm: int -> (int * (Actions.T * Toplevel.state * Runtime.error list)) list
-    -> Toplevel.state -> string
+  val fix_with_method: Sketcher.method option -> Toplevel.state -> string
+  val fix_with_sketch: Sketcher.format -> int -> (Toplevel.state -> string)
+    -> Sketcher.method option -> Toplevel.state -> string
+  val fix_with_llm: int -> (int * Actions.stact) list -> Toplevel.state -> string
   val fix_with_hammer: Toplevel.state -> string
   val fix_with_try0: Toplevel.state -> string
   val fix_with_try: Toplevel.state -> string
   val generic_repair_sorrys: bool
-    -> ((int * (Actions.T * Toplevel.state * Runtime.error list)) list -> int -> 'a list) 
+    -> ((int * Actions.stact) list -> int -> 'a list) 
     -> ('a list -> Toplevel.state -> string) 
-    -> (Method.text_range * Token.T list) option list
-    -> (Actions.T * Toplevel.state * Runtime.error list) list 
-    -> (Actions.T * Toplevel.state * Runtime.error list) list
-  val repair_sorrys: string 
-    -> (Actions.T * Toplevel.state * Runtime.error list) list 
-    -> (Actions.T * Toplevel.state * Runtime.error list) list
-  val process_all: {err_timeout_in_secs: int} -> Actions.T list 
-    -> (Actions.T * Toplevel.state * Runtime.error list) list
-  val fix_end_to_end: {strategy: string} -> theory -> string -> string -> string -> unit
+    -> Sketcher.method option list
+    -> Actions.stact list -> Actions.stact list
+  datatype T = 
+    SORRYS of Sketcher.method list
+    | TRY0 of Sketcher.method list
+    | TRY of Sketcher.method list
+    | HAMMER of Sketcher.method list
+    | LLM of Sketcher.method list
+  val string_of: T -> string
+  val parse: T parser
+  val build: T -> (int * Actions.stact) list -> Toplevel.state -> string
+  val get_methods: T -> Sketcher.method list
+  val repair_sorrys: T -> Actions.stact list -> Actions.stact list
+  val process_all: {err_timeout_in_secs: int} -> Actions.T list -> Actions.stact list
+  val fix_end_to_end: {fixer: T} -> theory -> string -> string -> string -> unit
 end;
 
 
@@ -167,7 +170,9 @@ fun add_fixes_without_ids fixed_strs id_stacts =
 in
 
 (* TODO: make more efficient *)
-fun generic_repair_sorrys sequential more_builder fixer ms act_st_errs =
+fun generic_repair_sorrys sequential 
+  (more_builder: (int * Actions.stact) list -> int -> 'a list)
+  fixer ms act_st_errs =
   let
     val id_stacts = Ops.enumerate act_st_errs;
     val (count_str, pre_sorry_stacts) = count_find_sorrys more_builder id_stacts;
@@ -284,7 +289,8 @@ fun llm_dfs max_depth proved (depth, prf_so_far, last_st) =
       SOME response => 
         let
           val thy = Toplevel.theory_of last_st;
-          val _ = Output.tracing ("Trying suggestion '" ^ response ^ "' at depth " ^ Value.print_int depth)
+          val depth_report = "at depth " ^ Value.print_int depth;
+          val _ = Output.tracing ("Trying suggestion '" ^ response ^ "' " ^ depth_report)
           val response_acts =
             Actions.make thy response
             |> filter (not o Actions.is_malformed)
@@ -299,67 +305,12 @@ fun fix_with_llm max_depth prf_so_far st =
     val prf_so_far' = llm_dfs max_depth false (1, prf_so_far, st);
   in implode (map (fn (_, (a, _, _)) => Actions.text_of a) prf_so_far') end;
 
-fun repair_sorrys_with_llm stacts =
+fun repair_sorrys_with_llm ms stacts =
   let
     val _ = Client.connect_to_server 5006;
-    val result = generic_repair_sorrys true get_proof_so_far (fix_with_llm 1) [] stacts;
+    val result = generic_repair_sorrys true get_proof_so_far (fix_with_llm 1) ms stacts;
     val _ = Client.disconnect ();
   in result end;
-
-(* fun repair_sorrys_with_llm st_act_errs =
-  let
-    fun update_proof_so_far (act', st') st proof_so_far =
-      let
-        val was_proof = Toplevel.is_proof st;
-        val is_proof = Toplevel.is_proof st';
-        val proof_so_far' = if is_proof
-          then (act', st') :: proof_so_far 
-          else if was_proof then [] else proof_so_far;
-      in proof_so_far' end;
-    fun try_llm_fix proof_so_far origs st =
-      let
-        val prf_so_far =
-          rev proof_so_far
-          |> map (fn (a, _) => Actions.text_of a)
-          |> Library.space_implode "\n"
-          |> make_parseable
-          |> Pretty.str |> Print.pretty_json_elem "proof_so_far";
-        val usr_st = 
-          Get.user_state {break_lines=false} st
-          |> make_parseable
-          |> Pretty.str |> Print.pretty_json_elem "user_state";
-        val prf_data =
-          Print.pretty_json_attribs false "{" "}" 0 [usr_st, prf_so_far]
-          |> Print.string_of_pretty;
-        val _ = Client.communicate prf_data;
-        val llm_response = Client.get_last_response ();
-        val result = (case llm_response of
-          SOME response => 
-            let
-              val attempt = Actions.make (Toplevel.theory_of st) response
-                |> (fn acts => Actions.apply_all acts st);
-              val failed = exists (not o null) (map (fn (_, _, opt_err) => opt_err) attempt);
-              fun warn_failure () =
-                let 
-                  val suggestions = map (fn (act, _, _) => Actions.text_of act) attempt;
-                  val warn_message = "Failed recommendations: " ^ (space_implode "\n" suggestions);
-                in Output.warning warn_message end
-              val final = if failed then (warn_failure (); [origs]) else attempt
-            in final end
-          | NONE => [origs])
-      in result end;
-    fun do_next (act', st', err') (proof_so_far, result_so_far) =
-      let
-        val st = #2 (Ops.last result_so_far);
-        val act_st_errs' = if Actions.on_kind (Pred.is "sorry") act'
-          then try_llm_fix proof_so_far (act', st', err') st
-          else [(act', st', err')];
-        val proof_so_far' = update_proof_so_far (act', st') st proof_so_far;
-      in (proof_so_far', result_so_far @ act_st_errs') end;
-    val _ = Client.connect_to_server 5006;
-    val (_, result) = fold do_next st_act_errs ([], [(Actions.void, Toplevel.make_state NONE, [])]);
-    val _ = Client.disconnect ();
-  in result end; *)
 
 
 (* Operations for Sledgehammer *)
@@ -408,8 +359,6 @@ fun fix_with_hammer st =
     val _ = Output.tracing ("Adopted " ^ origin ^ "'" ^ output ^ "'")
   in output end;
 
-val repair_sorrys_with_hammer = 
-  generic_repair_sorrys false (fn _ => fn _ => []) (fn _ => fn st => fix_with_hammer st) [];
 
 (* TODO: make all fixers report whether they succeeded with a boolean *)
 fun fix_with_try0 st = 
@@ -421,31 +370,6 @@ fun fix_with_try st =
   (case Try.try_tools (Toplevel.proof_of st) of
     SOME (_, outcome) => "by " ^ outcome
     | NONE => "sorry");
-
-
-(* fun repair_sorrys_with_hammer st_act_errs =
-  let
-    fun fix_using_sledgehammer st =
-      let
-        val thy = Toplevel.theory_of st;
-        (* val timeout = Time.fromSeconds 90;
-        val timed_hammer = Ops.apply_with_timeout timeout (Hammer_Alt.hammer_away 1)
-        val (_, str2) = (case timed_hammer (Toplevel.proof_of st) of
-          Exn.Exn _ => ("timeout", "timeout")
-          | Exn.Res res => res)
-        val sorry_fix = 
-          if (Pred.contains "imeout" orf Pred.contains "No proof found") str2 
-          then "sorry" else "" *)
-        val actual_fix = fix_with_hammer st;
-        val new_acts = Actions.make thy actual_fix;
-        (* val _ = warning ("Adopted proof: " ^ actual_fix) *)
-        val act_st_err_list = Actions.apply_all new_acts st;
-      in act_st_err_list end
-    fun do_next (act', st', err') (_:Actions.T, st, _:Runtime.error list) =
-      if Actions.on_kind (Pred.is "sorry") act'
-      then fix_using_sledgehammer st
-      else [(act', st', err')]
-  in log_fold_list do_next (Actions.void, Toplevel.make_state NONE, []) st_act_errs end; *)
 
 
 (* Fixer operations *)
@@ -469,11 +393,13 @@ fun process_all {err_timeout_in_secs=t} acts =
           else let
             val nxt_goal = hd objs; (* ideally we would find the objective most similar
               to the original action, and not the head *)
-            val goal_txt = Print.string_of_pretty (Syntax.pretty_term ctxt nxt_goal);
-            val splitted = Pred.group_by (fn c => str c = "\"") (String.explode (Actions.text_of act'))
+            val splitted = Pred.group_by 
+              (fn c => str c = "\"") 
+              (String.explode (Actions.text_of act'))
             val _ = if null splitted then Output.error_message "empty splitted" else ();
             val declaration = splitted |> hd |> String.implode;
-            val new_act = Actions.make_one thy (declaration ^ " " ^ (enclose "\"" "\"" goal_txt));
+            val new_act = Actions.make_one thy 
+              (declaration ^ " " ^ (Sketcher.sketch_term ctxt nxt_goal));
             val _ = Output.tracing ("Fixed '" ^ Actions.text_of act' ^ "'")
             val _ = Output.tracing ("  to '"  ^ Actions.text_of new_act ^ "'")
             val (new_st, new_err) = Actions.apply new_act st;
@@ -534,8 +460,7 @@ fun process_all {err_timeout_in_secs=t} acts =
         val result = if null objs
           then [(Actions.void, st, [])]
           else let
-            fun txt_of goal = Print.string_of_pretty (Syntax.pretty_term ctxt goal);
-            fun act_of goal = Actions.make_one thy ("show " ^ enclose "\"" "\"" (txt_of goal));
+            fun act_of goal = Actions.make_one thy ("show " ^ Sketcher.sketch_term ctxt goal);
             val sorry_action = Actions.make_one thy ("sorry")
             val qed_action = Actions.make_one thy ("qed")
             val new_acts = (Library.separate sorry_action (map act_of objs)) 
@@ -587,18 +512,77 @@ fun process_all {err_timeout_in_secs=t} acts =
         in (rev result) @ prevs end
   in rev (fold do_next acts [(Actions.void, Toplevel.make_state NONE, [])]) end;
 
-fun repair_sorrys fixer st_act_errs =
-  if Pred.is fixer "sledgehammer" then repair_sorrys_with_hammer st_act_errs
-  else if Pred.is fixer "llm" then repair_sorrys_with_llm st_act_errs
-  else raise Fail ("Unrecognized fixing strategy: " ^ fixer)
 
-fun fix_end_to_end {strategy=fixer_str} thy0 old_name new_name path =
-  let 
+(* strategies *)
+
+datatype T = 
+  SORRYS of Sketcher.method list
+  | TRY0 of Sketcher.method list
+  | TRY of Sketcher.method list
+  | HAMMER of Sketcher.method list
+  | LLM of Sketcher.method list
+
+fun from_str str ms = (case str of 
+  "SORRYS" => SORRYS ms
+  | "TRY0" => TRY0 ms
+  | "TRY" => TRY ms
+  | "HAMMER" => HAMMER ms
+  | "LLM" => LLM ms
+  | another => raise Fail ("strategy_of_str: unknown mode" ^ another));
+
+fun string_of fixer = 
+  (case fixer of
+    SORRYS _ => "SORRYS"
+    | TRY0 _ => "TRY0"
+    | TRY _ => "TRY"
+    | HAMMER _ => "HAMMER"
+    | LLM _ => "LLM"
+  );
+
+val parse_methods = \<^keyword>\<open>[\<close> |-- Parse.list (Scan.trace Method.parse) --| \<^keyword>\<open>]\<close>;
+
+val parse = (Parse.embedded -- (Scan.option parse_methods))
+  >> (fn (mode_txt, opt_ms) => 
+    from_str mode_txt (case opt_ms of NONE => [] | SOME ms' => ms')
+  );
+
+fun build fixer =
+  (case fixer of
+    SORRYS _ => (fn _ => fn _ => "sorry")
+    | TRY0 _ => (fn _ => fix_with_try0)
+    | TRY _ => (fn _ => fix_with_try)
+    | HAMMER _ => (fn _ => fix_with_hammer)
+    | LLM _ => fix_with_llm 1
+  );
+
+fun get_methods fixer =
+  (case fixer of
+    SORRYS ms => ms
+    | TRY0 ms => ms
+    | TRY ms => ms
+    | HAMMER ms => ms
+    | LLM ms => ms
+  );
+
+fun pre_repair_sorrys fixer_fun = 
+  generic_repair_sorrys false (fn _ => fn _ => []) (fn _ => fixer_fun);
+
+fun repair_sorrys fixer st_act_errs =
+  (case fixer of
+    SORRYS ms => pre_repair_sorrys (fn _ => "sorry") (map SOME ms) st_act_errs
+    | TRY0 ms => pre_repair_sorrys fix_with_try0 (map SOME ms) st_act_errs
+    | TRY ms => pre_repair_sorrys fix_with_try (map SOME ms) st_act_errs
+    | HAMMER ms =>  pre_repair_sorrys fix_with_hammer (map SOME ms) st_act_errs
+    | LLM ms => repair_sorrys_with_llm (map SOME ms) st_act_errs
+  )
+
+fun fix_end_to_end {fixer=fixer} thy0 old_name new_name path =
+  let
     val actions = Actions.make thy0 (File.read (Path.explode old_name));
     val sorryed_trace = process_all {err_timeout_in_secs=55} actions;
-    val fixed_trace = repair_sorrys fixer_str sorryed_trace;
+    val fixed_trace = repair_sorrys fixer sorryed_trace;
     val new_texts = map (fn (act, _, _) => Actions.text_of act) fixed_trace;
-    val _ = Ops.create_file {force=true} path new_name (implode new_texts)
+    val _ = Ops.create_file {force=false} path new_name (implode new_texts)
   in () end
 
 end;
