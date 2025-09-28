@@ -37,7 +37,7 @@ val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch\<close>
 (* example *)
 
 (* declare [[ML_print_depth = 4000000]] *)
-(* sledgehammer_params [dont_minimize, dont_try0, timeout = 10] *)
+(* sledgehammer_params [dont_minimize, dont_try0, timeout = 15, max_proofs=1] *)
 lemma 
   assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
   shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"

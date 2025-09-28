@@ -349,7 +349,8 @@ fun apply_hammer params st =
 fun fix_with_hammer st =
   let
     val thy = Toplevel.theory_of st;
-    val params = Sledgehammer_Commands.default_params thy [];
+    val params = Sledgehammer_Commands.default_params thy []
+      (* [("max_proofs", "1"),("try0", "false"), ("timeout", "15")] *);
     val (proved, (_, txt)) = apply_hammer params st;
     (* val (proved, (_, txt)) = (case apply_timed_hammer 90 params st of
       Exn.Exn _ => (false, (Sledgehammer.SH_TimeOut, "Timeout"))
