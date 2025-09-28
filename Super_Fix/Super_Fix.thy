@@ -23,10 +23,10 @@ val _ = Outer_Syntax.command \<^command_keyword>\<open>super_fix\<close>
   ^ "result to the second input directory. It assumes "
   ^ "that the imports from where it is called coincide "
   ^ "with that of the input .thy file.")
-  ((Fixer.parse -- Parse.path -- Parse.path) >>
-    (fn ((fixer, read_thy_file), write_dir) => 
+  ((Fixer.parse -- Parse.path) >>
+    (fn (fixer, read_thy_file) => 
         Toplevel.keep (fn st => 
-        Fixer.fix_end_to_end {fixer=fixer} (Toplevel.theory_of st) read_thy_file "Fixed.thy" write_dir
+          Fixer.fix_end_to_end {fixer=fixer} (Toplevel.theory_of st) read_thy_file
         )
     )
   );

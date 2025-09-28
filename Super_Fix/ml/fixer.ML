@@ -34,7 +34,7 @@ sig
   val get_methods: T -> Sketcher.method list
   val repair_sorrys: T -> Actions.stact list -> Actions.stact list
   val process_all: {err_timeout_in_secs: int} -> Actions.T list -> Actions.stact list
-  val fix_end_to_end: {fixer: T} -> theory -> string -> string -> string -> unit
+  val fix_end_to_end: {fixer: T} -> theory -> string -> unit
 end;
 
 
@@ -325,7 +325,8 @@ val remove_hammer_time = String.explode
   #> String.implode;
 
 fun extract_str_proof input_str =
-  (if Pred.contains "ms)" input_str then remove_hammer_time input_str else input_str)
+  (if Pred.contains "ms)" input_str orelse Pred.contains "(> " input_str
+    then remove_hammer_time input_str else input_str)
   |> (fn mid_str => Library.unprefix "Try this:" mid_str)
   |> Ops.unprefix_unsufix " ";
 
@@ -576,13 +577,29 @@ fun repair_sorrys fixer st_act_errs =
     | LLM ms => repair_sorrys_with_llm (map SOME ms) st_act_errs
   )
 
-fun fix_end_to_end {fixer=fixer} thy0 old_name new_name path =
+fun fix_end_to_end {fixer=fixer} thy0 read_thy_file =
   let
-    val actions = Actions.make thy0 (File.read (Path.explode old_name));
+    val thy_path = Path.explode (ML_System.standard_path read_thy_file);
+    val _ = if File.is_file thy_path andalso (Path.get_ext thy_path = "thy") then ()
+      else raise Fail ("Input '" ^ read_thy_file ^ "' is not an existing .thy file");
+
+    val backup = 
+      let
+        val name = (Library.unsuffix ".thy" (Path.file_name thy_path)) ^ ".backup";
+      in Path.append (Path.dir thy_path) (Path.explode name) end;
+    val delete_mssg = "Make sure to save it somewhere else and/or delete to call super_fix again."
+    val _ = if not (File.is_file backup) then ()
+      else raise Fail ("Existing .backup of '" ^ read_thy_file ^ "'. " ^ delete_mssg);
+    val thy_text = File.read thy_path;
+    val _ = Output.tracing ("Backing up input to '" ^ File.platform_path backup ^ "'");
+    val _ = File.write backup thy_text;
+
+    val actions = Actions.make thy0 (File.read thy_path);
     val sorryed_trace = process_all {err_timeout_in_secs=55} actions;
     val fixed_trace = repair_sorrys fixer sorryed_trace;
     val new_texts = map (fn (act, _, _) => Actions.text_of act) fixed_trace;
-    val _ = Ops.create_file {force=false} path new_name (implode new_texts)
+
+    val _ = File.write thy_path (implode new_texts);
   in () end
 
 end;
