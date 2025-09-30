@@ -329,7 +329,7 @@ val remove_hammer_time = String.explode
 fun extract_str_proof input_str =
   (if Pred.contains "ms)" input_str orelse Pred.contains "(> " input_str
     then remove_hammer_time input_str else input_str)
-  |> (fn mid_str => Library.unprefix "Try this:" mid_str)
+  |> (fn mid_str => if Pred.contains "Try this:" mid_str then Library.unprefix "Try this:" mid_str else mid_str)
   |> Ops.unprefix_unsufix " ";
 
 fun apply_hammer params st =
