@@ -327,7 +327,9 @@ val remove_hammer_time = String.explode
   #> String.implode;
 
 fun extract_str_proof input_str =
-  (if Pred.contains "ms)" input_str orelse Pred.contains "(> " input_str
+  (if Pred.contains " ms)" input_str 
+    orelse Pred.contains " s)" input_str
+    orelse Pred.contains "(> " input_str
     then remove_hammer_time input_str else input_str)
   |> (fn mid_str => if Pred.contains "Try this:" mid_str then Library.unprefix "Try this:" mid_str else mid_str)
   |> Ops.unprefix_unsufix " ";
@@ -590,7 +592,7 @@ fun fix_end_to_end {fixer=fixer} thy0 read_thy_file =
       let
         val name = (Library.unsuffix ".thy" (Path.file_name thy_path)) ^ ".backup";
       in Path.append (Path.dir thy_path) (Path.explode name) end;
-    val delete_mssg = "Make sure to save it somewhere else and/or delete to call super_fix again."
+    val delete_mssg = "Make sure to save it somewhere else and/or delete it to call super_fix again."
     val _ = if not (File.is_file backup) then ()
       else raise Fail ("Existing .backup of '" ^ read_thy_file ^ "'. " ^ delete_mssg);
     val thy_text = File.read thy_path;
