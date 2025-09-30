@@ -114,7 +114,7 @@ fun iter_next apply_fun act' (_: T, st: Toplevel.state, _: Runtime.error list) =
   in (act', st', errs') end;
 
 fun apply_all [] _ = []
-  | apply_all acts opt_st = Ops.log_fold (iter_next apply) (void, opt_st, []) acts;
+  | apply_all acts st = Ops.log_fold (iter_next apply) (void, st, []) acts;
 
 fun apply_while P acts opt_st = Pred.log_fold P (iter_next apply) acts (void, opt_st, []);
 

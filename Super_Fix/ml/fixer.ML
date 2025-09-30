@@ -19,9 +19,11 @@ sig
   val fix_with_try: Toplevel.state -> string
   val generic_repair_sorrys: bool
     -> ((int * Actions.stact) list -> int -> 'a list) 
+    -> Toplevel.state
     -> ('a list -> Toplevel.state -> string) 
     -> Sketcher.method option list
-    -> Actions.stact list -> Actions.stact list
+    -> Actions.stact list
+    -> Actions.stact list
   datatype T = 
     SORRYS of Sketcher.method list
     | TRY0 of Sketcher.method list
@@ -106,11 +108,11 @@ fun add_next_to_prove
         else (old_count, act', st')
     in (latest_relevant_st_act, to_proves) end;
 
-fun count_find_sorrys more_builder id_stacts =
+fun count_find_sorrys more_builder fst_state id_stacts =
   let
     val _ = Output.tracing "Retrieving sorry-locations...";
     val ((count, _, _), rev_sorry_stacts) = 
-      ((0, Actions.void, Toplevel.make_state NONE), [])
+      ((0, Actions.void, fst_state), [])
       |> fold (add_next_to_prove (more_builder id_stacts)) id_stacts;
     val count_str = Value.print_int count;
   in (count_str, rev rev_sorry_stacts) end;
@@ -145,7 +147,7 @@ fun apply_fixer sequential count_str fixer ms to_fix_stacts =
       in (id, result) end) to_fix_stacts;
   in fixed_strs end;
 
-fun add_fixes_without_ids fixed_strs id_stacts =
+fun add_fixes_without_ids fixed_strs fst_state id_stacts =
   let
     val (repaired, unmodified) = fold
       (fn (id, proof_txt) => fn (so_far, remaining) => 
@@ -156,7 +158,7 @@ fun add_fixes_without_ids fixed_strs id_stacts =
             | SOME (_, (_, st, _)) => 
               let
                 val last_st = if null seen 
-                  then raise Fail "Trace should not start with 'sorry'" 
+                  then fst_state
                   else #2 (snd (Ops.last seen));
               in Actions.make (Toplevel.theory_of st) proof_txt
               |> (fn acts => Actions.timed_apply_all {timeout_in_secs=90} acts last_st)
@@ -172,12 +174,12 @@ in
 (* TODO: make more efficient *)
 fun generic_repair_sorrys sequential 
   (more_builder: (int * Actions.stact) list -> int -> 'a list)
-  fixer ms act_st_errs =
+  fst_state fixer ms act_st_errs =
   let
     val id_stacts = Ops.enumerate act_st_errs;
-    val (count_str, pre_sorry_stacts) = count_find_sorrys more_builder id_stacts;
+    val (count_str, pre_sorry_stacts) = count_find_sorrys more_builder fst_state id_stacts;
     val fixed_strs = apply_fixer sequential count_str fixer ms pre_sorry_stacts;
-  in add_fixes_without_ids fixed_strs id_stacts end;
+  in add_fixes_without_ids fixed_strs fst_state id_stacts end;
 
 end
 
@@ -308,7 +310,7 @@ fun fix_with_llm max_depth prf_so_far st =
 fun repair_sorrys_with_llm ms stacts =
   let
     val _ = Client.connect_to_server 5006;
-    val result = generic_repair_sorrys true get_proof_so_far (fix_with_llm 1) ms stacts;
+    val result = generic_repair_sorrys true get_proof_so_far (Toplevel.make_state NONE) (fix_with_llm 1) ms stacts;
     val _ = Client.disconnect ();
   in result end;
 
@@ -567,7 +569,7 @@ fun get_methods fixer =
   );
 
 fun pre_repair_sorrys fixer_fun = 
-  generic_repair_sorrys false (fn _ => fn _ => []) (fn _ => fixer_fun);
+  generic_repair_sorrys false (fn _ => fn _ => []) (Toplevel.make_state NONE) (fn _ => fixer_fun);
 
 fun repair_sorrys fixer st_act_errs =
   (case fixer of

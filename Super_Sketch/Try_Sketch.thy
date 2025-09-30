@@ -8,13 +8,13 @@ ML \<open>
 fun try_sketch fixer format opt_m st = 
   let
     val _ = Output.tracing "Producing goals to try..."
-    val sorryed_str = Fixer.fix_with_sketch format 0 (Fixer.build fixer []) opt_m st;
+    val sorryed_str = Fixer.fix_with_sketch format 0 (fn _ => "sorry") opt_m st;
     val result = 
       let 
-        val acts = Actions.make (Toplevel.theory_of st) sorryed_str
+        val acts = Actions.make (Toplevel.theory_of st) sorryed_str;
         val fixed = Actions.apply_all acts st
           |> Fixer.generic_repair_sorrys false 
-          (fn _ => fn _ => []) (Fixer.build fixer) (map SOME (Fixer.get_methods fixer))
+            (fn _ => fn _ => []) st (Fixer.build fixer) (map SOME (Fixer.get_methods fixer))
           |> map (fn (act, _, _) => Actions.text_of act)
           |> Library.space_implode ""
       in fixed end
