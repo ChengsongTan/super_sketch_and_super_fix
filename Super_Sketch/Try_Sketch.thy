@@ -13,8 +13,9 @@ fun try_sketch fixer format opt_m st =
       let 
         val acts = Actions.make (Toplevel.theory_of st) sorryed_str;
         val fixed = Actions.apply_all acts st
-          |> Fixer.generic_repair_sorrys false 
-            (fn _ => fn _ => []) st (Fixer.build fixer) (map SOME (Fixer.get_methods fixer))
+          |> (* Fixer.generic_repair_sorrys false 
+            (fn _ => fn _ => []) st (Fixer.build fixer) (map SOME (Fixer.get_methods fixer)) *)
+            Fixer.repair_sorrys fixer st
           |> map (fn (act, _, _) => Actions.text_of act)
           |> Library.space_implode ""
       in fixed end

@@ -34,7 +34,7 @@ sig
   val parse: T parser
   val build: T -> (int * Actions.stact) list -> Toplevel.state -> string
   val get_methods: T -> Sketcher.method list
-  val repair_sorrys: T -> Actions.stact list -> Actions.stact list
+  val repair_sorrys: T -> Toplevel.state -> Actions.stact list -> Actions.stact list
   val process_all: {err_timeout_in_secs: int} -> Actions.T list -> Actions.stact list
   val fix_end_to_end: {fixer: T} -> theory -> string -> unit
 end;
@@ -310,10 +310,10 @@ fun fix_with_llm max_depth prf_so_far st =
     val prf_so_far' = llm_dfs max_depth false (1, prf_so_far, st);
   in implode (map (fn (_, (a, _, _)) => Actions.text_of a) prf_so_far') end;
 
-fun repair_sorrys_with_llm ms stacts =
+fun repair_sorrys_with_llm fst_state ms stacts =
   let
     val _ = Client.connect_to_server 5006;
-    val result = generic_repair_sorrys true get_proof_so_far (Toplevel.make_state NONE) (fix_with_llm 1) ms stacts;
+    val result = generic_repair_sorrys true get_proof_so_far fst_state (fix_with_llm 1) ms stacts;
     val _ = Client.disconnect ();
   in result end;
 
@@ -600,16 +600,18 @@ fun get_methods fixer =
     | LLM ms => ms
   );
 
-fun pre_repair_sorrys fixer_fun = 
-  generic_repair_sorrys false (fn _ => fn _ => []) (Toplevel.make_state NONE) (fn _ => fixer_fun);
+fun pre_repair_sorrys fst_state fixer_fun = 
+  generic_repair_sorrys false (fn _ => fn _ => []) fst_state (fn _ => fixer_fun);
 
-fun repair_sorrys fixer st_act_errs =
+fun repair_sorrys fixer fst_state st_act_errs =
   (case fixer of
-    SORRYS ms => pre_repair_sorrys (fn _ => "sorry") (map SOME ms) st_act_errs
-    | TRY0 ms => pre_repair_sorrys fix_with_try0 (map SOME ms) st_act_errs
-    | TRY ms => pre_repair_sorrys fix_with_try (map SOME ms) st_act_errs
-    | HAMMER ms =>  pre_repair_sorrys fix_with_hammer (map SOME ms) st_act_errs
-    | LLM ms => repair_sorrys_with_llm (map SOME ms) st_act_errs
+    SORRYS ms => (case ms of 
+      [] => st_act_errs 
+      | _ => pre_repair_sorrys fst_state (fn _ => "sorry") (map SOME ms) st_act_errs)
+    | TRY0 ms => pre_repair_sorrys fst_state fix_with_try0 (map SOME ms) st_act_errs
+    | TRY ms => pre_repair_sorrys fst_state fix_with_try (map SOME ms) st_act_errs
+    | HAMMER ms =>  pre_repair_sorrys fst_state fix_with_hammer (map SOME ms) st_act_errs
+    | LLM ms => repair_sorrys_with_llm fst_state (map SOME ms) st_act_errs
   )
 
 fun fix_end_to_end {fixer=fixer} thy0 read_thy_file =
@@ -640,7 +642,7 @@ fun fix_end_to_end {fixer=fixer} thy0 read_thy_file =
       in Path.append (Path.dir thy_path) (Path.explode name) end;
     val _ = File.write temp (implode temp_texts); *)
 
-    val fixed_trace = repair_sorrys fixer sorryed_trace;
+    val fixed_trace = repair_sorrys fixer (Toplevel.make_state NONE) sorryed_trace;
     val new_texts = map (fn (act, _, _) => Actions.text_of act) fixed_trace;
 
     val _ = File.write thy_path (implode new_texts);
