@@ -15,6 +15,7 @@ sig
   val pos_of: T -> Position.T
   val on_text: (string -> 'a) -> T -> 'a
   val on_kind: (string -> 'a) -> T -> 'a
+  val by_to_apply: Proof.context -> T -> string
   val does_something: theory -> T -> bool
   val is_malformed: T -> bool
   val make: theory -> string -> T list
@@ -57,6 +58,26 @@ fun pos_of (Action a) = Toplevel.pos_of (#transition a);
 fun on_text f act = f (text_of act);
 
 fun on_kind f act = f (kind_of act);
+
+fun by_to_apply ctxt act =  
+  let
+    val mk_toks = Get.tokens {filtered=true} ctxt;
+    val untoks = Print.coalesce_method_txt o map Token.unparse;
+    val no_by_txt = unprefix "by" (text_of act);
+    (* adding a `by` at the end to make the parers work correctly *)
+    val toks_to_parse = mk_toks (no_by_txt ^ " by"); 
+    val untoked_txt = untoks toks_to_parse;
+    val opt_parsed = try (Method.parse -- Scan.option Method.parse) toks_to_parse;
+    val result = (case opt_parsed of 
+      SOME ((_, opt_m2), rest_toks) => (case opt_m2 of 
+        SOME _ => let
+            val m1_rest_txt = untoks (snd (Method.parse toks_to_parse));
+            val m2_txt = unsuffix (untoks rest_toks) m1_rest_txt;
+            val m1_txt = unsuffix m1_rest_txt untoked_txt;
+          in "apply " ^ m1_txt ^ "\n  apply " ^ m2_txt end
+        | NONE => "apply " ^ (unsuffix (untoks rest_toks) untoked_txt))
+      | NONE => "apply" ^ no_by_txt)
+  in result end;
 
 fun make thy0 thy_text =
   let

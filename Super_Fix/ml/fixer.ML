@@ -9,7 +9,6 @@ Main implementation of super_fix's algorithm
 signature FIXER =
 sig
   val log_fold_list: ('a -> 'b -> 'b list) -> 'b -> 'a list -> 'b list
-  val turn_by_to_apply: Proof.context -> Actions.T -> string
   val fix_with_method: Sketcher.method option -> Toplevel.state -> string
   val fix_with_sketch: Sketcher.format -> int -> (Toplevel.state -> string)
     -> Sketcher.method option -> Toplevel.state -> string
@@ -188,60 +187,22 @@ end
 
 (* Operations for LLMs *)
 
-fun make_parseable txt =
-  let
-    val backslash = "\\";
-    val new_line = "\n";
-    val quote = "\"";
-    val str_quote = backslash ^ quote;
-    val isa_quote = backslash ^ "<";
-  in Ops.replace_all quote (str_quote) txt
-    |> Ops.replace_all isa_quote (backslash ^ isa_quote)
-    |> Ops.replace_all new_line "\\n"
-    |> Library.enclose quote quote
-  end;
-
-fun get_proof_so_far id_stacts id = Pred.take_while (fn (n, _) => n <= id) id_stacts
-  |> rev
-  |> Pred.take_while (fn (_, (_, st, _)) => Toplevel.is_proof st)
-  |> rev;
-
 fun make_llm_text prf_so_far st =
   let
     val prf_so_far_att =
       prf_so_far
       |> map (fn (_:int, (a, _:Toplevel.state, _:Runtime.error list)) => Actions.text_of a)
       |> Library.space_implode "\n"
-      |> make_parseable
+      |> Print.make_parseable
       |> Pretty.str |> Print.pretty_json_elem "proof_so_far";
     val usr_st_att = 
       Get.user_state {break_lines=false} st
-      |> make_parseable
+      |> Print.make_parseable
       |> Pretty.str |> Print.pretty_json_elem "user_state";
     val prf_data =
       Print.pretty_json_attribs false "{" "}" 0 [usr_st_att, prf_so_far_att]
       |> Print.string_of_pretty;
   in prf_data end;
-
-fun turn_by_to_apply ctxt act =  
-  let
-    val mk_toks = Get.tokens {filtered=true} ctxt;
-    val untoks = Sketcher.coalesce_method_txt o map Token.unparse;
-    val no_by_txt = unprefix "by" (Actions.text_of act);
-    (* adding a `by` at the end to make the parers work correctly *)
-    val toks_to_parse = mk_toks (no_by_txt ^ " by"); 
-    val untoked_txt = untoks toks_to_parse;
-    val opt_parsed = try (Method.parse -- Scan.option Method.parse) toks_to_parse;
-    val result = (case opt_parsed of 
-      SOME ((_, opt_m2), rest_toks) => (case opt_m2 of 
-        SOME _ => let
-            val m1_rest_txt = untoks (snd (Method.parse toks_to_parse));
-            val m2_txt = unsuffix (untoks rest_toks) m1_rest_txt;
-            val m1_txt = unsuffix m1_rest_txt untoked_txt;
-          in "apply " ^ m1_txt ^ "\n  apply " ^ m2_txt end
-        | NONE => "apply " ^ (unsuffix (untoks rest_toks) untoked_txt))
-      | NONE => "apply" ^ no_by_txt)
-  in result end;
 
 (* decides whether the by-suggestions are (partially) correct *)
 fun do_next_from_llm act' (finished, last_st, resp_so_far) =
@@ -250,7 +211,7 @@ fun do_next_from_llm act' (finished, last_st, resp_so_far) =
   then let 
     val thy = Toplevel.theory_of last_st;
     val ctxt = Toplevel.context_of last_st;
-    val new_acts = Actions.make thy (turn_by_to_apply ctxt act');
+    val new_acts = Actions.make thy (Actions.by_to_apply ctxt act');
     val _ = Output.tracing ("Turned into '" ^ implode (map Actions.text_of new_acts) ^ "'")
     val st_acts = Actions.timed_apply_all {timeout_in_secs=10} new_acts last_st;
     fun build_next (a', s', es') (proved, so_far) =
@@ -309,6 +270,11 @@ fun fix_with_llm max_depth prf_so_far st =
   let
     val prf_so_far' = llm_dfs max_depth false (1, prf_so_far, st);
   in implode (map (fn (_, (a, _, _)) => Actions.text_of a) prf_so_far') end;
+
+fun get_proof_so_far id_stacts id = Pred.take_while (fn (n, _) => n <= id) id_stacts
+  |> rev
+  |> Pred.take_while (fn (_, (_, st, _)) => Toplevel.is_proof st)
+  |> rev;
 
 fun repair_sorrys_with_llm fst_state ms stacts =
   let

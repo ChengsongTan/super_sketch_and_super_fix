@@ -14,7 +14,6 @@ sig
   val sketch_header: string -> string list -> Toplevel.state -> string
 
   type method = Method.text_range * Token.T list
-  val coalesce_method_txt: string list -> string
   val sketch_method: method option -> string
 
   datatype format = LEMMAS of Path.T * Path.T | SHOW_IFS
@@ -58,16 +57,8 @@ fun sketch_header thy_name imports st =
 
 type method = Method.text_range * Token.T list
 
-fun coalesce_method_txt [] = ""
-  | coalesce_method_txt [s] = s
-  | coalesce_method_txt (s1 :: s2 :: ss) =
-      if Library.member (op =) ["(", "["] s1
-        orelse Library.member (op =) [")", "]", ":", ";"] s2
-      then s1 ^ coalesce_method_txt (s2 :: ss)
-      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
-
 fun sketch_method opt_m = case opt_m of 
-  SOME (_,toks) => coalesce_method_txt (map Token.unparse toks)
+  SOME (_,toks) => Print.coalesce_method_txt (map Token.unparse toks)
   | NONE => "-";
 
 
