@@ -116,23 +116,10 @@ fun count_find_sorrys more_builder fst_state id_stacts =
     val count_str = Value.print_int count;
   in (count_str, rev rev_sorry_stacts) end;
 
-(* fun apply_fixer goal_count_str goal_num fixer st =
-  let
-    val goal_no_str = "goal " ^ Value.print_int i ^ " of " ^ goal_count_str;
-    val _ = Output.tracing 
-      ("Trying " ^ goal_no_str ^ ": " ^ Actions.text_of act);
-    val start_time = Time.now ();
-    val (proved, opt_proof) = fix_with_some_method_in ms st;
-    val result = if proved then the opt_proof else fixer more st;
-    val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
-    val _ = Output.tracing 
-      ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
-  in () end; *)
-
 fun apply_fixer sequential count_str fixer ms to_fix_stacts =
   let
-    val mmap = if sequential then map else Par_List.map
-    val fixed_strs = mmap (fn (id, i, act, st, more) =>
+    val cond_map = if sequential then map else Par_List.map
+    val fixed_strs = cond_map (fn (id, i, act, st, more) =>
       if not (Toplevel.is_proof st) 
       then (Output.warning ("Found 'sorry' not at proof state: " ^ Actions.text_of act); (id, "sorry"))
       else
@@ -271,15 +258,39 @@ fun fix_with_llm max_depth prf_so_far st =
     val prf_so_far' = llm_dfs max_depth false (1, prf_so_far, st);
   in implode (map (fn (_, (a, _, _)) => Actions.text_of a) prf_so_far') end;
 
-fun get_proof_so_far id_stacts id = Pred.take_while (fn (n, _) => n <= id) id_stacts
+fun get_proof_so_far id_stacts id = 
+  Pred.take_while (fn (n, _) => n <= id) id_stacts
   |> rev
   |> Pred.take_while (fn (_, (_, st, _)) => Toplevel.is_proof st)
+  |> rev;
+
+fun get_proof_so_far' (id_stacts: (int * Actions.stact) list) id = 
+  Pred.take_while (fn (n, _) => n <= id) id_stacts
+  |> rev
+  |> Pred.take_while (fn (_, (_, st, _)) => Toplevel.is_proof st)
+  |> map (fn (_, stact) => stact)
   |> rev;
 
 fun repair_sorrys_with_llm fst_state ms stacts =
   let
     val _ = Client.connect_to_server 5006;
     val result = generic_repair_sorrys true get_proof_so_far fst_state (fix_with_llm 1) ms stacts;
+    val _ = Client.disconnect ();
+  in result end;
+
+fun repair_sorrys_with_llm' fst_state ms stacts =
+  let
+    val _ = Client.connect_to_server 5006;
+    fun fix_with_llm' prf_so_far st = 
+      let val prf_so_far' = (case prf_so_far of [] => [(Actions.void, st, [])] | ps => ps)
+      in (case (LLM.prove 3 prf_so_far') of [] => "sorry" | rs => hd rs) end;
+    (* TODO: report the error *)
+    fun timed_fix prf_so_far st = 
+      (case Ops.apply_with_timeout (Time.fromSeconds 30) (fix_with_llm' prf_so_far) st of 
+        Exn.Exn exn => ((Output.warning ("LLM proof failed. Reason: "^ (Actions.extract_err (Runtime.exn_messages exn)) ^ ". Returning sorry")); "sorry")
+        | Exn.Res result => result
+      );
+    val result = generic_repair_sorrys true get_proof_so_far' fst_state (timed_fix) ms stacts;
     val _ = Client.disconnect ();
   in result end;
 
@@ -577,7 +588,7 @@ fun repair_sorrys fixer fst_state st_act_errs =
     | TRY0 ms => pre_repair_sorrys fst_state fix_with_try0 (map SOME ms) st_act_errs
     | TRY ms => pre_repair_sorrys fst_state fix_with_try (map SOME ms) st_act_errs
     | HAMMER ms =>  pre_repair_sorrys fst_state fix_with_hammer (map SOME ms) st_act_errs
-    | LLM ms => repair_sorrys_with_llm fst_state (map SOME ms) st_act_errs
+    | LLM ms => repair_sorrys_with_llm' fst_state (map SOME ms) st_act_errs
   )
 
 fun fix_end_to_end {fixer=fixer} thy0 read_thy_file =

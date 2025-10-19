@@ -18,10 +18,11 @@ sig
   val by_to_apply: Proof.context -> T -> string
   val does_something: theory -> T -> bool
   val is_malformed: T -> bool
+  val is_ml: T -> bool
   val make: theory -> string -> T list
   val make_one: theory -> string -> T
   val make_filtered: theory -> string -> T list
-  val make_upto: string -> int -> T list
+  val make_upto: theory -> string -> int -> T list
 
   (* Application *)
   type stact = T * Toplevel.state * Runtime.error list
@@ -30,6 +31,11 @@ sig
   val apply_all: T list -> Toplevel.state -> stact list
   val apply_while: (stact -> bool) -> T list -> Toplevel.state -> stact list * T list
   val timed_apply_all: {timeout_in_secs: int} -> T list -> Toplevel.state -> stact list
+  val apply_oops: Toplevel.state -> stact list
+  val report_acts: stact list -> string list
+  val extract_err: Runtime.error list -> string
+  val report_errs: stact list -> string list
+  val proof_at: theory -> string -> int -> stact list
 end;
 
 
@@ -102,15 +108,16 @@ fun does_something thy0 = on_kind (
 
 val is_malformed = on_kind (Pred.is "<malformed>");
 
+val is_ml = on_kind (Pred.is "ML" orf Pred.is "ML_val")
+
 fun make_filtered thy0 thy_text = void :: (filter (does_something thy0) (make thy0 thy_text));
 
-fun make_upto thy_file line_num =
+fun make_upto thy0 thy_file line_num =
   if line_num <= 0 then raise Fail ("Invalid line number " ^ (Value.print_int line_num))
   else let
-    val thy0 = Get.start_thy_of thy_file;
     fun is_below n a = n < the (Position.line_of (Toplevel.pos_of (transition_of a)))
     val acts = 
-      make thy0 (File.read (Path.explode thy_file))
+      make thy0 (File.read (Get.os_agnostic_path thy_file))
       |> Pred.take_until' (is_below line_num)
   in acts end;
 
@@ -146,5 +153,29 @@ fun timed_apply_all {timeout_in_secs=t} acts st =
         Exn.Exn exn => (st, Runtime.exn_messages exn)
       | Exn.Res result => result;
   in Ops.log_fold (iter_next timeout_apply) (void, st, []) acts end;
+
+fun apply_oops st = apply_all (make (Toplevel.theory_of st) "oops") st;
+
+fun report_acts (stacts: stact list) = map (fn (a, _, _) => text_of a) stacts
+
+fun make_error_str ((num, err), str_opt) =
+  let
+    val str1 = Value.print_int num ^ ": "
+    val str2 = (Print.yxml_to_string err)
+  in (case str_opt of
+    SOME txt => str1 ^ str2 ^ ", opt: " ^ (Print.yxml_to_string txt)
+    | NONE => str1 ^ str2) end;
+
+fun extract_err (mssgs:Runtime.error list) = String.concatWith " | " (map make_error_str mssgs);
+
+fun report_errs (stacts: stact list) = map (fn (_, _, e) => extract_err e) stacts
+
+fun proof_at thy thy_file line_num =
+  make_upto thy thy_file line_num
+  |> filter_out (is_ml orf Pred.neg (does_something thy))
+  |> (fn acts => apply_all acts (Toplevel.make_state NONE))
+  |> rev
+  |> Pred.take_while (fn (_, st, _) => Toplevel.is_proof st)
+  |> rev;
 
 end;

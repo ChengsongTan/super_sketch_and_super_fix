@@ -143,7 +143,9 @@ fun prepare_goal_data ctxt indent (fixes, assms, concl) =
       else SOME (map (sketch_term ctxt) assms);
     val opt_fixes = if null fixes then NONE
       else SOME (map (fn (v, T) => v ^ " :: " ^ sketch_typ ctxt T) fixes);
-    val goal = sketch_term ctxt concl;
+    val goal = if null fixes 
+      then sketch_term (Config.put show_sorts true (Config.put show_types true ctxt)) concl
+      else sketch_term ctxt concl;
   in (Option.map (add_ands indent) opt_fixes, 
     Option.map (add_ands indent) opt_assumes, 
     goal)

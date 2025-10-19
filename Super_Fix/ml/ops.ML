@@ -27,7 +27,10 @@ sig
   val bifurcate_at: ''a -> ''a list -> ''a list * ''a * ''a list
   val segmentate_by: ''a list -> ''a list -> ''a list list
   val split_at: string -> string -> string list
+  val split_without: string -> string -> string list
   val replace_all: string -> string -> string -> string
+  val safe_unprefix: string -> string -> string
+  val safe_unsufix: string -> string -> string
   val unprefix_unsufix: string -> string -> string
 
   (* System operations *)
@@ -182,7 +185,13 @@ fun segmentate_by [] ys = [ys]
            else [not_x @ coincidences @ hd xss] @ (tl xss) end;
      in result end;
 
-fun split_at split_str target_str = space_explode split_str target_str;
+fun split_at split_str target_str = 
+  segmentate_by (String.explode split_str) (String.explode target_str)
+  |> map String.implode;
+
+fun split_without split_str target_str = 
+  split_at split_str target_str
+  |> filter_out (fn s => Pred.is split_str s);
 
 fun replace_all str1 str2 txt =
   let
@@ -192,14 +201,19 @@ fun replace_all str1 str2 txt =
     fun replace subcs = if subcs = cs1 then cs2 else subcs;
   in String.concat (map (String.implode o replace) (segmentate_by cs1 chars)) end;
 
-fun unprefix_unsufix substr target_str =
-  (if Pred.starts_with substr target_str 
+fun safe_unprefix substr target_str =
+  if Pred.starts_with substr target_str 
   then Library.unprefix substr target_str 
-  else target_str
-  ) |> (fn mid_str => 
-  if Pred.ends_with substr mid_str 
-  then Library.unsuffix substr mid_str 
-  else mid_str);
+  else target_str;
+
+fun safe_unsufix substr target_str =
+  if Pred.ends_with substr target_str 
+  then Library.unsuffix substr target_str 
+  else target_str;
+
+fun unprefix_unsufix substr target_str =
+  safe_unprefix substr target_str
+  |> (fn mid_str => safe_unsufix substr mid_str);
 
 
 (** SYSTEM OPERATIONS **)
