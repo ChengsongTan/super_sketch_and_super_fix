@@ -9,7 +9,7 @@ chapter \<open>Experimental commands \<^text>\<open>sketch\<close> and \<^text>\
 
 theory Super_Sketch
   imports Main \<comment> \<open>TODO: generalize existing sledgehammer functions to Pure\<close>
-  keywords "sketch" "explore" "sketch_subgoals" "super_sketch" "super_sketch3" "super_sketch2b" "double_sketch" :: diag
+  keywords "sketch" "explore" "sketch_subgoals" "super_sketch" "super_sketch3" "super_sketch2b" "double_sketch" "double_sketch4" "meta_sketch" "meta_sketch2" :: diag
 begin
 
 
@@ -380,7 +380,7 @@ fun ppt_simp ms state js indent solver_ref solver_txt adref adtxt =
 
     val n = subgoal_count state''
     val t_start = Timing.start ()
-    val parlist_or_sequential = (if tl_len = 0 orelse n <= 100 then Par_List.map else map)
+    val parlist_or_sequential = (if tl_len = 0 orelse n <= 4 then Par_List.map else map)
     val whole =
       "proof" ^ method_text1 ::
       parlist_or_sequential (fn (stmt,i) => pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n)))
@@ -396,9 +396,9 @@ fun ppt_simp ms state js indent solver_ref solver_txt adref adtxt =
 | [] =>
   (* 叶子：用“最后一个方法”与 SH 竞速；若没有方法则只跑 SH *)
   let
-    val (outcome, msg) =
+    val (outcome, msg) =            
       Sledgehammer_Commands1.my_hammer_or_method_away 1 state solver_ref solver_txt adref adtxt
-    val one = Sledgehammer_Commands1.extract_one_liner_proof msg
+    val one =  msg
     val message1 =
       (if outcome = "success"
        then strip_time_tags one ^ " done"
@@ -420,7 +420,111 @@ fun ppt_main_simp ms state js indent msimp adsimp =
 
 \<close>
 
+ML \<open>
 
+
+fun ppt_simp4 ms state js indent
+               solver_ref solver_txt
+               adref adtxt
+               rref rtxt
+               first_split_add_rescue = 
+(case ms of m1::ms_tl =>
+  let
+    val state'' =
+      state |> (fn s =>  Seq.the_result "" (Proof.apply (fst m1) s))
+
+    val { context = ctxt, facts = _, goal } = Proof.goal state''
+    val ctxt_print = fold (fn opt => Config.put opt false)
+      [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts] ctxt
+
+    val method_text1 = ( " " ^ coalesce_method_txt (map Token.unparse (snd m1)))
+    val goal_props = Logic.strip_imp_prems (Thm.prop_of goal)
+    val clauses = map split_clause goal_props
+    val tl_len = length ms_tl
+    val goal_numbers_prefix = String.concatWith "_" (map (fn i => Int.toString i) js) ^ "_"
+
+    fun pisk stmt i ms_tl =
+      let
+        val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt_print
+        val prefix = replicate_string indent " "
+        val prefix_sep = "\n" ^ prefix ^ "    and "
+        val show_s = prefix ^ "show goal" ^ goal_numbers_prefix ^ Int.toString i ^ ": " ^ print_term ctxt' concl
+        val if_s = if null assms then NONE
+          else SOME (prefix ^ "  if " ^ space_implode prefix_sep (map (fn t => print_term ctxt' t) assms))
+        val for_s = if null fixes then NONE
+          else SOME (prefix ^ "  for " ^ space_implode prefix_sep (map (fn (v,T) => v ^ " :: " ^ print_typ ctxt_print T) fixes))
+
+        val state_i_moved_to_1 = Proof.prefer i state''
+        val state_subgoaled = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) state_i_moved_to_1
+        val produced_proof =
+          if tl_len > 0
+          then ppt_simp4 ms_tl state_subgoaled (js@[i]) (indent+1) solver_ref solver_txt adref adtxt rref rtxt first_split_add_rescue
+          else ppt_simp4 ms_tl state_i_moved_to_1 (js@[i]) (indent+1) solver_ref solver_txt adref adtxt rref rtxt first_split_add_rescue
+
+        val line_end_if_not_last_layer = (if tl_len > 0 then "\n" else " ")
+        val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
+          [ prefix ^ "  " ^ (if is_none if_s then "" else "using that" ^ line_end_if_not_last_layer) ^ produced_proof ])
+      in s end
+
+    val n = subgoal_count state''
+    val t_start = Timing.start ()
+    val parlist_or_sequential = (if tl_len = 0 orelse n <= 100 then Par_List.map else map)
+    val whole =
+      "proof" ^ method_text1 ::
+      parlist_or_sequential (fn (stmt,i) => pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n)))
+      @ ["qed"]
+    val t_end = Timing.result t_start
+    val _ = writeln (Timing.message t_end)
+
+    val lines = if null clauses then (if is_none (SOME m1) then ["  .."] else ["  by" ^ method_text1]) else whole
+    val raw_str = cat_lines lines
+    val message = Active.sendback_markup_properties [] raw_str
+  in message end
+
+| [] =>
+  let
+    (* 大 goal 编号：js 在顶层会变成 [i]，向下递归会扩张为 [i, ...]；取 hd 即可。 *)
+    val big_i = (case js of [] => 1 | k :: _ => k)
+
+    (* 从 first_split_add_rescue 里取第 big_i 个方法（1-based）；可能没有。 *)
+    val (split_ref_opt, split_txt_opt) =
+      if big_i <= length first_split_add_rescue then
+        let
+          val (mref, txt) = List.nth (first_split_add_rescue, big_i - 1)
+        in (SOME ( mref), SOME txt) end
+      else (NONE, NONE)
+
+    val (outcome, msg) =
+      Sledgehammer_Commands1.my_hammer_or_method_away4
+        1 state
+        solver_ref solver_txt
+        adref adtxt
+        (SOME rref) (SOME rtxt)
+        split_ref_opt split_txt_opt
+
+    val one = msg
+    val message1 =
+      (if outcome = "success"
+       then strip_time_tags one ^ " done"
+       else "sorry (*failed to find proof*)")
+  in message1 end)
+
+
+fun ppt_main_simp4 ms state js indent msimp adsimp rescue first_split_add_rescue =
+  let
+    val solver_ref = fst msimp
+    val solver_txt = " " ^ coalesce_method_txt (map Token.unparse (snd msimp))
+    val adref = fst adsimp
+    val adtxt = " " ^ coalesce_method_txt (map Token.unparse (snd adsimp))
+    val resref = fst rescue
+    val restxt = " " ^ coalesce_method_txt (map Token.unparse (snd rescue))
+  in
+    (ppt_simp4 ms state js indent solver_ref solver_txt adref adtxt resref restxt first_split_add_rescue)
+    |> (fn s => Output.information s)
+  end
+
+
+\<close>
 
 
 
@@ -535,7 +639,7 @@ fun ppt ms state js indent =
 
         val n = subgoal_count state'';
         val t_start = Timing.start ();
-        val parlist_or_sequential_list = (if tl_len = 0 orelse n <= 100 then Par_List.map else map);
+        val parlist_or_sequential_list = (if tl_len = 0 orelse n <= 4 then Par_List.map else map);
         val whole_proof_of_this_goal = "proof" ^ method_text1 :: parlist_or_sequential_list (fn (stmt, i) => 
           pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n))) @ ["qed"]
         val t_end = Timing.result t_start;
@@ -671,6 +775,43 @@ fun print_proof_text_from_state_generate_oneliners3 print m1 m2 m3 msplit mreduc
   end
 
 
+
+
+(* a unified type for reference to method
+   
+*)
+
+fun mref_to_ref_txt (mr: (Method.text * Position.range) * Token.T list) : ((Method.text * Position.range) * string) =
+  let
+    val (mref, toks) = mr
+    val txt = " " ^ coalesce_method_txt (map Token.unparse toks)
+  in
+    (mref, txt)
+  end
+
+
+fun ppt_main_simp4
+      (ms) state js indent
+      (msimp) (adsimp) (rescue)
+      (first_split_add_rescue) =
+  let
+    val (solver_ref, solver_txt) = mref_to_ref_txt msimp
+    val (adref,     adtxt)      = mref_to_ref_txt adsimp
+    val (resref,    restxt)     = mref_to_ref_txt rescue
+
+    (* 关键：列表里每个元素也要先展开成 (ref, txt) *)
+    val first_split_add_rescue' =
+      map mref_to_ref_txt first_split_add_rescue
+  in
+    (ppt_simp4 ms state js indent
+               solver_ref solver_txt
+               adref      adtxt
+               resref     restxt
+               first_split_add_rescue')
+    |> (fn s => Output.information s)
+  end
+
+
 val _ =
   Outer_Syntax.command \<^command_keyword>\<open>sketch\<close>
     "print sketch of Isar proof text after method application"
@@ -726,6 +867,7 @@ val _ =
 
 val parse_adsimp = \<^keyword>\<open>[\<close> |-- (Scan.trace Method.parse) --| \<^keyword>\<open>]\<close>;
 
+val parse_adsimp_repeat = \<^keyword>\<open>[\<close> |-- (Scan.repeat (Scan.trace Method.parse)) --| \<^keyword>\<open>]\<close>;
 
 
 val _ = 
@@ -737,10 +879,449 @@ val _ =
           let 
             val pstate = Toplevel.proof_of state;
           in ppt_main_simp meths pstate [] 2 msimp adsimp; () end)));
- 
+
+
+
+val _ =
+  Outer_Syntax.command \<^command_keyword>\<open>double_sketch4\<close>
+    "print sketch via ppt_main_simp, then run method_away4 at leaf"
+    ((Scan.repeat (Scan.trace Method.parse)        (* methods 列表：取第一个当 user method *)
+      -- parse_adsimp                               (* msimp   —— 必填 *)
+      -- parse_adsimp                               (* adsimp  —— 必填 *)
+      -- parse_adsimp                               (* rescue  —— 必填 *)
+      -- parse_adsimp_repeat                        (* first_split_add_rescue *)
+      -- parse_adsimp_repeat                        (* list_cases_methods —— 新增 *)
+      )
+     >> (fn (((((meths, msimp), adsimp), rescue), first_split_add_rescue), list_cases_methods) =>
+       Toplevel.keep_proof (fn state =>
+         let
+           val pstate = Toplevel.proof_of state
+         in
+           (* NOTE: ppt_main_simp 现在多一个必填参数 rescue *)
+           ppt_main_simp4 meths pstate [] 2 msimp adsimp rescue first_split_add_rescue;
+           ()
+         end)))
+
 
 
 \<close>
 
+ML \<open>
+(* ======== Strategy 解析（与 v5 对应）======== *)
+(* parse a method together with its original tokens *)
+(* parse a method together with its original tokens *)
+val parse_mref : ((Method.text * Position.range) * Token.T list) parser =
+  Scan.trace Method.parse
+
+(* 支持两种“有硬终止符”的写法：(...) 或 [...] *)
+val parse_mref_paren : ((Method.text * Position.range) * Token.T list) parser =
+  \<^keyword>\<open>(\<close> |-- parse_mref --| \<^keyword>\<open>)\<close>
+
+val parse_mref_brack : ((Method.text * Position.range) * Token.T list) parser =
+  \<^keyword>\<open>[\<close> |-- parse_mref --| \<^keyword>\<open>]\<close>
+
+(* 与 Sledgehammer_Commands1.ML 中一致 *)
+type ms_kind = Sledgehammer_Commands1.ms_kind
+type ms_strategy = Sledgehammer_Commands1.ms_strategy
+
+(* 只允许“有界”的 splitter，避免 intro 吞不进 conjI 的歧义 *)
+
+(* 取文本串 *)
+fun txt_of_mref (_, toks) =
+  " " ^ coalesce_method_txt (map Token.unparse toks)
+
+(* 允许 “(m)” 或直接 “m” *)
+val parse_one_mref = parse_mref_paren || parse_mref
+
+(* 策略关键字 *)
+fun parse_kind_kw () : ms_kind parser =
+  Parse.name >>
+    (fn "PLAIN" => MS_PLAIN
+      | "SH"    => MS_SH
+      | "TRY0"  => MS_TRY0
+      | s => error ("Unknown strategy kind: " ^ s))
+
+(* PLAIN m 1 / SH (m args) 2 / TRY0 m 3 *)
+(* ===== 强制方法与顺序整数之间有分隔符，避免 Method.parse 吞掉整数 ===== *)
+
+(* 允许用逗号、双冒号或 @ 作为分隔符 *)
+val parse_ord_sep : unit parser =
+     (Parse.$$$ "," >> K ())
+  || (Parse.$$$ "::" >> K ())
+  || (Parse.$$$ "@" >> K ())
+
+(* PLAIN m , 1  /  SH (m args) , 2  /  TRY0 m :: 3  /  也可用 @ 3 *)
+val parse_strategy : ms_strategy parser =
+  parse_kind_kw () -- parse_one_mref -- parse_ord_sep -- Parse.int >>
+   (fn (((k, mref), ()), ord) =>
+      let val mtxt = txt_of_mref mref
+      in (k, fst mref, mtxt, ord) end)
+
+val parse_strategy_list : ms_strategy list parser =
+  let
+    val item = parse_strategy --| Scan.option (Parse.$$$ ",")
+  in
+    \<^keyword>\<open>[\<close> |-- Scan.repeat item --| \<^keyword>\<open>]\<close> >> map I
+  end
+
+(* ( splitter , [ per-subgoal strategies ... ] ) *)
+type compound = ((Method.text * Position.range) * Token.T list) * ms_strategy list
+
+val parse_splitter_in_compound : ((Method.text * Position.range) * Token.T list) parser =
+      parse_mref_paren
+  ||  parse_mref_brack
+  ||  parse_mref   (* 这里安全：后面紧跟 逗号 作为硬终止符 *)
+
+val parse_compound : compound parser =
+  Args.parens (parse_splitter_in_compound --| Parse.$$$ "," -- parse_strategy_list)
+
+
+(* ======== 元驱动：meta_sket ch 的递归求解 ======== *)
+
+(* 叶子：把策略列表丢给 v5，统一做净化并加 done *)
+fun leaf_solve (strats : ms_strategy list) (state : Proof.state) : string =
+  let
+    val (outc, msg) =
+      Sledgehammer_Commands1.my_hammer_or_method_away5 1 state strats
+    val one = msg
+    val msg' =
+      (if outc = "success"
+       then strip_time_tags one ^ " done"
+       else "sorry (*meta_sketch: no proof found*)")
+  in msg' end
+
+(* meta 驱动：像 ppt_simp4 一样生成 Isar 骨架，但每层只应用一个 splitter，
+   递归下去时按“第 i 个子目标”把该层的第 i 个策略前缀进最终策略列表。 *)
+fun ppt_meta (cmps : compound list)
+             (final_strats : ms_strategy list)
+             (state : Proof.state)
+             (js : int list) (* 仅用于编号显示 *)
+             (indent : int) : string =
+(case cmps of
+  [] => leaf_solve final_strats state
+| ((splitter_mref, layer_strats) :: tl) =>
+  let
+    val state' = Seq.the_result "" (Proof.apply (fst splitter_mref) state)
+    val { context = ctxt, goal, ... } = Proof.goal state'
+    val ctxt_print = fold (fn opt => Config.put opt false)
+      [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts] ctxt
+    val goal_props = Logic.strip_imp_prems (Thm.prop_of goal)
+    val clauses = map split_clause goal_props
+    val n = subgoal_count state'
+
+    val method_text =
+      " " ^ coalesce_method_txt (map Token.unparse (snd splitter_mref))
+    val goal_numbers_prefix =
+      String.concatWith "_" (map (fn i => Int.toString i) js) ^ "_"
+    val prefix = replicate_string indent " "
+    val prefix_sep = "\n" ^ prefix ^ "    and "
+
+    fun pisk (stmt, i) =
+      let
+        val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt_print
+        val show_s = prefix ^ "show goal" ^ goal_numbers_prefix ^ Int.toString i ^ ": " ^
+                     print_term ctxt' concl
+        val if_s = if null assms then NONE
+                   else SOME (prefix ^ "  if " ^
+                              space_implode prefix_sep (map (fn t => print_term ctxt' t) assms))
+        val for_s = if null fixes then NONE
+                    else SOME (prefix ^ "  for " ^
+                               space_implode prefix_sep (map (fn (v,T) => v ^ " :: " ^ print_typ ctxt_print T) fixes))
+
+        val state_i = Proof.prefer i state'
+        val state_sub = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) state_i
+
+        (* 取该层第 i 个策略（若有）做前缀 *)
+        val ith_prefix =
+          (if i <= length layer_strats then [List.nth (layer_strats, i - 1)] else [])
+        val produced =
+          ppt_meta tl (ith_prefix @ final_strats) state_sub (js @ [i]) (indent + 1)
+
+        val line_end = (if null tl then " " else "\n")
+        val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
+                [prefix ^ "  " ^ (if is_none if_s then "" else "using that" ^ line_end) ^ produced])
+      in s end
+
+    val body =
+      "proof" ^ method_text ::
+      Par_List.map pisk (ListPair.zip (clauses, createList'(n))) @ ["qed"]
+    val raw_str = cat_lines body
+    val message = Active.sendback_markup_properties [] raw_str
+  in message end)
+
+fun ppt_main_meta (cmps : compound list)
+                  (final_strats : ms_strategy list)
+                  (state : Proof.state) =
+  ppt_meta cmps final_strats state [] 2
+  |> (fn s => Output.information s)
+
+(* ======== 新命令：meta_sketch ======== *)
+
+(* 一个用方括号包起来的 compound 列表 *)
+val parse_compound_list : compound list parser =
+  \<^keyword>\<open>[\<close> |-- Parse.list1 parse_compound --| \<^keyword>\<open>]\<close>
+
+val _ =
+  Outer_Syntax.command \<^command_keyword>\<open>meta_sketch\<close>
+    "meta-level sketch: compose splitters and per-subgoal strategies; then race leaf strategies (v5)."
+    ((parse_compound_list -- parse_strategy_list) >>
+      (fn (cmps, finals) =>
+         Toplevel.keep_proof (fn st =>
+           let val pstate = Toplevel.proof_of st
+           in ppt_main_meta cmps finals pstate end)))
+
+\<close>
+
+ML \<open>
+
+(* === Meta-sketch: generic splitter + per-subgoal strategies + final strategies === *)
+
+open Sledgehammer_Commands1
+
+(* ---------- Parsers ---------- *)
+
+(* ms_kind parser *)
+val parse_ms_kind =
+  Parse.name >> (fn s =>
+    (case s of
+       "PLAIN" => MS_PLAIN
+     | "SH"    => MS_SH
+     | "TRY0"  => MS_TRY0
+     | _ => error ("Unknown strategy kind: " ^ s)));
+
+(* Parse a method + remember its pretty text *)
+val parse_method_with_text =
+  Scan.trace Method.parse >> (fn (mref, toks) =>
+    let val mtxt = " " ^ String.concat (map Token.unparse toks)
+    in (mref, mtxt) end);
+
+(* One strategy: KIND <method> , <nat> *)
+val parse_one_strategy =
+  parse_ms_kind -- parse_method_with_text -- (Parse.$$$ "," |-- Parse.nat)
+  >> (fn ((k, (mref, mtxt)), ord) => (k, mref, mtxt, ord) : ms_strategy);
+
+(* [ strategy, strategy, ... ]  — 用 enum1 正规的逗号分隔 *)
+(* [ strategy, strategy, ... ] — 允许空表 [] *)
+val parse_strategy_block =
+  Parse.$$$ "[" |--
+    Scan.optional (Parse.enum1 "," parse_one_strategy) []
+  --| Parse.$$$ "]";
+
+
+(* ( <splitter> , [ per-subgoal strategies ] )
+   注意：这里不要把 <splitter> 再包一层括号！ *)
+val parse_compound_entry =
+  Parse.$$$ "(" |-- parse_method_with_text --| Parse.$$$ "," -- parse_strategy_block --| Parse.$$$ ")";
+
+(* [ ( ... ), ( ... ), ... ] *)
+val parse_compound_list =
+  Parse.$$$ "[" |-- Parse.enum1 "," parse_compound_entry --| Parse.$$$ "]";
+
+(* Final strategy list *)
+val parse_final_strategies = parse_strategy_block;
+
+(* ---------- Engine ---------- *)
+
+fun nth_strategy i (xs : ms_strategy list) : ms_strategy option =
+  if i <= length xs then SOME (List.nth (xs, i - 1)) else NONE
+
+fun meta_worker (compounds : (((Method.text * Position.range) * string) * ms_strategy list) list)
+                (finals    : ms_strategy list)
+                (state     : Proof.state)
+                (js        : int list)
+                (indent    : int) : string =
+  (case compounds of
+     [] =>
+       let
+         (* 在 Subgoal.subgoal_cmd 聚焦过后，这里总是子目标 1 *)
+         val (outc, txt) = my_hammer_or_method_away5 1 state finals
+       in
+         if outc = "success" then strip_time_tags txt ^ " done"
+         else "sorry (*meta_sketch: no proof found*)"
+       end
+   | (((split_ref, split_txt), per_sub_strats) :: tail) =>
+       let
+         val state' = Seq.the_result "" (Proof.apply split_ref state)
+         val {context = ctxt, goal, ...} = Proof.goal state'
+         val ctxt_print = fold (fn opt => Config.put opt false)
+           [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts] ctxt
+
+         val goal_props = Logic.strip_imp_prems (Thm.prop_of goal)
+         val clauses = map split_clause goal_props
+         val n = subgoal_count state'
+
+         val goal_numbers_prefix = String.concatWith "_" (map (fn i => Int.toString i) js) ^ "_"
+
+         fun for_one_subgoal (stmt, i) =
+           let
+             val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt_print
+             val prefix = replicate_string indent " "
+             val prefix_sep = "\n" ^ prefix ^ "    and "
+             val show_s = prefix ^ "show goal" ^ goal_numbers_prefix ^ Int.toString i ^ ": " ^ print_term ctxt' concl
+             val if_s = if null assms then NONE
+                        else SOME (prefix ^ "  if " ^ space_implode prefix_sep (map (fn t => print_term ctxt' t) assms))
+             val for_s = if null fixes then NONE
+                         else SOME (prefix ^ "  for "
+                                    ^ space_implode prefix_sep (map (fn (v,T) => v ^ " :: " ^ print_typ ctxt_print T) fixes))
+
+             val st_pref = Proof.prefer i state'
+             val st_sub  = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) st_pref
+
+             (* 只给第 i 个子目标前缀本层的第 i 条策略（若有） *)
+             val finals' =
+               (case nth_strategy i per_sub_strats of
+                  NONE => finals
+                | SOME s => s :: finals)
+
+             val text_leaf = meta_worker tail finals' st_sub (js @ [i]) (indent + 2)
+
+             val line_end_if_not_last_layer = if null tail then " " else "\n"
+             val s = cat_lines ([show_s]
+                                @ map_filter I [if_s, for_s]
+                                @ [prefix ^ "  " ^ (if is_none if_s then "" else "using that" ^ line_end_if_not_last_layer) ^ text_leaf])
+           in s end
+
+         val lines =
+           if null clauses
+           then ["  by" ^ split_txt]
+           else "proof" ^ split_txt :: Par_List.map for_one_subgoal (ListPair.zip (clauses, createList'(n))) @ ["qed"]
+
+         val raw_str = cat_lines lines
+       in Active.sendback_markup_properties [] raw_str end);
+
+val _ =
+  Outer_Syntax.command \<^command_keyword>\<open>meta_sketch2\<close>
+    "generic meta sketch: (splitter \<times> per-subgoal strategies)* \<Rightarrow> leaf strategies \<Rightarrow> run v5 engine"
+    (parse_compound_list -- parse_final_strategies
+     >> (fn (compounds, finals) =>
+       Toplevel.keep_proof (fn st =>
+         let
+           val pstate = Toplevel.proof_of st
+           val msg = meta_worker compounds finals pstate [] 2
+         in
+           Output.information msg
+         end)))
+\<close>
+(*
+design of meta_sketch2. 
+meta_sketch takes two parameters: a list of "compound methods", and a list of final solving strategies.
+
+A solving strategy is a datatype which represents a combination of solvers and methods to prove a theorem.
+It currently can have three types: PLAIN, SH, and TRY0. These types mean whether meta_sketch
+should try to prove a goal with the method only (PLAIN), apply the method and then sledgehammer it (SH),
+or apply the method and invoke try0 on it.  Each type takes two parameters: the method to be used and the relative
+order the strategy should be called with. Strategies with the same order should be run concurrently and
+raced against each other until one proof is found (in which case the rest of the strategies are cancelled)
+or all strategies have failed or timed out.
+The tool meta_sketch determines ways it needs to try to solve a goal from a list of solving strategies.
+For instance, the strategy list
+[SH (insert assms) 1, PLAIN simp 1, SH auto 2, TRY0 (cases "reqs1 T") 3]
+tries to solve the goal by first forking two threads, with one running a plain simp method, and the second
+running sledgehammer after applying the method "insert assms". Whichever thread returned first with success
+will be recorded and cause the other to cancel. If both failed or timed out, the second order strategy is invoked,
+which applies auto first and then runs sledgehammer on the remaining goals, if any remaining.
+If this failed, then the third set of strategies are run, for our example this involves only the last
+strategy TRY0 (cases "reqs1 T") 3.
+
+Each compound method is a pair, the first half of which is a "splitter" method and the second half
+a list of solving strategies.
+A splitter method splits the current goal into easier to solve subgoals, and for each subgoal assigns
+the corresponding strategy from the list. The index of the goal used to take the strategy from the list.
+The strategies list can be left empty, meaning that no customised proving strategies are needed for different
+subgoals splitted by the current splitter.
+
+In each recursive call of ppt_simp4, the function takes the head of the compound method list,
+splits the goal using the splitter of that head, and for each subgoal
+prepends the indexed method from the pairing strategy list (if any) to the final solving strategy list.
+
+When the compound method list finally becomes empty, the leaf call to ppt_simp is reached. It
+tries to solve the leaf subgoals with the list of final solving strategies by my_hammer_or_method_away5.
+It is very similar to version 4, but only accepts a list of strategies rather than quite a few methods.
+
+The previous call to double_sketch4 now becomes:
+
+
+  meta_sketch 
+(intro conjI, [
+  SH (cases "reqs1 T") 3
+  SH (cases "program1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "snpresps1 T") 3
+  SH (cases "snpresps1 T") 3
+  SH (cases "htddatas1 T") 3
+  ......
+] )  
+(intro impconjI, []) 
+[PLAIN simp 1, SH (insert assms, unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 1, SH auto 2] 
+
+with meta_sketch.
+Implement this for me. This should be done most simply with 2 steps: first developing my_hammer_or_method_away5
+Only after my_hammer_or_method_away5 behaves the same as version 4 with the same strategy list should we now
+develop meta_sketch and invoke it with my_hammer_or_method_away5.
+Note that my...5 must follow the concurrent control flow exactly as that of my_hammer_or_method_away4 so that 
+it doesn't get stuck.meta_sketch takes two parameters: a list of "compound methods", and a list of final solving strategies.
+
+A solving strategy is a datatype which represents a combination of solvers and methods to prove a theorem.
+It currently can have three types: PLAIN, SH, and TRY0. These types mean whether meta_sketch
+should try to prove a goal with the method only (PLAIN), apply the method and then sledgehammer it (SH),
+or apply the method and invoke try0 on it.  Each type takes two parameters: the method to be used and the relative
+order the strategy should be called with. Strategies with the same order should be run concurrently and
+raced against each other until one proof is found (in which case the rest of the strategies are cancelled)
+or all strategies have failed or timed out.
+The tool meta_sketch determines ways it needs to try to solve a goal from a list of solving strategies.
+For instance, the strategy list
+[SH (insert assms) 1, PLAIN simp 1, SH auto 2, TRY0 (cases "reqs1 T") 3]
+tries to solve the goal by first forking two threads, with one running a plain simp method, and the second
+running sledgehammer after applying the method "insert assms". Whichever thread returned first with success
+will be recorded and cause the other to cancel. If both failed or timed out, the second order strategy is invoked,
+which applies auto first and then runs sledgehammer on the remaining goals, if any remaining.
+If this failed, then the third set of strategies are run, for our example this involves only the last
+strategy TRY0 (cases "reqs1 T") 3.
+
+Each compound method is a pair, the first half of which is a "splitter" method and the second half
+a list of solving strategies.
+A splitter method splits the current goal into easier to solve subgoals, and for each subgoal assigns
+the corresponding strategy from the list. The index of the goal used to take the strategy from the list.
+The strategies list can be left empty, meaning that no customised proving strategies are needed for different
+subgoals splitted by the current splitter.
+
+In each recursive call of ppt_simp4, the function takes the head of the compound method list,
+splits the goal using the splitter of that head, and for each subgoal
+prepends the indexed method from the pairing strategy list (if any) to the final solving strategy list.
+
+When the compound method list finally becomes empty, the leaf call to ppt_simp is reached. It
+tries to solve the leaf subgoals with the list of final solving strategies by my_hammer_or_method_away5.
+It is very similar to version 4, but only accepts a list of strategies rather than quite a few methods.
+
+The previous call to double_sketch4 now becomes:
+
+
+  meta_sketch 
+(intro conjI, [
+  SH (cases "reqs1 T") 3
+  SH (cases "program1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "reqs1 T") 3
+  SH (cases "snpresps1 T") 3
+  SH (cases "snpresps1 T") 3
+  SH (cases "htddatas1 T") 3
+  ......
+] )  
+(intro impconjI, []) 
+[PLAIN simp 1, SH (insert assms, unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 1, SH auto 2] 
+
+with meta_sketch.
+Implement this for me. This should be done most simply with 2 steps: first developing my_hammer_or_method_away5
+Only after my_hammer_or_method_away5 behaves the same as version 4 with the same strategy list should we now
+develop meta_sketch and invoke it with my_hammer_or_method_away5.
+Note that my...5 must follow the concurrent control flow exactly as that of my_hammer_or_method_away4 so that 
+it doesn't get stuck. *)
 
 end

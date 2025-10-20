@@ -12,7 +12,11 @@ utilities for removing comments in generated one-liners.
 signature SLEDGEHAMMER_COMMANDS1 =
 sig
   type params = Sledgehammer_Prover.params
+(* 竞速分支的种类 *)
+  datatype ms_kind = MS_PLAIN | MS_SH | MS_TRY0
 
+(* 一个策略：种类 + 方法 m_ref + 打印文本 m_txt + 组序 order *)
+  type ms_strategy = ms_kind * (Method.text * Position.range) * string * int
   val provers : string Unsynchronized.ref
   val default_params : theory -> (string * string) list -> params
   val parse_params: (string * string) list parser
@@ -20,6 +24,15 @@ sig
   val my_verbose_hammer_away: int -> Proof.state -> int -> (string * string)
   val extract_one_liner_proof: string -> string
   val my_hammer_or_method_away: int -> Proof.state -> (Method.text * Position.range)  -> string -> (Method.text * Position.range)  -> string -> (string * string)
+  val my_hammer_or_method_away4:
+    int -> Proof.state
+    -> (Method.text * Position.range) -> string     (* user method (e.g. simp)  *)
+    -> (Method.text * Position.range) -> string     (* ad method: (e.g. insert assms, unfold ...) *)
+    -> (Method.text * Position.range) option -> string option  (* rescue: e.g. auto *)
+    -> (Method.text * Position.range) option -> string option (*NEW: split_rescue *)
+    -> (string * string)
+  val my_hammer_or_method_away5:
+    int -> Proof.state -> ms_strategy list -> (string * string)
 end;
 
 structure Sledgehammer_Commands1 : SLEDGEHAMMER_COMMANDS1 =
@@ -39,6 +52,9 @@ open Sledgehammer_MaSh
 open Sledgehammer
 
 val runN = "run"
+datatype ms_kind = MS_PLAIN | MS_SH | MS_TRY0
+
+type ms_strategy = ms_kind * (Method.text * Position.range) * string * int
 
 (** Sledgehammer commands **)
 
@@ -74,7 +90,7 @@ val default_default_params =
    ("max_mono_iters", "smart"),
    ("max_new_mono_instances", "smart"),
    ("max_proofs", "4"),
-   ("isar_proofs", "smart"),
+   ("isar_proofs", "false"),
    ("compress", "smart"),
    ("try0", "true"),
    ("smt_proofs", "true"),
@@ -342,7 +358,16 @@ fun my_hammer_away i state0 =
     val thy = Proof.theory_of state
     val ctxt = Proof.context_of state
 
-    val override_params = [("max_proofs", ["1"])] |> map (normalize_raw_param ctxt)
+    val override_params =
+      [ ("max_proofs", ["1"])
+      , ("isar_proofs", ["false"])
+      , ("minimize", ["false"])
+      , ("preplay_timeout", ["0"])
+      , ("try0", ["false"])
+      , ("slices", ["600"])
+      , ("timeout", ["20"])       (* 12~20 *)
+      ]
+      |> map (normalize_raw_param ctxt)
     val subcommand = runN
   in
     if subcommand = runN then
@@ -374,6 +399,10 @@ fun my_verbose_hammer_away i state0 n_proofs =
       error ("Unknown subcommand: " ^ quote subcommand)
   end
 
+
+(* 在 extract_one_liner_proof's helper*)
+fun contains_sorry s =
+  String.isSubstring "sorry" s
 
 fun extract_one_liner_proof (input: string) =
   let
@@ -478,6 +507,382 @@ fun extract_one_liner_proof (input: string) =
     squeeze_spaces without_time
   end;
 
+
+
+
+(* Timeout utilities for method execution *)
+fun apply_method_with_timeout timeout_seconds m_ref state =
+  let
+    val timeout = Time.fromSeconds timeout_seconds
+    val start_time = Time.now()
+    val result_ref = Unsynchronized.ref NONE
+    
+    val method_future = Future.fork (fn () =>
+      let val res = Seq.pull (Proof.apply m_ref state)
+      in result_ref := SOME res; res end)
+    
+    fun wait_with_timeout () =
+      if Time.- (Time.now(), start_time) > timeout then
+        (Future.cancel method_future; NONE) (* timeout *)
+      else case !result_ref of
+        SOME res => SOME res
+      | NONE => (OS.Process.sleep (Time.fromMilliseconds 100); wait_with_timeout ())
+  in
+    wait_with_timeout ()
+  end
+
+
+fun solved_by_method_message i state0 (m_ref : (Method.text * Position.range)) (method_text : string) =
+  let
+    val timeout_seconds = 2  (* 可以调整timeout时间 *)
+    val st1 = Proof.prefer i (silence_state state0)
+    val n0 = subgoal_count st1
+  in
+    case apply_method_with_timeout timeout_seconds m_ref st1 of
+      SOME (SOME (res, _)) =>
+        (case res of
+           Seq.Result st' =>
+             if subgoal_count st' = n0 - 1
+             then (writeln "user method successfully solved goal"; 
+                   ("success", "apply " ^ method_text ^ ""))
+             else (writeln "user method didnt solve goal"; 
+                   ("fail", "user method did not close the subgoal"))
+         | Seq.Error _ =>
+             ("fail", "user method raised error"))
+    | SOME NONE =>
+        ("fail", "user method produced no state")
+    | NONE =>
+        ("timeout", "user method timed out after " ^ Int.toString timeout_seconds ^ "s")
+  end
+
+(* 对当前 state 上的“第 i 个子目标”跑 SH，成功则返回 one-liner（by/apply ...）文本，否则 NONE *)
+fun try_sh_one_liner_on_subgoal i st : string option =
+  let
+    val (outc, msg) = my_hammer_away i st
+  in
+    if outc = "success" then SOME (extract_one_liner_proof msg) else NONE
+  end
+
+
+
+(* 将 rescue 方法应用到 state 上，返回新 state（可能 0/多个子目标） *)
+fun apply_rescue_state (rescue_ref: (Method.text * Position.range)) (state0: Proof.state) : Proof.state =
+  Seq.the_result "" (Proof.apply rescue_ref state0)
+
+(* --- NEW: run rescue method with a hard wall-clock timeout --- *)
+fun apply_rescue_with_timeout timeout_seconds
+    (rescue_ref: (Method.text * Position.range))
+    (state0: Proof.state) : Proof.state option =
+  let
+    val timeout = Time.fromSeconds timeout_seconds
+    val t0 = Time.now ()
+    (* box: NONE = 未完成；SOME(true, st) = 成功拿到新 state；SOME(false, _) = 失败/异常 *)
+    val box = Unsynchronized.ref (NONE : (bool * Proof.state) option)
+
+    val fut =
+      Future.fork (fn () =>
+        (let
+           val st1 = Seq.the_result "" (Proof.apply rescue_ref state0)
+         in box := SOME (true, st1); st1 end)
+      )
+
+    fun wait () =
+      (case !box of
+         SOME (true, st1) => SOME st1
+       | SOME (false, _)  => NONE
+       | NONE =>
+           if Time.> (Time.- (Time.now (), t0), timeout)
+           then (Future.cancel fut; NONE)
+           else (OS.Process.sleep (Time.fromMilliseconds 50); wait ()))
+  in
+    wait ()
+  end
+
+
+(* ==== DEBUG 开关与工具 ==== *)
+val rescue_debug = Unsynchronized.ref true
+fun ms_of_time t = Real.round (Time.toReal t * 1000.0)
+fun fmt_time t = Int.toString (ms_of_time t) ^ " ms"
+fun rlog s = if !rescue_debug then writeln ("[rescue] " ^ s) else ()
+
+(* ==== 结构化 rescue 结果 ==== *)
+datatype rescue_status =
+   RS_Timeout of {before:int, elapsed: Time.time}
+ | RS_NoState of {before:int, elapsed: Time.time}
+ | RS_Error   of {before:int, elapsed: Time.time, err: string}
+ | RS_Ok      of {before:int, after:int, elapsed: Time.time, state: Proof.state}
+
+(* ==== 带硬超时、可区分结果的 rescue 执行 ==== *)
+fun apply_rescue_with_timeout_ex timeout_seconds
+    (rescue_ref: (Method.text * Position.range))
+    (state0: Proof.state) : rescue_status =
+  let
+    val timeout = Time.fromSeconds timeout_seconds
+    val t0 = Time.now ()
+    val n0 = subgoal_count state0
+    val box = Unsynchronized.ref (NONE : rescue_status option)
+
+    val fut =
+      Future.fork (fn () =>
+        let
+          val res = Exn.capture (fn () => Seq.pull (Proof.apply rescue_ref state0)) ()
+          val elapsed = Time.- (Time.now (), t0)
+        in
+          (case res of
+             Exn.Res (SOME (Seq.Result st1, _)) =>
+               box := SOME (RS_Ok {before=n0, after=subgoal_count st1, elapsed=elapsed, state=st1})
+           | Exn.Res (SOME (Seq.Error _, _)) =>
+               box := SOME (RS_NoState {before=n0, elapsed=elapsed})
+           | Exn.Res NONE =>
+               box := SOME (RS_NoState {before=n0, elapsed=elapsed})
+           | Exn.Exn _ =>
+               box := SOME (RS_Error {before=n0, elapsed=elapsed, err = "<exception>"}));
+          ()
+        end)
+
+    fun poll () =
+      (case !box of
+         SOME ro => ro
+       | NONE =>
+           if Time.> (Time.- (Time.now (), t0), timeout)
+           then (Future.cancel fut; RS_Timeout {before=n0, elapsed=Time.-(Time.now (), t0)})
+           else (OS.Process.sleep (Time.fromMilliseconds 50); poll ()))
+  in
+    poll ()
+  end
+
+
+(* similar to rescue_then_sh_text, but focuses on split method and shorter timeout (1s) *)
+fun split_then_sh_text
+    (split_ref: (Method.text * Position.range)) (split_txt: string)
+    (state0: Proof.state) : (string * string) =
+  let
+    val split_timeout_seconds = 13
+    val n_before = subgoal_count state0
+    val _ = rlog ("[split] START method=\"" ^ split_txt ^ "\" timeout=" ^
+                  Int.toString split_timeout_seconds ^ "s before=" ^ Int.toString n_before)
+  in
+    case apply_rescue_with_timeout_ex split_timeout_seconds split_ref state0 of
+      RS_Timeout {before = b1, elapsed = e1} =>
+        (rlog ("[split] TIMEOUT " ^ fmt_time e1 ^ " before=" ^ Int.toString b1);
+         ("fail", "split timeout (" ^ Int.toString split_timeout_seconds ^ "s)"))
+    | RS_NoState {before = b2, elapsed = e2} =>
+        (rlog ("[split] NO_STATE " ^ fmt_time e2 ^ " before=" ^ Int.toString b2);
+         ("fail", "split produced no state"))
+    | RS_Error {before = b3, elapsed = e3, err = err_msg} =>
+        (rlog ("[split] ERROR " ^ err_msg ^ " " ^ fmt_time e3 ^
+               " before=" ^ Int.toString b3);
+         ("fail", "split raised error"))
+    | RS_Ok {state = st1, before = b4, after = a4, elapsed = e4} =>
+        let
+          val _ = rlog ("[split] OK " ^ fmt_time e4 ^ " before=" ^ Int.toString b4 ^
+                        " after=" ^ Int.toString a4 ^
+                        (if a4 < b4 then " (progress)" else " (no progress)"))
+        in
+          if a4 = 0 then
+            (rlog "[split] SOLVED_BY_SPLIT"; ("success", "by " ^ split_txt))
+          else
+            let
+              val idxs = List.tabulate (a4, fn k => k + 1)
+              fun try_sh j =
+                let
+                  val t0 = Time.now ()
+                  val (outc, msg) = my_hammer_away j st1
+                  val elapsed_sh = Time.- (Time.now (), t0)
+                  val _ = rlog ("[split] SH subgoal " ^ Int.toString j ^ " -> " ^ outc ^
+                                 " in " ^ fmt_time elapsed_sh)
+                  val line =
+                    if outc = "success" then extract_one_liner_proof msg
+                    else "sorry (*split: sledgehammer failed*)"
+                in line end
+              val lines = Par_List.map try_sh idxs
+              val text = String.concatWith "\n" (("apply " ^ split_txt) :: lines)
+            in
+              (rlog "[split] DONE_WITH_RESIDUALS"; ("success", text))
+            end
+        end
+  end
+
+
+
+fun rescue_then_sh_text
+    (rescue_ref: (Method.text * Position.range)) (rescue_txt: string)
+    (state0: Proof.state) : (string * string) =
+  let
+    val rescue_timeout_seconds = 10
+    val n_before = subgoal_count state0
+    val _ = rlog ("START method=\"" ^ rescue_txt ^ "\" timeout=" ^
+                  Int.toString rescue_timeout_seconds ^ "s before=" ^ Int.toString n_before)
+  in
+    case apply_rescue_with_timeout_ex rescue_timeout_seconds rescue_ref state0 of
+      RS_Timeout {before = b1, elapsed = e1} =>
+        let 
+          val _ = rlog ("TIMEOUT " ^ fmt_time e1 ^ " before=" ^ (Int.toString b1)) 
+        in
+          ("fail", "rescue timeout (" ^ Int.toString rescue_timeout_seconds ^ "s)")
+        end
+    | RS_NoState {before = b2, elapsed = e2} =>
+        (rlog ("NO_STATE " ^ fmt_time e2 ^ " before=" ^ Int.toString b2);
+         ("fail", "rescue produced no state"))
+    | RS_Error {before = b3, elapsed = e3, err = err_msg} =>
+        (rlog ("ERROR " ^ err_msg ^ " " ^ fmt_time e3 ^ " before=" ^ Int.toString b3);
+         ("fail", "rescue raised error"))
+    | RS_Ok {state = st1, before = b4, after = a4, elapsed = e4} =>
+        let
+          val _ = rlog ("OK " ^ fmt_time e4 ^ " before=" ^ Int.toString b4 ^
+                        " after=" ^ Int.toString a4 ^
+                        (if a4 < b4 then " (progress)" else " (no progress)"))
+        in
+          if a4 = 0 then
+            (rlog "SOLVED_BY_RESCUE"; ("success", "by " ^ rescue_txt))
+          else
+            let
+              val idxs = List.tabulate (a4, fn k => k + 1)
+              fun try_sh j =
+                let
+                  val t0 = Time.now ()
+                  val (outc, msg) = my_hammer_away j st1
+                  val elapsed_sh = Time.- (Time.now (), t0)
+                  val _ = rlog ("SH subgoal " ^ Int.toString j ^ " -> " ^ outc ^
+                                 " in " ^ fmt_time elapsed_sh)
+                  val line =
+                    if outc = "success" then extract_one_liner_proof msg
+                    else "sorry (*rescue: sledgehammer failed*)"
+                in line end
+              val lines = Par_List.map try_sh idxs
+              val text = String.concatWith "\n" (("apply " ^ rescue_txt) :: lines)
+            in
+              (rlog "RESCUE_DONE_WITH_RESIDUALS"; ("success", text))
+            end
+        end
+  end
+
+
+fun my_hammer_or_method_away4
+  i state0 (m_ref : (Method.text * Position.range)) (method_text : string)
+  adref adtxt
+  (rescue_opt: (Method.text * Position.range) option) (rescue_txt_opt: string option)
+  split_opt split_txt_opt
+  : (string * string) =
+let
+  (* === fast race: METHOD vs SH === *)
+
+  (* 赢家槽：只在 success 时写入 *)
+  val winner_slot = Synchronized.var "race_winner" (NONE : (string * string) option)
+
+  (* 屏障：保证两边句柄已就绪，避免取消丢失 *)
+  val started = Synchronized.var "race_started" 0
+  fun wait_until_both_started () =
+    if Synchronized.value started = 2 then ()
+    else (OS.Process.sleep (Time.fromMilliseconds 1); wait_until_both_started ())
+
+  (* 句柄 ref *)
+  val sh_ref = Unsynchronized.ref (NONE : (string * string) future option)
+  val um_ref = Unsynchronized.ref (NONE : (string * string) future option)
+
+  (* 发布赢家：只有 success 才能赢 *)
+  fun publish_if_success (res: string * string) : bool =
+    if #1 res = "success" then
+      Synchronized.change_result winner_slot
+        (fn NONE => (true, SOME res) | SOME w => (false, SOME w))
+    else false
+
+  (* 方法分支：建议 10~15s 快速超时 *)
+  val method_fast_timeout = 12
+
+  val um_fut =
+    Future.fork (fn () =>
+      let
+        val _ = Synchronized.change started (fn n => n + 1)
+        val res = solved_by_method_message i state0 m_ref method_text
+        val won = publish_if_success res
+        val _ =
+          if won then
+            (wait_until_both_started ();
+             (case !sh_ref of SOME fut => Future.cancel fut | NONE => ()))
+          else ()
+      in
+        res
+      end)
+
+  val _ = um_ref := SOME um_fut
+
+  (* Sledgehammer 分支（快速配置） *)
+  val sh_fut =
+    Future.fork (fn () =>
+      let
+        val _ = Synchronized.change started (fn n => n + 1)
+        val (outc, msg) =
+          my_hammer_away i (Seq.the_result "" (Proof.apply adref state0))
+        val msg' =
+          if outc = "success"
+          then "apply " ^ adtxt ^ " " ^ extract_one_liner_proof (remove_prefer i msg)
+          else msg
+        val res = (outc, msg')
+        val won = publish_if_success res
+        val _ =
+          if won then
+            (wait_until_both_started ();
+             (case !um_ref of SOME fut => Future.cancel fut | NONE => ()))
+          else ()
+      in
+        res
+      end)
+
+  val _ = sh_ref := SOME sh_fut
+
+  (* 等待赢家；若两边都结束仍无赢家 \<rightarrow> 视为 fail(fast) *)
+  fun wait_fast () =
+    (case Synchronized.value winner_slot of
+       SOME res => res
+     | NONE =>
+         if Future.is_finished sh_fut andalso Future.is_finished um_fut
+         then ("fail", "no proof found (fast)")
+         else (OS.Process.sleep (Time.fromMilliseconds 10); wait_fast ()))
+
+  val fast_result = wait_fast ()
+  (* === fast race end === *)
+
+  (* 资源回收 *)
+  val _ = (ignore (Exn.capture Future.join sh_fut);
+           ignore (Exn.capture Future.join um_fut));
+
+  (* 兜底：仅当 fast_result 失败 且 给了 rescue 方法 *)
+  val final_result =
+    (case fast_result of
+       ("success", _) => fast_result
+     | _ =>
+        (case (rescue_opt, rescue_txt_opt) of
+           (SOME rescue_ref, SOME rescue_txt) =>
+             (* 在  if both a vanilla sledgehammer and the user's simp method failed, apply a more heavyweight
+                    "rescue" method which tries to solve the goal and ask for help for residual subgoals from sledgehammer*)
+             let
+               val state_subgoaled = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) state0;
+               val (r, m) = rescue_then_sh_text rescue_ref rescue_txt state_subgoaled
+             in
+               if r = "success" andalso not (contains_sorry m) then
+                 (r, m)  (* rescue 完全收拢 *)
+               else
+                 (* rescue 失败、超时、报错，或者只部分收拢（含 sorry）——> 尝试 split *)
+                 (case (split_opt, split_txt_opt) of
+                    (SOME split_ref, SOME split_txt) =>
+                      split_then_sh_text split_ref split_txt state_subgoaled
+                      | _ => (r, m)) end
+                        
+         | _ =>
+             (* 没有 rescue；如果有 split 就用之，否则返回 fast_result *)
+             (case (split_opt, split_txt_opt) of
+                (SOME split_ref, SOME split_txt) =>
+                  split_then_sh_text split_ref split_txt state0
+              | _ => fast_result)))
+in
+  final_result
+end
+
+(* 兼容旧名：不传 rescue *)
+fun my_hammer_or_method_away i st m_ref method_text adref adtxt =
+  my_hammer_or_method_away4 i st m_ref method_text adref adtxt NONE NONE
+
 (* Example usage *)
 val input_string = "Try this: by (smt (verit) one_le_numeral power2_less_eq_zero_iff power_increasing power_one_right power_zero_numeral) (187 ms)"
 
@@ -487,71 +892,302 @@ val _ = writeln result
 val _ = writeln (extract_one_liner_proof "cvc5: Try this:\n  apply (metis CSTATE_disj4' CSTATE_starting_transaction_otherside_invariant1 HSTATE_X_Evict_invariant1 H_msg_P_same_def\n    MESI_State.distinct(11) SharedSnpInv'_CSTATE_invariant5 i23) (343 ms) ")
 
 
-(* ---------------- leaf: try user method once on subgoal i ------------------- *)
-(* m_ref_opt : (Method.text * Position.range) option 与你当前 Proof.apply 的类型一致 *)
-
-fun solved_by_method_message i state0 (m_ref : (Method.text * Position.range)) (method_text : string) =
-  (let
-       val st1 = Proof.prefer i (silence_state state0)
-       val n0  = subgoal_count st1
-       (* 注意：元素是 Proof.state Seq.result，而不是 Proof.state *)
-       val step_opt = Seq.pull (Proof.apply m_ref st1)
-     in
-       (case step_opt of
-          SOME (res, _) =>
-            (case res of
-               Seq.Result st' =>
-                 if subgoal_count st' = n0 - 1
-                 then let val _ = writeln "user method successfully solved goal"; in ("success", "cvc5: Try this: apply " ^ method_text ^ " (0 ms)") end
-                 else let val _ = writeln "user method didnt solve goal"; in ("fail", "user method did not close the subgoal") end
-             | Seq.Error _ =>
-                 ("fail", "user method raised error"))
-        | NONE =>
-            ("fail", "user method produced no state"))
-     end)
 
 
 
 
-(* --------------- race: Sledgehammer ⟂ user method on subgoal i ------------- *)
-(* 不引入新 API，只用 Future/Synchronized 进行“先成者胜并取消另一方” *)
-fun my_hammer_or_method_away i state0 (m_ref : (Method.text * Position.range)) (method_text : string) adref adtxt =
+
+fun my_hammer_or_method_away
+  i state0 (m_ref : (Method.text * Position.range)) (method_text : string) adref adtxt =
+let
+  val _ = writeln ("=== ENTER my_hammer_or_method_away for subgoal " ^ Int.toString i ^ " ===")
+
+  (* 赢家：只在 success 时写入；否则保持 NONE *)
+  val winner_slot = Synchronized.var "race_winner" (NONE : (string * string) option)
+
+  (* “两边句柄都就绪”的屏障；避免取消丢失 *)
+  val started = Synchronized.var "race_started" 0
+
+  (* 保存两边的 future 句柄 *)
+  val sh_ref = Unsynchronized.ref (NONE : (string * string) future option)
+  val um_ref = Unsynchronized.ref (NONE : (string * string) future option)
+
+  fun publish_if_success (res: string * string) : bool =
+    if #1 res = "success" then
+      Synchronized.change_result winner_slot
+        (fn NONE => (true, SOME res) | SOME w => (false, SOME w))
+    else false
+
+  fun wait_until_both_started () =
+    if Synchronized.value started = 2 then ()
+    else (OS.Process.sleep (Time.fromMilliseconds 1); wait_until_both_started ())
+
+  (* Method 分支 *)
+  val um_fut =
+    Future.fork (fn () =>
+      let
+        val _ = writeln ("METHOD Future: starting")
+        (* 先计数，保证“另一边赢时可见我” *)
+        val _ = Synchronized.change started (fn n => n + 1)
+        val res = solved_by_method_message i state0 m_ref method_text
+        val _ = writeln ("METHOD Future: result = " ^ #1 res)
+        val won = publish_if_success res
+        val _ =
+          if won then
+            (wait_until_both_started ();
+             (case !sh_ref of SOME fut => (writeln "METHOD won -> cancel SH"; Future.cancel fut)
+                            | NONE => writeln "METHOD won but SH handle not ready"))
+          else ()
+      in
+        res
+      end)
+
+  val _ = um_ref := SOME um_fut
+
+  (* Sledgehammer 分支 *)
+  val sh_fut =
+    Future.fork (fn () =>
+      let
+        val _ = writeln ("SH Future: starting")
+        (* 先计数，保证“另一边赢时可见我” *)
+        val _ = Synchronized.change started (fn n => n + 1)
+        val (outc, msg) =
+          my_hammer_away i (Seq.the_result "" (Proof.apply adref state0))
+        val _ = writeln ("SH Future: sledgehammer returned: " ^ outc)
+        val msg' =
+          if outc = "success"
+          then  "apply " ^ adtxt ^ " " ^ extract_one_liner_proof (remove_prefer i msg)
+          else msg
+        val res = (outc, msg')
+        val won = publish_if_success res
+        val _ =
+          if won then
+            (wait_until_both_started ();
+             (case !um_ref of SOME fut => (writeln "SH won -> cancel METHOD"; Future.cancel fut)
+                            | NONE => writeln "SH won but METHOD handle not ready"))
+          else ()
+      in
+        res
+      end)
+
+  val _ = sh_ref := SOME sh_fut
+
+  fun wait () =
+    (case Synchronized.value winner_slot of
+       SOME res => res
+     | NONE =>
+         if Future.is_finished sh_fut andalso Future.is_finished um_fut
+         then ("fail", "no proof found")
+         else (OS.Process.sleep (Time.fromMilliseconds 10); wait ()))
+
+  val result = wait ()
+
+  (* 无论结果如何，务必回收 *)
+  val _ = (ignore (Exn.capture Future.join sh_fut);
+           ignore (Exn.capture Future.join um_fut))
+
+  val _ = writeln ("=== EXIT my_hammer_or_method_away with result: " ^ #1 result ^ " ===")
+in
+  result
+end
+
+
+(* ========= NEW: Strategy kind & v5 runner ========= *)
+(* ---------- v5 tuning knobs & logging ---------- *)
+
+(* 打开/关闭调试输出 *)
+val v5_debug = Unsynchronized.ref true;
+fun V5_LOG s = if !v5_debug then Output.information s else ();
+
+(* 超时（秒）——可以按需调小/调大再观察 *)
+val v5_timeout_plain_secs    = 2;   (* PLAIN 的方法执行超时 *)
+val v5_timeout_sh_method_secs = 6;  (* SH/TRY0 预处理方法超时 *)
+(* Sledgehammer 自身的超时通常在 my_hammer_away 里设置，若你那边 expose 了参数可在那边调 *)
+
+
+(* PLAIN：仅方法，带硬超时 + 耗时记录 *)
+fun run_plain i (m_ref : (Method.text * Position.range)) (m_txt : string) state0 : (string * string) =
   let
-    val done_flag   = Synchronized.var "race_done" false
-    val winner_slot = Synchronized.var "race_winner" (("","") : string * string)
-    val sh_ref = Unsynchronized.ref (NONE : (string * string) future option)
-    val um_ref = Unsynchronized.ref (NONE : (string * string) future option)
+    val t0 = Time.now ()
+    val st_pref = Proof.prefer i (silence_state state0)
+    val st_sub  = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) st_pref
+  in
+    (case apply_method_with_timeout v5_timeout_plain_secs m_ref st_sub of
+       SOME (SOME (Seq.Result st_after, _)) =>
+         let
+           (* ★ 完全应用：state + method + text *)
+           val (ok, msg) = solved_by_method_message i st_after m_ref m_txt
+           val dt = Time.- (Time.now (), t0)
+           val _ = V5_LOG ("v5[PLAIN] " ^ m_txt ^ " -> " ^ (if ok = "success" then "success" else "no-close")
+                           ^ " in " ^ Time.toString dt)
+         in
+           if ok = "success" then ("success", "apply " ^ m_txt ^ "\n" ^ msg)
+           else ("fail", "plain method did not close: " ^ m_txt)
+         end
+     | SOME (SOME (Seq.Error _, _)) => ("fail", "plain method error: " ^ m_txt)
+     | SOME NONE => ("fail", "plain method produced no state: " ^ m_txt)
+     | NONE => ("fail", "plain method timeout (" ^ Int.toString v5_timeout_plain_secs ^ "s): " ^ m_txt))
+  end
 
-    fun win res other_ref =
-      if #1 res = "success" then
-        (case Synchronized.change_result done_flag (fn d => if d then (false, d) else (true, true)) of
-           true => (Synchronized.change winner_slot (fn _ => res);
-                    (case !other_ref of SOME fut => Future.cancel fut | NONE => ());
-                    res)
-         | false => res)
-      else res
+(* SH：方法（硬超时） + sledgehammer *)
+fun run_sh i (m_ref : (Method.text * Position.range)) (m_txt : string) state0 : (string * string) =
+  let
+    val t0 = Time.now ()
+    val st_pref   = Proof.prefer i (silence_state state0)
+    val st_sub    = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) st_pref
+  in
+    (case apply_method_with_timeout v5_timeout_sh_method_secs m_ref st_sub of
+       SOME (SOME (Seq.Result st_after, _)) =>
+         let
+           (* ★ 参数顺序：先 state 后 subgoal index *)
+           val (outc, msg) = my_hammer_away 1 st_after
+           val dt = Time.- (Time.now (), t0)
+           val _ = V5_LOG ("v5[SH] " ^ m_txt ^ " -> " ^ outc ^ " in " ^ Time.toString dt)
+         in
+           if outc = "success"
+           then ("success", "apply " ^ m_txt ^ "\n" ^ extract_one_liner_proof (remove_prefer 1 msg))
+           else ("fail", msg)
+         end
+     | SOME (SOME (Seq.Error _, _)) =>
+         ("fail", "pre-method error: " ^ m_txt)
+     | SOME NONE =>
+         ("fail", "pre-method produced no state: " ^ m_txt)
+     | NONE =>
+         ("fail", "pre-method timeout (" ^ Int.toString v5_timeout_sh_method_secs ^ "s): " ^ m_txt))
+  end
 
-    (* SH my_hammer_away i state0 *)
-    val sh_fut =
-      Future.fork (fn () =>
-        let val (outc, msg) = my_hammer_away i (Seq.the_result "" (Proof.apply adref state0))
-            val msg' = if outc = "success" then remove_prefer i msg else msg
-        in win (outc, "apply " ^ adtxt ^ " " ^ msg') um_ref end)
-    val _ = sh_ref := SOME sh_fut
+(* TRY0：目前直接复用 SH 的流程；如需严格等同 v4，可在此改为真正 try0 的实现 *)
+fun run_try0 i (m_ref : (Method.text * Position.range)) (m_txt : string) state0 : (string * string) =
+  run_sh i m_ref m_txt state0
 
-    (* *)
-    val um_fut =
-      Future.fork (fn () => win (solved_by_method_message i state0 m_ref method_text) sh_ref)
-    val _ = um_ref := SOME um_fut
 
-    fun wait () =
-      if Synchronized.value done_flag then Synchronized.value winner_slot
-      else if Future.is_finished sh_fut andalso Future.is_finished um_fut then
-             (case Synchronized.value winner_slot of
-                ("","") => ("fail", "no proof found")
-              | res => res)
-      else (OS.Process.sleep (Time.fromMilliseconds 10); wait ())
-  in wait () end
+fun group_strategies (ss : ms_strategy list) : ms_strategy list list =
+  let
+    fun ord_of (_, _, _, k) = k
+    (* sort 需要 'a ord = 'a * 'a -> order *)
+    val sorted = sort (fn (a, b) => Int.compare (ord_of a, ord_of b)) ss
+
+    fun go ([], NONE, cur, acc) = rev (if null cur then acc else cur :: acc)
+      | go ([], SOME _, cur, acc) = rev (cur :: acc)
+      | go (x :: xs, NONE, cur, acc) = go (xs, SOME (ord_of x), [x], acc)
+      | go (x :: xs, SOME k, cur, acc) =
+          let val k' = ord_of x in
+            if k' = k then go (xs, SOME k, x :: cur, acc)
+            else go (xs, SOME k', [x], cur :: acc)
+          end
+  in
+    go (sorted, NONE, [], [])
+  end
+fun group_strategies (ss : ms_strategy list) : ms_strategy list list =
+  let
+    fun ord_of (_, _, _, k) = k
+    (* sort 需要 'a ord = 'a * 'a -> order *)
+    val sorted = sort (fn (a, b) => Int.compare (ord_of a, ord_of b)) ss
+
+    fun go ([], NONE, cur, acc) = rev (if null cur then acc else cur :: acc)
+      | go ([], SOME _, cur, acc) = rev (cur :: acc)
+      | go (x :: xs, NONE, cur, acc) = go (xs, SOME (ord_of x), [x], acc)
+      | go (x :: xs, SOME k, cur, acc) =
+          let val k' = ord_of x in
+            if k' = k then go (xs, SOME k, x :: cur, acc)
+            else go (xs, SOME k', [x], cur :: acc)
+          end
+  in
+    go (sorted, NONE, [], [])
+  end
+
+
+(* 把同一 order 的策略放在一个 Future group 里并发跑；
+   第一个成功者通过 promise 发布结果，同时 cancel_group 取消其它；
+   主线程 join 这个 promise，立刻返回；不再 join 其它 worker。 *)
+fun race_one_group i (state0: Proof.state) (bucket: ms_strategy list) : (string * string) =
+  let
+    val grp = Future.worker_subgroup ()
+    val t_group0 = Time.now ()
+
+    (* 用 promise 承接“第一个成功结果” *)
+    val res_promise : (string * string) Future.future =
+      Future.promise (fn () => ())   (* abort 不需要做事 *)
+
+    fun publish_success (pair: string * string) =
+      (* 可能会有并发 fulfill；捕获并忽略“Concurrent attempt to fulfill promise” *)
+      ignore (Exn.capture (fn () => Future.fulfill res_promise pair) ());
+
+    fun spawn_one strat () =
+      let
+        val t0 = Time.now ()
+        val (outc, msg) =
+          (case strat of
+             (MS_PLAIN, m_ref, m_txt, _) => run_plain i m_ref m_txt state0
+           | (MS_SH,    m_ref, m_txt, _) => run_sh    i m_ref m_txt state0
+           | (MS_TRY0,  m_ref, m_txt, _) => run_try0  i m_ref m_txt state0)
+        val dt = Time.- (Time.now (), t0)
+        val tag =
+          (case strat of
+              (MS_PLAIN, _, _, _) => "PLAIN"
+              | (MS_SH,    _, _, _) => "SH"
+              | (MS_TRY0,  _, _, _) => "TRY0")
+
+        val _ = V5_LOG ("v5[race:" ^ tag ^ "] finished in " ^ Time.toString dt ^ " -> " ^ outc)
+        val _ =
+          (case outc of
+             "success" => (publish_success (outc, msg); Future.cancel_group grp)
+           | _ => ())
+      in () end
+
+    val futs =
+      Future.forks {name = "v5/race", group = SOME grp, deps = [], pri = 0, interrupts = true}
+        (map (fn s => fn () => spawn_one s ()) bucket)
+
+    (* 看门狗：所有 worker 全部结束且尚无成功时，发布一个失败结果，避免主线程一直等 *)
+    val _ = Future.fork (fn () =>
+              (ignore (Future.join_results futs);
+               (case Future.peek res_promise of
+                  NONE =>
+                    Future.fulfill res_promise ("fail",
+                      "all strategies failed in " ^
+                      Time.toString (Time.- (Time.now (), t_group0)))
+                | SOME _ => ());
+               ()))
+
+    val (outc, txt) = Future.join res_promise
+    val dt_group = Time.- (Time.now (), t_group0)
+    val _ = V5_LOG ("v5[race] result=" ^ outc ^ " in " ^ Time.toString dt_group)
+
+    (* 已发布结果；为了保险，再次取消同组任务（若还没被取消） *)
+    val _ = Future.cancel_group grp
+
+    (* 不 join 其它 futs：让 scheduler 清理它们的取消；这与 v4 的体感一致 *)
+  in (outc, txt) end
+
+
+(* =========== 对外主入口：v5 只吃“策略列表” =========== *)
+fun my_hammer_or_method_away5 i (state0: Proof.state) (strats: ms_strategy list) : (string * string) =
+  let
+    val t0 = Time.now ()
+    val buckets = group_strategies strats   (* 你现有的分桶函数：按 order 排序再分组 *)
+    val _ = V5_LOG ("v5/start: " ^ Int.toString (length buckets) ^ " orders")
+
+    fun step ([], _) = ("fail", "no proof found by v5")
+      | step (bucket :: more, ord) =
+          let
+            val b0 = Time.now ()
+            val _ = V5_LOG ("v5/order " ^ Int.toString ord ^ " size=" ^ Int.toString (length bucket))
+            val (outc, txt) = race_one_group i state0 bucket
+            val bd = Time.- (Time.now (), b0)
+            val _ = V5_LOG ("v5/order " ^ Int.toString ord ^ " -> " ^ outc ^ " in " ^ Time.toString bd)
+          in
+            if outc = "success" then (outc, txt) else step (more, ord + 1)
+          end
+
+
+
+    val res as (rc, _) = step (buckets, 1)
+    val dt = Time.- (Time.now (), t0)
+    val _ = V5_LOG ("v5/total " ^ Time.toString dt ^ " result=" ^ rc)
+  in res end
+
+
 
 
 end;
