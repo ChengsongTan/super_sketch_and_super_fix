@@ -468,7 +468,7 @@ fun ppt_simp4 ms state js indent
 
     val n = subgoal_count state''
     val t_start = Timing.start ()
-    val parlist_or_sequential = (if tl_len = 0 orelse n <= 100 then Par_List.map else map)
+    val parlist_or_sequential = (if tl_len = 0 orelse n <= 1000 then map else map)
     val whole =
       "proof" ^ method_text1 ::
       parlist_or_sequential (fn (stmt,i) => pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n)))

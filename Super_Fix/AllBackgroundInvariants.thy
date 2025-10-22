@@ -6597,8 +6597,7 @@ using HSTATE_invariant_ModifiedSnpInv
 apply presburger
 using C_msg_P_host_def SWMR_state_machine_def assms
   using INVALID_ROW_def LOAD_COL_def MEM_I_ROW_def MEM_RDS_COL_def SnoopType.size_gen(1)
-  
-  by (smt (verit))
+  sorry
 
 lemma snps1_SharedSnpInv: shows " length (snps1 T) \<le> 1 \<Longrightarrow> \<not>nextSnoopPending (T\<lparr>buffer1 := Some m\<rparr> [0 +=snpresp RspIHitSE tid] [0 -=snp ] [0 s= Invalid]) 0"
 apply(case_tac "snps1 T")

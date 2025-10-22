@@ -364,7 +364,7 @@ fun my_hammer_away i state0 =
       , ("minimize", ["false"])
       , ("preplay_timeout", ["0"])
       , ("try0", ["false"])
-      , ("slices", ["600"])
+      , ("slices", ["300"])
       , ("timeout", ["20"])       (* 12~20 *)
       ]
       |> map (normalize_raw_param ctxt)
