@@ -1,0 +1,569 @@
+theory Try_Sketch
+  imports "Complex_Main" (* "HOL-ex.Sketch_and_Explore" *)
+  keywords "try_sketch" "try_sketch2" :: diag
+begin
+
+(* lemma 
+  assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
+  shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
+  sketch (intro conjI) *)
+
+
+declare [[ML_print_depth = 4000000]]
+ML_file "ml/pred.ML"
+ML_file "ml/ops.ML"
+ML_file "ml/print.ML"
+ML_file "ml/imports.ML"
+ML_file "ml/get.ML"
+
+ML_file "../../DeepIsaHOL/src/main/ml/sections.ML"
+ML_file "ml/seps.ML"
+ML_file "ml/actions.ML"
+ML_file "../Super_Sketch/ml/Sledgehammer_Commands1.ML"
+(* meta-data operations *)
+
+ML \<open>
+fun split_clause t =
+  let
+    val (fixes, horn) = funpow_yield (length (Term.strip_all_vars t)) Logic.dest_all_global t;
+    val assms = Logic.strip_imp_prems horn;
+    val concl = Logic.strip_imp_concl horn;
+  in (fixes, assms, concl) end;
+
+fun upd_context (var_typs, assms, concl) ctxt =
+  let
+    val fixes = map (fn (s, T) => (Binding.name s, SOME T, NoSyn)) var_typs
+    val ctxt' = ctxt |> Variable.set_body false |> Proof_Context.add_fixes fixes |> snd
+      handle ERROR _ =>
+      ctxt |> Variable.set_body true |> Proof_Context.add_fixes fixes |> snd
+  in ((var_typs, assms, concl), ctxt') end;
+
+val silence_state =
+  Proof.map_contexts (Try0.silence_methods false #> Config.put SMT_Config.verbose false)
+
+
+\<close>
+
+
+(* generic string operations *)
+ML \<open>
+
+fun header_string thy_name imports state =
+  let
+    val thy = Toplevel.theory_of state;
+    val merge = Library.union 
+      (fn (str1, str2) => Pred.contains str1 str2 
+        orelse Pred.contains str2 str1);
+    val sep = "\n" ^ (Symbol.spaces 2);
+    val imports' = 
+      merge imports (map fst (Resources.imports_of thy))
+      |> Ops.intersp [sep]
+      |> Library.implode_space;
+  in "theory " ^ thy_name ^ sep ^ "imports " ^ imports' ^ "\nbegin" end;
+
+fun coalesce_method_txt [] = ""
+  | coalesce_method_txt [s] = s
+  | coalesce_method_txt (s1 :: s2 :: ss) =
+      if s1 = "(" orelse s1 = "["
+        orelse s2 = ")" orelse s2 = "]" orelse s2= ":"
+      then s1 ^ coalesce_method_txt (s2 :: ss)
+      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
+
+fun print_term ctxt t = 
+  Print.string_of_term ctxt t
+  |> Library.enclose "\"" "\"";
+
+fun print_typ ctxt T = 
+  Print.string_of_type ctxt T
+  |> Library.enclose "\"" "\"";
+
+fun add_ands indent strs = 
+  let 
+    val sep = "\n" ^ (Symbol.spaces (indent + 2)) ^ "  and ";
+  in space_implode sep strs end;
+
+fun prepare_data ctxt indent (fixes, assms, concl) = 
+  let
+    val opt_assumes = if null assms then NONE
+      else SOME (map (print_term ctxt) assms);
+    val opt_fixes = if null fixes then NONE
+      else SOME (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt T) fixes);
+    val goal = print_term ctxt concl;
+  in (
+    Option.map (add_ands indent) opt_fixes, 
+    Option.map (add_ands indent) opt_assumes, 
+    goal)
+  end;
+
+val remove_time = String.explode
+  #> rev 
+  #> Pred.drop_until' (fn c => (case Char.fromCString "(" of SOME d => c = d | _ => false))
+  #> rev
+  #> String.implode;
+
+fun trim substr target_str =
+  (if Pred.starts_with substr target_str 
+  then Library.unprefix substr target_str 
+  else target_str
+  ) |> (fn mid_str => 
+  if Pred.ends_with substr mid_str 
+  then Library.unsuffix substr mid_str 
+  else mid_str)
+  
+fun extract_one_liner_proof' input_str =
+  (if Pred.contains "ms)" input_str then remove_time input_str else input_str)
+  |> (fn mid_str => Library.unprefix "Try this:" mid_str)
+  |> trim " ";
+\<close>
+ML \<open>
+open ATP_Util
+open ATP_Problem_Generate
+open ATP_Proof
+open ATP_Proof_Reconstruct
+open Sledgehammer_Util
+open Sledgehammer_Fact
+open Sledgehammer_ATP_Systems
+open Sledgehammer_Prover
+open Sledgehammer_Prover_SMT
+open Sledgehammer_Prover_Minimize
+open Sledgehammer_MaSh
+open Sledgehammer
+open Sledgehammer_Commands1
+
+open Subgoal
+open Binding
+val print_name = Token.print_name o Thy_Header.get_keywords';
+
+fun createList(start, ending) = 
+  if start = ending then []
+  else start :: createList(start + 1, ending);
+
+fun createList'(ending) =
+  createList(1, ending + 1);
+
+fun split_clause t =
+  let
+    val (fixes, horn) = funpow_yield (length (Term.strip_all_vars t)) Logic.dest_all_global t;
+    val assms = Logic.strip_imp_prems horn;
+    val concl = Logic.strip_imp_concl horn;
+  in (fixes, assms, concl) end;
+
+fun print_typ ctxt T =
+  T
+  |> Syntax.string_of_typ ctxt
+  |> ATP_Util.maybe_quote ctxt;
+
+fun print_term ctxt t =
+  t
+  |> singleton (Syntax.uncheck_terms ctxt)
+  |> Sledgehammer_Isar_Annotate.annotate_types_in_term ctxt
+  |> Print_Mode.setmp [] (Syntax.unparse_term ctxt #> Pretty.string_of)
+  |> Sledgehammer_Util.simplify_spaces
+  |> ATP_Util.maybe_quote ctxt;
+
+fun eigen_context_for_statement (params, assms, concl) ctxt =
+  let
+    val fixes = map (fn (s, T) => (Binding.name s, SOME T, NoSyn)) params
+    val ctxt' = ctxt |> Variable.set_body false |> Proof_Context.add_fixes fixes |> snd
+      handle ERROR _ =>
+      ctxt |> Variable.set_body true |> Proof_Context.add_fixes fixes |> snd
+  in ((params, assms, concl), ctxt') end;
+
+fun hammer_maybe_twice i state =
+  let
+    val statei = Proof.prefer i state
+    val (outcome_type_string, message) = my_hammer_away 1 statei;
+    val (retry_outcome, retry_message) = (case outcome_type_string of "success" => (outcome_type_string, message) 
+      | _ => my_verbose_hammer_away 1 statei 4)
+  in (retry_outcome, retry_message) end;
+
+fun generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_ref mreduce_txt = 
+  let 
+    val state_subgoaled = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) (Proof.prefer i state);
+    val state_splitted = (case msplit_ref of (SOME m) =>  (Seq.the_result "" (Proof.apply m (state_subgoaled)))
+                                         | NONE => state_subgoaled );
+
+    val state_reduced = (case mreduce_ref of (SOME m) =>  (Seq.the_result "" (Proof.apply m (state_splitted)))
+                                         | NONE => state_splitted );
+    val sub_subgoals_num = (subgoal_count state_reduced);
+
+    val _ = writeln ("sub_subgoals_num: " ^ Int.toString sub_subgoals_num);
+    val string_pairs_list = (if sub_subgoals_num > 0 then (Par_List.map (fn j => hammer_maybe_twice j state_reduced) (createList(1, sub_subgoals_num + 1))) else []);
+    val proof_text_list = map snd string_pairs_list;
+    val proof_text_list = map ( Sledgehammer_Commands1.extract_one_liner_proof) proof_text_list
+    val outcome_type_list = map fst string_pairs_list;
+    val final_outcome = List.foldl (fn (s, acc) => if s = "success" andalso acc then true else false) true outcome_type_list;
+    val done_or_nil = (if sub_subgoals_num = 1 then [] else [" done\n"])
+    val text = (if final_outcome then cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil) 
+        else cat_lines (([" apply " ^ msplit_txt ^ " apply " ^ mreduce_txt]) @ proof_text_list @ done_or_nil));
+  in text end;
+    
+    
+
+fun print_super_isar_skeleton3 ctxt indent keyword stmt i state extra_method_ref extra_method_text m3ref m3txt msplit_ref msplit_txt mreduce_ref mreduce_txt=
+  let
+    val ((fixes, assms, concl), ctxt') = eigen_context_for_statement stmt ctxt;
+    val prefix = replicate_string indent " ";
+      \<comment> \<open>TODO consider pre-existing indentation -- how?\<close>
+    val prefix_sep = "\n" ^ prefix ^ "    and ";
+    val show_s = prefix ^ keyword ^ " goal" ^ Int.toString i ^ ": " ^ print_term ctxt' concl;
+    val if_s = if null assms then NONE
+      else SOME (prefix ^ "  if " ^ space_implode prefix_sep
+        (map (fn t => print_term ctxt' t ) assms));
+    val for_s = if null fixes then NONE
+      else SOME (prefix ^ "  for " ^ space_implode prefix_sep
+        (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt T) fixes));
+
+    val total_count = subgoal_count state;
+    val state_insert = (case m3ref of (SOME m3) =>  (Seq.the_result "" (Proof.apply m3 (Proof.prefer i state)))
+                                         | NONE => Proof.prefer i state )
+    val insert_count = subgoal_count state_insert;
+    val (outcome_type_string, message) = (if insert_count < total_count then ("success", "Try this:        (>1.0s)") else ("failed", "must split subgoal"));
+    val done_or_nil = (if insert_count < 2 then "" else "done")
+    val message1 = (if outcome_type_string = "success" 
+      then "apply " ^ m3txt ^ "(**)" ^  
+           Sledgehammer_Commands1.extract_one_liner_proof message ^ done_or_nil 
+      else generate_multiple_step_solving_text i state msplit_ref msplit_txt mreduce_ref mreduce_txt);
+
+
+    val s = cat_lines ([show_s] @ map_filter I [if_s, for_s] @
+      [ prefix ^  "  " ^ (if is_none if_s then "" else "using that ") ^ message1]);
+  in
+    s
+  end;
+
+\<close>
+(* formatting operations *)
+ML \<open>
+
+(* TODO: add SUBGOAL and ASSMS_SHOW *)
+datatype format_mode = 
+  LEMMAS of Path.T * Path.T
+  | SHOW_IFS
+
+fun init_indent_of format = (case format of LEMMAS _ => 0 | SHOW_IFS => 2);
+
+fun get_formatter format indent num =
+  (case format of 
+    LEMMAS _ => (fn (opt_fixes, opt_assms, goal) => 
+    let
+      val sep = "\n" ^ (Symbol.spaces (indent + 2));
+      val header = "lemma goal" ^ Value.print_int num ^ ": ";
+      val fixes = the_default "" (Option.map (curry (op ^) (sep ^ "fixes ")) opt_fixes);
+      val assms = the_default "" (Option.map (curry (op ^) (sep ^ "assumes ")) opt_assms);
+      val shows = if fixes = "" andalso assms = ""
+        then goal else sep ^ "shows " ^ goal;
+      val sorry = sep ^ "  sorry"
+    in header ^ fixes ^ assms ^ shows ^ sorry end)
+    | SHOW_IFS => (fn (opt_fixes, opt_assms, goal) =>
+    let
+      val sep = "\n" ^ (Symbol.spaces (indent + 2));
+      val header = "show goal" ^ Value.print_int num ^ ": ";
+      val fors = the_default "" (Option.map (curry (op ^) (sep ^ "for ")) opt_fixes);
+      val ifs = the_default "" (Option.map (curry (op ^) (sep ^ "if ")) opt_assms);
+      val shows = Symbol.spaces indent ^ header ^ goal;
+      val sorry = if ifs = ""
+        then sep ^ "  sorry" else sep ^ "using that" ^ sep ^ "sorry"
+    in shows ^ ifs ^ fors ^ sorry end));
+
+fun sketch_as format ctxt indent (goal_num, goal_data) =
+  let
+    val ((fixes, assms, concl), ctxt') = upd_context goal_data ctxt;
+    val (opt_fixes, opt_assumes, goal) = prepare_data ctxt' indent (fixes, assms, concl);
+    val formatter = get_formatter format indent goal_num;
+  in formatter (opt_fixes, opt_assumes, goal) end;
+
+\<close>
+
+
+ML \<open>
+
+
+
+val parse_methods = Parse.$$$ "[" |-- Parse.list1 Method.parse --| Parse.$$$ "]";
+
+
+fun run_try_tools st = 
+  (case Try.try_tools (Toplevel.proof_of st) of
+    SOME (_, outcome) => "by " ^ outcome
+    | NONE => "sorry"
+  )
+
+fun try_strategies st =
+  let
+    val sol1 = (case Try0.try0 (SOME (Time.fromSeconds 30)) [] (Toplevel.proof_of st) of 
+      [] => "sorry"
+      | {command, ...} :: _ => command
+    );
+    val sol2 = if sol1 = "sorry" then
+      let
+        val thy = Toplevel.theory_of st;
+        val prf_st = silence_state (Toplevel.proof_of st);
+        val params = Sledgehammer_Commands.default_params thy [];
+        val (proved, (_, txt)) = Sledgehammer.run_sledgehammer 
+          params 
+          Sledgehammer_Prover.Normal 
+          NONE 
+          1
+          Sledgehammer_Fact.no_fact_override 
+          prf_st;
+      in if proved then extract_one_liner_proof' txt else "sorry" end
+      else sol1;
+  in sol2 end;
+
+fun enum_count_from _ [] = (0, [])
+  | enum_count_from n (x :: xs) = 
+    let 
+      val (m, ys) = enum_count_from (n + 1) xs;
+    in (m+1, (n, x) :: ys) end;
+
+fun make_serial_skel format ctxt clause =
+  let
+    val sketch = sketch_as format ctxt (init_indent_of format);
+  in () end;
+
+fun make_proof_qed_skel format first_mthd ctxt clauses =
+  map (sketch_as format ctxt (init_indent_of format)) clauses
+  |> space_implode "\nnext\n"
+  |> (fn skel => "proof" ^ first_mthd ^ "\n" ^ skel ^ "\n" ^ "qed");
+
+fun print_proof format opt_mrange_toks state = 
+  let
+    val (opt_m, m_txt) = case opt_mrange_toks of 
+      SOME (m,toks) => (SOME m, coalesce_method_txt (map Token.unparse toks))
+      | NONE => (NONE, "-");
+    val prf_st = if is_some opt_m
+      then state
+        |> Toplevel.proof_of
+        |> Proof.proof opt_m
+        |> Seq.the_result ""
+      else Toplevel.proof_of state;
+    val {context = ctxt, facts = _, goal} = Proof.goal prf_st;
+    val configs = [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts];
+    val ctxt' = fold (fn bconf => Config.put bconf false) configs ctxt;
+    val _ = Output.tracing "Producing goals to try..."
+    val (count, clauses) = map split_clause (Logic.strip_imp_prems (Thm.prop_of goal))
+      |> enum_count_from 1;
+    val _ = Output.tracing ("Produced " ^ Value.print_int count ^ " goals.")
+    val final_texts = (case format of
+      LEMMAS (read_path, write_dir) => map (sketch_as format ctxt (init_indent_of format)) clauses
+      | SHOW_IFS => 
+        let
+          val _ = Output.tracing "Making proof skeleton..."
+          val skel_stacts = 
+            make_proof_qed_skel format m_txt ctxt' clauses
+            |> Actions.make (Toplevel.theory_of state)
+            |> (fn acts => Actions.apply_all acts state)
+            |> Ops.enumerate;
+          val _ = Output.tracing "Retrieving goals to try..."
+          val (_, rev_pre_sorry_sts) = fold
+            (fn (id, (act', st', _)) => fn (prev_st, to_prove_sts) => 
+              if Actions.on_kind (Pred.is "sorry") act'
+              then let
+                val i' = if null to_prove_sts then 1 else (#2 (hd to_prove_sts)) + 1;
+              in (st', (id, i', prev_st) :: to_prove_sts) end
+              else (st', to_prove_sts)
+            ) skel_stacts (state, []);
+          val pre_sorry_sts = rev rev_pre_sorry_sts;
+          val try_results = Par_List.map (fn (n, i, st) =>
+            let
+              val goal_no_str = "goal " ^ Value.print_int i ^ " of " ^ Value.print_int count;
+              val _ = Output.tracing ("Trying " ^ goal_no_str);
+              val start_time = Time.now ();
+              val result = try_strategies st;
+              val elapsed = Value.print_int (Time.toMilliseconds (Time.now () - start_time));
+              val _ = Output.tracing ("Finished processing " ^ goal_no_str ^ " (" ^ elapsed ^ " ms)");
+            in (n, result) end) pre_sorry_sts;
+          val get_texts = map (fn (_, (act, _, _)) => Actions.text_of act);
+          val (texts, unmodified) = fold
+            (fn (n, proof_txt) => fn (txts_so_far, remaining) => 
+              let
+                val (seen, _, nexts) = Pred.trisect (fn (m,_) => m = n) remaining;
+                val txts_so_far' = txts_so_far @ get_texts seen @ [proof_txt];
+              in (txts_so_far', nexts) end
+            ) try_results ([], skel_stacts)
+        in texts @ get_texts unmodified end
+    )
+  in Library.space_implode "" final_texts end;
+
+val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch\<close>
+  "Makes a proof-sketch and attempts intermediate subgoals."
+  ((Scan.option (Scan.trace Method.parse) ) >> 
+    (fn opt_mrange_toks =>
+      Toplevel.keep_proof (fn st =>
+        let
+          (* TODO: LEMMAS (Path.explode "", Path.explode "") *)
+          val final_sketch = print_proof SHOW_IFS opt_mrange_toks st;
+          val _ = Output.information (Active.sendback_markup_command final_sketch);
+        in () end
+      )
+   ));
+\<close>
+
+ML \<open>
+(* 先 prefer 到第 i 个子目标，再 try0；不行再 sledgehammer *)
+fun run_proof_strategies2 i prf_st =
+  let
+    val prf_sti = Proof.prefer i prf_st
+    val tr = Try0.try0 (SOME (Time.fromSeconds 30)) [] prf_sti
+  in
+    (case tr of
+       [] =>
+         let
+           val thy = Proof.theory_of prf_sti
+           val params = Sledgehammer_Commands.default_params thy []
+           val (proved, (_, txt)) =
+             Sledgehammer.run_sledgehammer
+               params
+               Sledgehammer_Prover.Normal
+               NONE
+               1   (* 已经 prefer 过了，这里用 1 *)
+               Sledgehammer_Fact.no_fact_override
+               prf_sti
+         in
+           if proved then Sledgehammer_Commands1.extract_one_liner_proof txt else "sorry"
+         end
+     | {command, ...} :: _ => command)
+  end
+
+
+
+fun solve_one_show_with_m2 m2_ref m2_txt top_st =
+  let
+    val st = Toplevel.proof_of top_st  (* 统一转成 Proof.state *)
+    val st2 =
+      (case m2_ref of
+         SOME m => Seq.the_result "" (Proof.apply m st)
+       | NONE   => st)
+    val k = subgoal_count st2
+    val js = Library.upto (1, k)
+    val proofs =
+      if k = 0 then []
+      else Par_List.map (fn j => run_proof_strategies2 j st2) js
+    val done_or_nil = if k <= 1 then "" else "\n  done"
+    val header = (case m2_ref of SOME _ => "apply " ^ m2_txt ^ "\n" | NONE => "")
+  in
+    header ^ cat_lines proofs ^ done_or_nil
+  end
+
+(* 核心：先用第一个方法生成“proof (\<dots>) \<dots> next \<dots> qed”的骨架，然后每个 sorry 用上面的求解文本替换 *)
+fun print_proof_try_sketch2 format opt_m1 opt_m2 state =
+  let
+    val (m1_ref, m1_txt) =
+      (case opt_m1 of
+         SOME (m, toks) => (SOME m, coalesce_method_txt (map Token.unparse toks))
+       | NONE           => (NONE, "-"))
+    val (m2_ref, m2_txt) =
+      (case opt_m2 of
+         SOME (m, toks) => (SOME m, coalesce_method_txt (map Token.unparse toks))
+       | NONE           => (NONE, "-"))
+
+    val prf_st = Toplevel.proof_of state
+    val {context = ctxt, goal, ...} = Proof.goal prf_st
+    val configs = [show_markup, Printer.show_type_emphasis, show_types, show_sorts, show_consts]
+    val ctxt' = fold (fn bconf => Config.put bconf false) configs ctxt
+
+    val (count, clauses) =
+      map split_clause (Logic.strip_imp_prems (Thm.prop_of goal))
+      |> enum_count_from 1
+
+    (* proof (\<dots>) 的括号用第一方法文本填充 *)
+    val first_mthd =
+      (case m1_ref of SOME _ => " (" ^ m1_txt ^ ")" | NONE => "")
+
+    (* 生成骨架并执行，抽取所有出现 sorry 处对应的小环境 state *)
+    val skel_stacts =
+      make_proof_qed_skel format first_mthd ctxt' clauses
+      |> Actions.make (Toplevel.theory_of state)
+      |> (fn acts => Actions.apply_all acts state)
+      |> Ops.enumerate
+
+    val (_, rev_pre_sorry_sts) =
+      fold
+        (fn (id, (act', st', _)) => fn (prev_st, acc) =>
+           if Actions.on_kind (Pred.is "sorry") act'
+           then
+             let val i' = if null acc then 1 else (#2 (hd acc)) + 1
+             in (st', (id, i', prev_st) :: acc) end
+           else (st', acc))
+        skel_stacts (state, [])
+    val pre_sorry_sts = rev rev_pre_sorry_sts
+
+    (* 对每个 show \<dots> 的小环境，插入 “apply <第二法>; 子子目标 one-liners; [done]” *)
+    val try_results =
+      Par_List.map (fn (n, _, st) =>
+        let
+          val txt = solve_one_show_with_m2 m2_ref m2_txt st  (* st 是 Toplevel.state *)
+        in (n, txt) end) pre_sorry_sts;
+
+    val get_texts = map (fn (_, (act, _, _)) => Actions.text_of act)
+
+    val (texts, unmodified) =
+      fold
+        (fn (n, proof_txt) => fn (txts_so_far, remaining) =>
+          let
+            val (seen, _, nexts) = Pred.trisect (fn (m,_) => m = n) remaining
+            val txts_so_far' = txts_so_far @ get_texts seen @ [proof_txt]
+          in (txts_so_far', nexts) end)
+        try_results ([], skel_stacts)
+  in
+    Library.space_implode "" (texts @ get_texts unmodified)
+  end
+\<close>
+
+(* 命令：try_sketch2 (split-goal-method) (split-subgoal-method) *)
+ML \<open>
+val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch2\<close>
+  "Split the main goal (arg1), then for each subgoal split again (arg2); try try0 then sledgehammer on each sub-subgoal."
+  ((Scan.option (Scan.trace Method.parse)) -- (Scan.option (Scan.trace Method.parse)) >>
+    (fn (opt_m1, opt_m2) =>
+      Toplevel.keep_proof (fn st =>
+        let
+          val final_sketch = print_proof_try_sketch2 SHOW_IFS opt_m1 opt_m2 st
+          val _ = Output.information (Active.sendback_markup_command final_sketch)
+        in () end)))
+\<close>
+
+sledgehammer_params
+
+ML \<open>
+File.read;
+File.append;
+Library.filter;
+Proof.goal_finished;
+Try.get_tools \<^theory>;
+Time.fromSeconds
+\<close>
+
+ML \<open>
+Ops.linspan 2 1 15;
+Pred.trisect (fn n => n = 20) (Ops.linspan 1 15 19);
+enum_count_from 0 (Ops.linspan 40 200 1450);
+\<close>
+ML \<open>null\<close>
+lemma 
+  assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
+  shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
+  using assms
+  try_sketch (intro conjI)
+
+  ML_val \<open>
+  #goal (Proof.goal (Toplevel.proof_of @{Isar.state}))
+  |> Thm.prop_of
+  |> Logic.strip_imp_prems
+  |> map split_clause
+  |> Ops.enumerate_from 1
+  |> map (sketch_as SHOW_IFS \<^context> 2)
+  |> space_implode "\nnext\n"
+  |> (fn prf_skel => "proof(intro conjI)\n" ^ prf_skel ^ "\nqed")
+  |> Output.tracing
+  \<close>
+  ML_val \<open>
+parse_methods (Get.tokens {filtered=true} \<^context> "[blast, (intro conjI; simp), (simp add: list_all2_eq, blast), sketch]");
+\<close>
+  oops
+
+thm refl list_all2_eq
+
+
+end

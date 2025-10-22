@@ -1,0 +1,24 @@
+theory Scratch imports Main Super begin
+(*reduce max_proofs for faster super_sketch calls *)
+sledgehammer_params[max_proofs = 1, preplay_timeout = 1]
+
+lemma
+  fixes x :: nat
+  assumes "foo x \<and> bar x \<and> baz x \<and> qux x"
+  shows "(foo (f x) \<or> x * x + 1 > x) \<and> (bar (f x) \<or> x ^2 + 1 \<ge> 2 * x) \<and> (baz (f x) \<or> x + 1 > x) \<and> (qux (f x) \<or> x + 1 > x)"
+proof -
+  have "foo x"
+    using assms by argo
+  have "bar x"
+    using assms by argo
+  have "baz x"
+    using assms by argo
+  have "qux x"
+    using assms by argo
+
+  show ?thesis 
+ (*HERE*)
+(*experimental: super_sketch3 (intro conjI, insert assms) (simp) (-) (cases "x") (auto)*)
+(*Try this: super_sketch(intro conjI)*)
+
+end

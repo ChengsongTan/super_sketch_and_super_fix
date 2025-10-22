@@ -1,0 +1,1385 @@
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: starting 
+user method successfully solved goal 
+METHOD Future: result = success 
+METHOD won -> cancel SH 
+SH Future: starting 
+Sledgehammering... 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: starting 
+SH Future: starting 
+user method didnt solve goal 
+METHOD Future: result = fail 
+METHOD Future: starting 
+Sledgehammering... 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_various_forms1 SWMR_def devcache1_ISDIData_invariant_aux1 devcache2_copy_perform1_invariant
+    i0) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+user method successfully solved goal 
+METHOD Future: result = success 
+METHOD won -> cancel SH 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+user method successfully solved goal 
+METHOD Future: result = success 
+METHOD won -> cancel SH 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+user method didnt solve goal 
+METHOD Future: result = fail 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+user method successfully solved goal 
+METHOD Future: result = success 
+METHOD won -> cancel SH 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(3,97)) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+METHOD Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside
+    InvalidLoad'_HSTATE MESI_State.distinct(11) i23) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant InvalidStore'_CSTATE_sameside MESI_State.distinct(15,187)) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_remove_op i23 remove_instr_HSTATE) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+METHOD Future: starting 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside
+    InvalidLoad'_HSTATE MESI_State.distinct(11,143) i106) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(101,11,3) i106
+    remove_instr_HSTATE) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+user method didnt solve goal 
+METHOD Future: result = fail 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant InvalidStore'_CSTATE_otherside InvalidStore'_CSTATE_sameside
+    InvalidStore'_HSTATE MESI_State.distinct(15) i23) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(101,3)) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant InvalidStore'_CSTATE_otherside InvalidStore'_CSTATE_sameside
+    InvalidStore'_HSTATE MESI_State.distinct(11,143,15) i106) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_remove_op i22 remove_instr_HSTATE) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+user method successfully solved goal 
+METHOD Future: result = success 
+METHOD won -> cancel SH 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_remove_op i22 remove_instr_HSTATE) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) InvalidStore'_CSTATE_otherside InvalidStore'_HSTATE MESI_State.distinct(15)
+    SMADSnpInv_C_msg_not_half i22) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_disj2 C_msg_not_def InvalidStore'_CSTATE_sameside InvalidStore'_nextReqIs_invariant1
+    MESI_State.distinct(15) i26) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(35) SharedStore'_CSTATE_otherside
+    SharedStore'_CSTATE_sameside SharedStore'_HSTATE i23) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Warning: Prover error:
+Abnormal termination with exit code 3 
+SH Future: sledgehammer returned: fail 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_disj1 C_msg_not_def C_msg_state_def InvalidStore'_CSTATE_otherside
+    InvalidStore'_nextReqIs_invariant1 MESI_State.distinct(11) i26 i47) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(101,11,35) SharedStore'_CSTATE_otherside
+    SharedStore'_CSTATE_sameside SharedStore'_HSTATE i106) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) InvalidLoad'_CSTATE_otherside InvalidLoad'_HSTATE MESI_State.distinct(11)
+    SMADSnpInv_C_msg_not_half i22) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+No proof found 
+SH Future: sledgehammer returned: fail 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(281,35) SharedStore'_CSTATE_sameside) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_disj2 C_msg_state_def InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside
+    InvalidLoad'_HSTATE InvalidLoad'_nextReqIs_otherside i22 i47) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) i107 remove_instr_HSTATE) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) MESI_State.distinct(35) SMADSnpInv_C_msg_not_half SharedStore'_CSTATE_otherside
+    SharedStore'_HSTATE i22) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant C_msg_state_def InvalidLoad'_CSTATE_otherside
+    InvalidLoad'_nextReqIs_otherside MESI_State.distinct(11) SMADSnpInv_C_msg_not_half i47) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) i107 remove_instr_HSTATE) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_disj2 MESI_State.distinct(35) SharedStore'_CSTATE_otherside SharedStore'_CSTATE_sameside
+    SharedStore'_HSTATE i22) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) i107 remove_instr_HSTATE) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+Warning: Prover error:
+Abnormal termination with exit code 3 
+SH Future: sledgehammer returned: fail 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) SharedStore'_HSTATE i107) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) SharedStore'_HSTATE i107) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+53.179s elapsed time, 35.469s cpu time, 0.891s GC time 
+SH Future: starting 
+Sledgehammering... 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_various_forms1 MESI_State.distinct(137,47) SharedSnpInv'_CSTATE_invariant5) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) SharedStore'_HSTATE i107) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) SharedStore'_HSTATE i107) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Warning: Prover error:
+Abnormal termination with exit code 3 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+Warning: Prover error:
+Abnormal termination with exit code 3 
+SH Future: sledgehammer returned: fail 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_various_forms1 MESI_State.distinct(133,43) SharedEvictData'_CSTATE_sameside) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(35) SharedStore'_CSTATE_otherside
+    SharedStore'_CSTATE_sameside SharedStore'_HSTATE i23) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+69.558s elapsed time, 42.719s cpu time, 3.781s GC time 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_disj1 InvalidStore'_CSTATE_otherside InvalidStore'_CSTATE_sameside InvalidStore'_HSTATE
+    InvalidStore'_nextReqIs_otherside i23 i824) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: starting 
+SH Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+72.730s elapsed time, 45.969s cpu time, 3.938s GC time 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: result = timeout 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: fail === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_various_forms1 MESI_State.distinct(117,27) ModifiedEvict'_CSTATE_sameside) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_def CSTATE_various_forms1 MESI_State.distinct(5) SharedSnpInv'_CSTATE_invariant5 i592) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_disj1 InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside InvalidLoad'_HSTATE
+    MESI_State.distinct(11) i23) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+90.348s elapsed time, 51.703s cpu time, 5.828s GC time 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+METHOD Future: result = timeout 
+METHOD Future: starting 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant ModifiedEvict'_CSTATE_otherside ModifiedEvict'_CSTATE_sameside
+    ModifiedEvict'_nextHTDDataPending i576 i72) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+cvc5 found a proof... 
+cvc5: Try this:
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(139,5) SharedSnpInv'_CSTATE_invariant5) 
+Done 
+SH Future: sledgehammer returned: success 
+SH won -> cancel METHOD 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: success === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+cvc5 found a proof... 
+cvc5: Try this: apply (smt (verit) CSTATE_various_forms1 MESI_State.distinct(103,13) SharedSnpInv'_CSTATE_invariant5) 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+No proof found 
+SH Future: sledgehammer returned: fail 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== EXIT my_hammer_or_method_away with result: fail === 
+METHOD Future: starting 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+No proof found 
+SH Future: sledgehammer returned: fail 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== EXIT my_hammer_or_method_away with result: fail === 
+METHOD Future: starting 
+No proof found 
+SH Future: sledgehammer returned: fail 
+SH Future: starting 
+Sledgehammering... 
+=== EXIT my_hammer_or_method_away with result: fail === 
+METHOD Future: result = timeout 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+=== ENTER my_hammer_or_method_away for subgoal 1 === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+METHOD Future: starting 
+=== EXIT my_hammer_or_method_away with result: fail === 
+METHOD Future: result = timeout 
+SH Future: starting 
+METHOD Future: starting 
+Sledgehammering... 
+METHOD Future: result = timeout 
+SH Future: starting 
+Sledgehammering... 
+Warning: Prover error:
+Abnormal termination with exit code 3 
+SH Future: sledgehammer returned: fail 
+=== EXIT my_hammer_or_method_away with result: fail === 
+Warning: Prover error:
+Abnormal termination with exit code 3 
+SH Future: sledgehammer returned: fail 
+=== EXIT my_hammer_or_method_away with result: fail === 
+Warning: Prover error:
+Abnormal termination with exit code 3 
+SH Future: sledgehammer returned: fail 
+=== EXIT my_hammer_or_method_away with result: fail === 
+No proof found 
+SH Future: sledgehammer returned: fail 
+=== EXIT my_hammer_or_method_away with result: fail === 
+179.044s elapsed time, 54.766s cpu time, 8.016s GC time 
+34639.221s elapsed time, 1146.578s cpu time, 91.109s GC time 
+proof (intro conjI)
+  show goal_1: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ SWMR ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+    proof (intro impconjI)
+   show goal1_1: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ SWMR ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply simp done
+   show goal1_2: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply simp done
+   show goal1_3: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside
+    InvalidLoad'_HSTATE MESI_State.distinct(11) i23) done
+   show goal1_4: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside
+    InvalidLoad'_HSTATE MESI_State.distinct(11,143) i106) done
+   show goal1_5: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     sorry (*failed to find proof*)
+   show goal1_6: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     
+  apply (smt (verit) InvalidLoad'_CSTATE_otherside InvalidLoad'_HSTATE MESI_State.distinct(11)
+    SMADSnpInv_C_msg_not_half i22) done
+   show goal1_7: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     
+  apply (smt (verit) CSTATE_disj2 C_msg_state_def InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside
+    InvalidLoad'_HSTATE InvalidLoad'_nextReqIs_otherside i22 i47) done
+   show goal1_8: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant C_msg_state_def InvalidLoad'_CSTATE_otherside
+    InvalidLoad'_nextReqIs_otherside MESI_State.distinct(11) SMADSnpInv_C_msg_not_half i47) done
+   show goal1_9: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     sorry (*failed to find proof*)
+   show goal1_10: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     sorry (*failed to find proof*)
+   show goal1_11: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     sorry (*failed to find proof*)
+   show goal1_12: "CSTATE Invalid T 0 ∧ nextLoad T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     
+  apply (smt (verit) CSTATE_disj1 InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside InvalidLoad'_HSTATE
+    MESI_State.distinct(11) i23) done
+qed
+  show goal_2: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ SWMR (T [ -=i 0]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (T [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+    proof (intro impconjI)
+   show goal2_1: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ SWMR (T [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_various_forms1 SWMR_def devcache1_ISDIData_invariant_aux1 devcache2_copy_perform1_invariant
+    i0) done
+   show goal2_2: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(3,97)) done
+   show goal2_3: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_remove_op i23 remove_instr_HSTATE) done
+   show goal2_4: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(101,11,3) i106
+    remove_instr_HSTATE) done
+   show goal2_5: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(101,3)) done
+   show goal2_6: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_remove_op i22 remove_instr_HSTATE) done
+   show goal2_7: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_remove_op i22 remove_instr_HSTATE) done
+   show goal2_8: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal2_9: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (T [ -=i 0])"
+      apply (smt (verit) i107 remove_instr_HSTATE) done
+   show goal2_10: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+      apply (smt (verit) i107 remove_instr_HSTATE) done
+   show goal2_11: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+      apply (smt (verit) i107 remove_instr_HSTATE) done
+   show goal2_12: "CSTATE Shared T 0 ∧ nextLoad T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+     sorry (*failed to find proof*)
+qed
+  show goal_3: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+    proof (intro impconjI)
+   show goal3_1: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply simp done
+   show goal3_2: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+      apply (smt (verit) CSTATE_inequality_invariant InvalidStore'_CSTATE_sameside MESI_State.distinct(15,187)) done
+   show goal3_3: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant InvalidStore'_CSTATE_otherside InvalidStore'_CSTATE_sameside
+    InvalidStore'_HSTATE MESI_State.distinct(15) i23) done
+   show goal3_4: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant InvalidStore'_CSTATE_otherside InvalidStore'_CSTATE_sameside
+    InvalidStore'_HSTATE MESI_State.distinct(11,143,15) i106) done
+   show goal3_5: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply simp done
+   show goal3_6: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     
+  apply (smt (verit) InvalidStore'_CSTATE_otherside InvalidStore'_HSTATE MESI_State.distinct(15)
+    SMADSnpInv_C_msg_not_half i22) done
+   show goal3_7: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     
+  apply (smt (verit) CSTATE_disj2 C_msg_not_def InvalidStore'_CSTATE_sameside InvalidStore'_nextReqIs_invariant1
+    MESI_State.distinct(15) i26) done
+   show goal3_8: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     
+  apply (smt (verit) CSTATE_disj1 C_msg_not_def C_msg_state_def InvalidStore'_CSTATE_otherside
+    InvalidStore'_nextReqIs_invariant1 MESI_State.distinct(11) i26 i47) done
+   show goal3_9: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     sorry (*failed to find proof*)
+   show goal3_10: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     sorry (*failed to find proof*)
+   show goal3_11: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     sorry (*failed to find proof*)
+   show goal3_12: "CSTATE Invalid T 0 ∧ nextStore T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     
+  apply (smt (verit) CSTATE_disj1 InvalidStore'_CSTATE_otherside InvalidStore'_CSTATE_sameside InvalidStore'_HSTATE
+    InvalidStore'_nextReqIs_otherside i23 i824) done
+qed
+  show goal_4: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+    proof (intro impconjI)
+   show goal4_1: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply simp done
+   show goal4_2: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     sorry (*failed to find proof*)
+   show goal4_3: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(35) SharedStore'_CSTATE_otherside
+    SharedStore'_CSTATE_sameside SharedStore'_HSTATE i23) done
+   show goal4_4: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(101,11,35) SharedStore'_CSTATE_otherside
+    SharedStore'_CSTATE_sameside SharedStore'_HSTATE i106) done
+   show goal4_5: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+      apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(281,35) SharedStore'_CSTATE_sameside) done
+   show goal4_6: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     
+  apply (smt (verit) MESI_State.distinct(35) SMADSnpInv_C_msg_not_half SharedStore'_CSTATE_otherside
+    SharedStore'_HSTATE i22) done
+   show goal4_7: "CSTATE Shared T 0 ∧ nextStore T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     
+......
+  apply (smt (verit) CSTATE_various_forms1 CSTATE_various_forms6 SWMR_def devcache2_copy_perform1_invariant i0
+    i72) done
+   show goal23_2: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal23_3: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) i23 remove_instr_HSTATE) done
+   show goal23_4: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal23_5: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_remove_op C_not_C_msg_def i49 i72 nextGOPending_DeviceModifiedStore) done
+   show goal23_6: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) i22 remove_instr_HSTATE) done
+   show goal23_7: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_remove_op i22 i72 remove_instr_HSTATE) done
+   show goal23_8: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal23_9: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal23_10: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal23_11: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal23_12: "CSTATE Modified T 0 ∧ nextStore T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+     sorry (*failed to find proof*)
+qed
+  show goal_24: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ SWMR (T [ -=i 0]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (T [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+    proof (intro impconjI)
+   show goal24_1: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ SWMR (T [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_various_forms1 CSTATE_various_forms6 SWMR_def devcache2_copy_perform1_invariant i0
+    i72) done
+   show goal24_2: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal24_3: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) i23 remove_instr_HSTATE) done
+   show goal24_4: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal24_5: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_remove_op C_not_C_msg_def i49 i72 nextGOPending_DeviceModifiedStore) done
+   show goal24_6: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) i22 remove_instr_HSTATE) done
+   show goal24_7: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+      apply (smt (verit) CSTATE_remove_op i22 i72 remove_instr_HSTATE) done
+   show goal24_8: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal24_9: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal24_10: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal24_11: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal24_12: "CSTATE Modified T 0 ∧ nextLoad T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+     sorry (*failed to find proof*)
+qed
+  show goal_25: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ SWMR (consumeGOSendData 0 Invalid T) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+    proof (intro impconjI)
+   show goal25_1: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ SWMR (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_2: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_3: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_4: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_5: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_6: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_7: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_8: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_9: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_10: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_11: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_12: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+qed
+  show goal_26: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ SWMR ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal26_1: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ SWMR ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_def CSTATE_disj4' CSTATE_inequality_invariant CSTATE_various_forms1 CSTATE_various_forms2
+    MESI_State.distinct(5,95) SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5) done
+   show goal26_2: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_disj1 MESI_State.distinct(139,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) done
+   show goal26_3: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_4: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_5: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(143,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) done
+   show goal26_6: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_7: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_8: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_9: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_10: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_11: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_12: "CSTATE SIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+qed
+  show goal_27: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ SWMR ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal27_1: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ SWMR ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_def CSTATE_inequality_invariant CSTATE_various_forms1 CSTATE_various_forms2
+    MESI_State.distinct(5,95) SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5) done
+   show goal27_2: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_disj1 MESI_State.distinct(139,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) done
+   show goal27_3: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_4: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_5: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(143,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) done
+   show goal27_6: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_7: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_8: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_9: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_10: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_11: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_12: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePullDrop T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+qed
+  show goal_28: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ SWMR (consumeGOSendData 0 Invalid T) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+    proof (intro impconjI)
+   show goal28_1: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ SWMR (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_2: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_3: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_4: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_5: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_6: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_7: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_8: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_9: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_10: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_11: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_12: "CSTATE IIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+qed
+  show goal_29: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ SWMR ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal29_1: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ SWMR ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     
+  apply (smt (verit) CSTATE_otherside_rule_8 CSTATE_various_forms1 CSTATE_various_forms4 SMDData_Modified i644) done
+   show goal29_2: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+   show goal29_3: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+   show goal29_4: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+   show goal29_5: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     
+  apply (smt (verit) CSTATE_SMDData_otherside C_not_C_msg_def i337 i465 i478 i640 nextGOPending_DeviceSMDData) done
+   show goal29_6: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+      apply (smt (verit) SMDData_HSTATE i654) done
+   show goal29_7: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+      apply (smt (verit) SMDData_HSTATE i654) done
+   show goal29_8: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+   show goal29_9: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+   show goal29_10: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+   show goal29_11: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+   show goal29_12: "CSTATE IMD T 0 ∧ nextHTDDataPending T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     sorry (*failed to find proof*)
+qed
+  show goal_30: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal30_1: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant CSTATE_various_forms1 CSTATE_various_forms2
+    MESI_State.distinct(121,31) SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal30_2: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(203,31) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal30_3: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_4: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_5: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(277,31) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal30_6: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_7: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_8: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_9: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_10: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_11: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal30_12: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+qed
+  show goal_31: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal31_1: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_disj4' CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(133,27,43)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal31_2: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(215,43) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal31_3: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_4: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_5: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(289,43) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal31_6: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_7: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_8: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_9: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_10: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_11: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal31_12: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+qed
+  show goal_32: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal32_1: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_different1 CSTATE_disj4' CSTATE_various_forms2 MESI_State.distinct(121,27,31)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal32_2: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_different1 CSTATE_inequality_invariant MESI_State.distinct(203,31)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal32_3: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_4: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_5: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(277,31) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal32_6: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_7: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_8: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_9: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_10: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_11: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal32_12: "CXL_SPG_used T 0 ∧ CSTATE MIA T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+qed
+  show goal_33: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ SWMR ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+    proof (intro impconjI)
+   show goal33_1: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ SWMR ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_def CSTATE_inequality_invariant CSTATE_various_forms1 CSTATE_various_forms2
+    MESI_State.distinct(5,95) SIAGO_WritePull_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 nat_to_id.simps(1)) done
+   show goal33_2: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_disj1 CSTATE_disj2 MESI_State.distinct(139,31,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5
+    nextEvict_IIAGO_WritePullDrop_CSTATE_invariant) done
+   show goal33_3: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_4: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_5: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     
+  apply (smt (verit) CSTATE_disj3 CSTATE_inequality_invariant CSTATE_remove_op Invalid_not_eq_MIA
+    MESI_State.distinct(143,167,5) SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal33_6: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_7: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_8: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_9: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_10: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_11: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal33_12: "CSTATE MIA T 0 ∧ nextGOPendingIs GO_WritePull T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T⦇buffer1 := Some (nextGO T 0)⦈ [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     sorry (*failed to find proof*)
+qed
+  show goal_34: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+    proof (intro impconjI)
+   show goal34_1: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+      apply (smt (verit) CSTATE_various_forms1 MESI_State.distinct(121,31) SharedSnpInv'_CSTATE_invariant5) done
+   show goal34_2: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+      apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(203,31) SharedSnpInv'_CSTATE_invariant5) done
+   show goal34_3: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_4: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_5: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+      apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(277,31) SharedSnpInv'_CSTATE_invariant5) done
+   show goal34_6: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_7: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_8: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_9: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_10: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_11: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+   show goal34_12: "CXL_SPG_used T 0 ∧ CSTATE SIA T 0 ∧ nextSnoopIs SnpInv T 0 ∧ ¬ nextReqIs DirtyEvict T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     sorry (*failed to find proof*)
+qed
+  show goal_35: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal35_1: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_def CSTATE_disj4' CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(95)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 i592) done
+   show goal35_2: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_disj4' CSTATE_inequality_invariant MESI_State.distinct(139,5)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal35_3: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_4: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_5: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_disj4' CSTATE_inequality_invariant MESI_State.distinct(143,5)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal35_6: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_7: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_8: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_9: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_10: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_11: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal35_12: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpInv T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+qed
+  show goal_36: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal36_1: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_2: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(3,97) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal36_3: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_4: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_5: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(101,3) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal36_6: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_7: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_8: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_9: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_10: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_11: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal36_12: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+qed
+  show goal_37: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal37_1: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ SWMR ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_disj4' CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(5,95)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal37_2: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(139,5) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal37_3: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_4: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_5: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(143,5) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5) done
+   show goal37_6: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_7: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_8: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_9: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_10: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_11: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+   show goal37_12: "CXL_SPG_used T 0 ∧ CSTATE Modified T 0 ∧ nextSnoopIs SnpData T 0 ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T ⦇buffer1 := Some (nextSnoop T 0)⦈ [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     sorry (*failed to find proof*)
+qed
+  show goal_38: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal38_1: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_various_forms5 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def
+    HostInvalidRdShared'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def
+    OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i493
+    numeral_One) done
+   show goal38_2: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+      apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 i603 i676 numeral_One) done
+   show goal38_3: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) done
+   show goal38_4: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) done
+   show goal38_5: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 i665 i676 nextGOPending_HostInvalidRdShared
+    numeral_One) done
+   show goal38_6: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) done
+   show goal38_7: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) done
+   show goal38_8: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) done
+   show goal38_9: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) HOST_State.distinct(3) HSTATE_invariant3 HostInvalidRdShared_HSTATE
+    minus_req_nextReqIs_False_swmrp_rule_2_0 numeral_One) done
+   show goal38_10: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal38_11: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal38_12: "HSTATE InvalidM T ∧ nextReqIs RdShared T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) done
+qed
+  show goal_39: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) ∧ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal39_1: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_various_forms5 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def
+    HostInvalidRdOwn'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i493 numeral_One) done
+   show goal39_2: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ C_msg_P_oppo ISD nextHTDDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+      apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 i603 i676 numeral_One) done
+   show goal39_3: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same SD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) done
+   show goal39_4: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same SAD nextDTHDataPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) done
+   show goal39_5: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ C_msg_P_oppo ISAD nextGOPending (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) done
+   show goal39_6: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) done
+   show goal39_7: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_oppo SharedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) done
+   show goal39_8: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) done
+   show goal39_9: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal39_10: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_oppo ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal39_11: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ H_msg_P_same ModifiedM (nextReqIs RdShared) (λT i. ¬ nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal39_12: "HSTATE InvalidM T ∧ nextReqIs RdOwn T 0 ∧ GTS T ((0 + 1) mod 2) ⟶ C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) done
+........
