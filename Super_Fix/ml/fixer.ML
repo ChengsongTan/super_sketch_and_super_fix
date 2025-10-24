@@ -400,7 +400,8 @@ fun process_all {err_timeout_in_secs=t} acts =
       andf Actions.on_text (
         Pred.contains "smt" 
         orf Pred.contains "metis" 
-        orf Pred.contains "simp");
+        orf Pred.contains "simp"
+        orf Pred.contains "unfold");
     fun is_timeout errs = exists (fn ((_, err_str), _) => Pred.contains "imeout" err_str) errs;
     fun fix_using_sorry st =
       let
@@ -476,6 +477,8 @@ fun process_all {err_timeout_in_secs=t} acts =
       if Toplevel.is_proof st
       then
         let
+          val act_txt = Actions.text_of act';
+          val _ = Output.tracing ("Still working: " ^ act_txt);
           val (st', err') = if might_timeout act' then
               (case Ops.apply_with_timeout timeout (Actions.apply act') st of
                 Exn.Exn exn => (st, Runtime.exn_messages exn)
@@ -591,6 +594,16 @@ fun repair_sorrys fixer fst_state st_act_errs =
     | LLM ms => repair_sorrys_with_llm' fst_state (map SOME ms) st_act_errs
   )
 
+fun by_to_applys thy acts =
+  let
+    val _ = Output.tracing "Converting by's to apply's"
+    val ctxt = Proof_Context.init_global thy;
+    fun convert1 act = if Actions.on_kind (Pred.is "by") act
+      then Actions.make thy ((Actions.by_to_apply ctxt act) ^ "\n  done")
+      else [act]
+    val result = maps convert1 acts;
+  in result end;
+
 fun fix_end_to_end {fixer=fixer} thy0 read_thy_file =
   let
     val thy_path = Path.explode (ML_System.standard_path read_thy_file);
@@ -609,15 +622,26 @@ fun fix_end_to_end {fixer=fixer} thy0 read_thy_file =
     val _ = File.write backup thy_text;
 
     val actions = Actions.make thy0 (File.read thy_path);
-    val sorryed_trace = process_all {err_timeout_in_secs=30} actions;
+    val as' = by_to_applys thy0 actions;
     
     (* For debugging: *)
-    (* val temp_texts = map (fn (act, _, _) => Actions.text_of act) sorryed_trace;
+    val temp_texts = map Actions.text_of as';
     val temp = 
       let
         val name = (Library.unsuffix ".thy" (Path.file_name thy_path)) ^ ".temp";
       in Path.append (Path.dir thy_path) (Path.explode name) end;
-    val _ = File.write temp (implode temp_texts); *)
+    val _ = File.write temp (implode temp_texts);
+    
+    val _ = Output.tracing "Starting fixing traces"
+    val sorryed_trace = process_all {err_timeout_in_secs=30} as';
+    
+    (* For debugging: *)
+    val temp_texts = map (fn (act, _, _) => Actions.text_of act) sorryed_trace;
+    val temp = 
+      let
+        val name = (Library.unsuffix ".thy" (Path.file_name thy_path)) ^ ".temp";
+      in Path.append (Path.dir thy_path) (Path.explode name) end;
+    val _ = File.write temp (implode temp_texts);
 
     val fixed_trace = repair_sorrys fixer (Toplevel.make_state NONE) sorryed_trace;
     val new_texts = map (fn (act, _, _) => Actions.text_of act) fixed_trace;
