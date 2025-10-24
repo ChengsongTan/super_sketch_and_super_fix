@@ -1,6 +1,6 @@
 theory Try_Sketch
   imports "Super_Fix.Super_Fix"
-  keywords "try_sketch" :: diag
+  keywords "super_sketch'" :: diag
 begin
 
 ML \<open>
@@ -21,7 +21,7 @@ fun try_sketch fixer format opt_m st =
       in fixed end
   in result end;
 
-val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch\<close>
+val _ = Outer_Syntax.command \<^command_keyword>\<open>super_sketch'\<close>
   "Makes a proof-sketch and attempts intermediate subgoals."
   (Fixer.parse -- (Scan.option (Scan.trace Method.parse)) >> 
     (fn (sketch_mode, opt_m0) =>
@@ -43,7 +43,7 @@ lemma
   assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
   shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
   using assms
-  try_sketch SORRYS[simp] (intro conjI)
+  super_sketch' SORRYS[simp] (intro conjI)
 proof-
   show goal1: "P a \<and> P b \<and> P c \<and> P d \<and> P e"
     if "\<forall>x. P x"
@@ -56,11 +56,11 @@ proof-
 
 lemma True
   apply simp
-  try_sketch TRY
+  super_sketch' TRY
   done
 
 lemma length_upt: "length ([0 ..< n]) = n"
-  try_sketch HAMMER[simp] (induct n)
+  super_sketch' HAMMER[simp] (induct n)
 proof(induct n)
   show goal0: "length [0..<0] = 0"
     by simp
