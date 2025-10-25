@@ -1066,7 +1066,7 @@ have i977: "(HSTATE SharedM T \<and> CSTATE SIAC T 0 \<and> nextGOPendingIs GO T
   apply (simp (no_asm) only: zero0_simp if_True if_False)?
 
 
-  double_sketch4 (intro conjI)  (intro impconjI) [simp] [(insert assms, (unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def)?)] 
+  double_sketch4 (intro conjI)  (intro impconjI) [simp] [(insert assms, unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def)] 
 [auto]
 [
   (cases "reqs1 T")

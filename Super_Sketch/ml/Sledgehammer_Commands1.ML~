@@ -805,7 +805,7 @@ let
         val _ =
           if won then
             (wait_until_both_started ();
-             (case !sh_ref of SOME fut => Future.cancel fut | NONE => ()))
+             (case !sh_ref of SOME fut => let val _ = writeln "cancelling sh" in Future.cancel fut end | NONE => ()))
           else ()
       in
         res
@@ -817,6 +817,7 @@ let
   val sh_fut =
     Future.fork (fn () =>
       let
+        val _ = "sh future started"
         val _ = Synchronized.change started (fn n => n + 1)
         val (outc, msg) =
           my_hammer_away i (Seq.the_result "" (Proof.apply adref state0))
@@ -854,6 +855,7 @@ let
            ignore (Exn.capture Future.join um_fut));
 
   (* 兜底：仅当 fast_result 失败 且 给了 rescue 方法 *)
+  val _ = writeln "get final result"
   val final_result =
     (case fast_result of
        ("success", _) => fast_result
@@ -863,6 +865,7 @@ let
              (* 在  if both a vanilla sledgehammer and the user's simp method failed, apply a more heavyweight
                     "rescue" method which tries to solve the goal and ask for help for residual subgoals from sledgehammer*)
              let
+               
                val state_subgoaled = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) state0;
                val (r, m) = rescue_then_sh_text rescue_ref rescue_txt state_subgoaled
              in

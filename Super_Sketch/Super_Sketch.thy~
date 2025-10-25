@@ -24,20 +24,7 @@ ML_file "ml/Sledgehammer_Commands1.ML"
 ML_file "../Super_Fix/ml/HammerAlt.ML"
 
 ML \<open>
-structure Double4_Log =
-struct
-  fun logfile f = 
-    Unsynchronized.ref
-      (SOME (Path.explode f))
-  fun write f s = 
-    (case !(logfile f) of
-      NONE => ()
-    | SOME p => File.append p (s ^ "\n"))
 
-  fun tee f s = (write f s; Output.information s)
-(*"C:\\Users\\Chengsong\\Desktop\\double4log\\d4res.txt"*)
-
-end
 \<close>
 
 ML \<open>
@@ -67,6 +54,16 @@ ML \<open>
 \<close>
 
 ML \<open>
+fun writeFileln dir_str msg = 
+  let 
+    val dir = Path.explode dir_str;
+    val file = dir
+  in
+    File.append file (msg ^ "\n")
+  end;
+
+val _ = writeFileln "$USER_HOME/Desktop/double4log/d4res.txt" "firstline"
+
 val _ = Future.fork
 val print_name = Token.print_name o Thy_Header.get_keywords';
 
@@ -457,6 +454,7 @@ fun ppt_simp4 ms state js indent
     val clauses = map split_clause goal_props
     val tl_len = length ms_tl
     val goal_numbers_prefix = String.concatWith "_" (map (fn i => Int.toString i) js) ^ "_"
+    val gg = "goal" ^ goal_numbers_prefix
 
     fun pisk stmt i ms_tl =
       let
@@ -483,7 +481,7 @@ fun ppt_simp4 ms state js indent
 
     val n = subgoal_count state''
     val t_start = Timing.start ()
-    val parlist_or_sequential = (if tl_len = 0 orelse n <= 1000 then map else map)
+    val parlist_or_sequential = (if tl_len = 0 orelse n <= 1000 then Par_List.map else map)
     val whole =
       "proof" ^ method_text1 ::
       parlist_or_sequential (fn (stmt,i) => pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n)))
@@ -494,7 +492,10 @@ fun ppt_simp4 ms state js indent
     val lines = if null clauses then (if is_none (SOME m1) then ["  .."] else ["  by" ^ method_text1]) else whole
     val raw_str = cat_lines lines
     val message = Active.sendback_markup_properties [] raw_str
-  in message end
+    val { context = ctxt, facts = _, goal } = Proof.goal state;
+    val _ =    
+        writeFileln ("$USER_HOME/Desktop/double4log/d4_" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ^ gg ^ ".txt" ) message;
+  in ( message) end
 
 | [] =>
   let
@@ -817,13 +818,14 @@ fun ppt_main_simp4
     (* 关键：列表里每个元素也要先展开成 (ref, txt) *)
     val first_split_add_rescue' =
       map mref_to_ref_txt first_split_add_rescue
+    val { context = ctxt, facts = _, goal } = Proof.goal state;
   in
     (ppt_simp4 ms state js indent
                solver_ref solver_txt
                adref      adtxt
                resref     restxt
                first_split_add_rescue')
-    |> (fn s => Output.information s)
+    |> (fn s =>  writeFileln ("$USER_HOME/Desktop/double4log/d4_" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) s)
   end
 
 

@@ -360,6 +360,7 @@ fun remove_prefer i s =
 
 fun my_hammer_away i state0 =
   let
+    val _ = writeln "hammer away called"
     val state = silence_state state0
     val thy = Proof.theory_of state
     val ctxt = Proof.context_of state
@@ -557,8 +558,8 @@ fun solved_by_method_message i state0 (m_ref : (Method.text * Position.range)) (
              ("fail", "user method raised error"))
     | SOME NONE =>
         ("fail", "user method produced no state")
-    | NONE =>
-        ("timeout", "user method timed out after " ^ Int.toString timeout_seconds ^ "s")
+    | NONE => let val _ = writeln "hello\n" in
+        ("timeout", "user method timed out after " ^ Int.toString timeout_seconds ^ "s" ) end
   end
 
 (* 对当前 state 上的“第 i 个子目标”跑 SH，成功则返回 one-liner（by/apply ...）文本，否则 NONE *)
