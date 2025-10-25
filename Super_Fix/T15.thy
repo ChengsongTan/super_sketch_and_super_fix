@@ -1,4 +1,4 @@
-theory Testing6 imports  "../Super_Sketch/Super_Sketch"  AllBackgroundInvariants  begin
+theory T15 imports  "../Super_Sketch/Super_Sketch"  AllBackgroundInvariants  begin
 sledgehammer_params [dont_minimize, dont_try0, timeout = 10, preplay_timeout = 0, slices = 36]
 thm allTransitions'_def
 
@@ -253,10 +253,26 @@ definition first_four_hundred: "first_four_hundred T = (    (nextSnpRespIs RspSF
     (CSTATE Shared T 1 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and>
     ((nextReqIs CleanEvictNoData T 0 \<or> nextReqIs CleanEvict T 0) \<longrightarrow> nextEvict T 0) )"
 
+definition fifteen: "fifteen T =     (    (HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> snps2 T = []) \<and>
+    (HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> snps1 T = []) \<and>
+    (HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE MIA T 0) \<and>
+    (HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE MIA T 1) \<and>
+    (HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE SIA T 0 \<and> \<not> CSTATE SIA T 1) \<and>
+    (HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE SIA T 1 \<and> \<not> CSTATE SIA T 0) \<and>
+    (CSTATE Modified T 0 \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1 \<and> (htddatas2 T = [] \<or> CSTATE ISDI T 1)) \<and>
+    (CSTATE Modified T 1 \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0 \<and> (htddatas1 T = [] \<or> CSTATE ISDI T 0)) \<and>
+    (CSTATE Modified T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) \<and>
+    (CSTATE Modified T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) \<and>
+    (CSTATE Modified T 0 \<longrightarrow> snpresps1 T = []) \<and>
+    (CSTATE Modified T 1 \<longrightarrow> snpresps2 T = []) \<and>
+    (CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> (CSTATE ISAD T 1 \<and> nextGOPending T 1)) \<and>
+    (CSTATE SMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> (CSTATE ISAD T 0 \<and> nextGOPending T 0)) \<and>
+    (CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE ISA T 1 \<and> \<not> CSTATE Shared T 1)) "
+
 thm SWMR_state_machine_def
 (*800 conjuncts * 70 rules*)
 theorem all_transitions_preserve_P  : assumes
-  "SWMR_state_machine T" shows " \<forall>T' \<in> set (concat (map (\<lambda> transition. transition T 0) allTransitions' )).  first_four_hundred T'"
+  "SWMR_state_machine T" shows " \<forall>T' \<in> set (concat (map (\<lambda> transition. transition T 0) allTransitions' )).  fifteen T'"
 proof -
   have i0: "SWMR T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
 have i3: "C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
@@ -1054,173 +1070,14 @@ have i976: "(CSTATE SIAC T 1 \<and> HSTATE MAD T \<and> nextGOPendingIs GO T 1 \
 have i977: "(HSTATE SharedM T \<and> CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<longrightarrow> \<not> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
   have i978: "(HSTATE SharedM T \<and> CSTATE SIAC T 1 \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<longrightarrow> \<not> CSTATE IIA T 0)   " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
   show ?thesis
-  unfolding  SWMR_state_machine_def first_four_hundred
+  unfolding  SWMR_state_machine_def fifteen
   unfolding allTransitions'_def my_map_concat my_set_concat_split_68elems
 
 
   apply (unfold thms_to_unfold actions_to_unfold)
   apply (simp (no_asm) only: Ball_set_if_singleton Ball_set_singleton Ball_set_nil Let_def)
   apply (simp (no_asm) only: zero0_simp if_True if_False)?
-(*
-  meta_sketch2
-  [
-    ( (intro conjI),
-      [
-        SH (cases "reqs1 T") , 3,
-        SH (cases "program1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "htddatas1 T") , 3,
-        SH (cases "htddatas1 T") , 3,
-        SH (cases "htddatas1 T") , 3,
-        SH (cases "htddatas1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "htddatas1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "htddatas1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "program1 T") , 3,
-        SH (cases "program1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "htddatas1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "snpresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqs1 T") , 3,
-        SH (cases "reqresps1 T") , 3,
-        SH (cases "snps1 T") , 3,
-        SH (cases "reqresps1 T") , 3
-      ]
-    ),
-    ( (intro impconjI),
-      []
-    )
-  ]
-  [
-    PLAIN simp , 1,
-    SH (insert assms, unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) , 1,
-    SH auto , 2
-  ]
-*)
-(*
-  meta_sketch 
-(intro conjI, [
-  SH (cases "reqs1 T") :: 3
-  SH (cases "program1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "htddatas1 T") :: 3
-  SH (cases "htddatas1 T") :: 3
-  SH (cases "htddatas1 T") :: 3
-  SH (cases "htddatas1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "htddatas1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "htddatas1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "program1 T") :: 3
-  SH (cases "program1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "htddatas1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "snpresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqs1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-  SH (cases "snps1 T") :: 3
-  SH (cases "reqresps1 T") :: 3
-] )
-(intro impconjI, []) 
-[PLAIN simp 1, SH (insert assms, unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 1, SH auto 2] 
-*)
+
 
   double_sketch4 (intro conjI)  (intro impconjI) [simp] [((unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def)?)] 
 [auto]
