@@ -23,7 +23,22 @@ ML_file "../Super_Fix/ml/actions.ML"
 ML_file "ml/Sledgehammer_Commands1.ML"
 ML_file "../Super_Fix/ml/HammerAlt.ML"
 
+ML \<open>
+structure Double4_Log =
+struct
+  fun logfile f = 
+    Unsynchronized.ref
+      (SOME (Path.explode f))
+  fun write f s = 
+    (case !(logfile f) of
+      NONE => ()
+    | SOME p => File.append p (s ^ "\n"))
 
+  fun tee f s = (write f s; Output.information s)
+(*"C:\\Users\\Chengsong\\Desktop\\double4log\\d4res.txt"*)
+
+end
+\<close>
 
 ML \<open>
 open ATP_Util
@@ -468,7 +483,7 @@ fun ppt_simp4 ms state js indent
 
     val n = subgoal_count state''
     val t_start = Timing.start ()
-    val parlist_or_sequential = (if tl_len = 0 orelse n <= 1000 then Par_List.map else map)
+    val parlist_or_sequential = (if tl_len = 0 orelse n <= 1000 then map else map)
     val whole =
       "proof" ^ method_text1 ::
       parlist_or_sequential (fn (stmt,i) => pisk stmt i ms_tl) (ListPair.zip (clauses, createList'(n)))
@@ -1055,7 +1070,7 @@ fun ppt_main_meta (cmps : compound list)
   ppt_meta cmps final_strats state [] 2
   |> (fn s => Output.information s)
 
-(* ======== 新命令：meta_sketch ======== *)
+(* ======== meta_sketch ======== *)
 
 (* 一个用方括号包起来的 compound 列表 *)
 val parse_compound_list : compound list parser =

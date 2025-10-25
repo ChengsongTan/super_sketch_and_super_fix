@@ -9,6 +9,8 @@ Super_sketch tweaked this file to easily call sledgehammer on a proof state, als
 utilities for removing comments in generated one-liners.
 *)
 
+
+
 signature SLEDGEHAMMER_COMMANDS1 =
 sig
   type params = Sledgehammer_Prover.params
@@ -50,6 +52,9 @@ open Sledgehammer_Prover_SMT
 open Sledgehammer_Prover_Minimize
 open Sledgehammer_MaSh
 open Sledgehammer
+
+
+
 
 val runN = "run"
 datatype ms_kind = MS_PLAIN | MS_SH | MS_TRY0
@@ -151,6 +156,7 @@ fun unalias_raw_param (name, value) =
     | NONE => (name, value)))
 
 val any_type_enc = type_enc_of_string Strict "erased"
+
 
 (* "provers =", "type_enc =", "lam_trans =", "fact_filter =", and "max_facts ="
    can be omitted. For the last four, this is a secret feature. *)
@@ -364,7 +370,7 @@ fun my_hammer_away i state0 =
       , ("minimize", ["false"])
       , ("preplay_timeout", ["0"])
       , ("try0", ["false"])
-      , ("slices", ["600"])
+      , ("slices", ["300"])
       , ("timeout", ["20"])       (* 12~20 *)
       ]
       |> map (normalize_raw_param ctxt)
@@ -997,7 +1003,7 @@ end
 
 (* 打开/关闭调试输出 *)
 val v5_debug = Unsynchronized.ref true;
-fun V5_LOG s = if !v5_debug then Output.information s else ();
+fun V5_LOG s = ( if !v5_debug then Output.information s else ());
 
 (* 超时（秒）——可以按需调小/调大再观察 *)
 val v5_timeout_plain_secs    = 2;   (* PLAIN 的方法执行超时 *)

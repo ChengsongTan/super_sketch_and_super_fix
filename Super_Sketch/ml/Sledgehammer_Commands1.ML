@@ -9,6 +9,8 @@ Super_sketch tweaked this file to easily call sledgehammer on a proof state, als
 utilities for removing comments in generated one-liners.
 *)
 
+
+
 signature SLEDGEHAMMER_COMMANDS1 =
 sig
   type params = Sledgehammer_Prover.params
@@ -50,6 +52,9 @@ open Sledgehammer_Prover_SMT
 open Sledgehammer_Prover_Minimize
 open Sledgehammer_MaSh
 open Sledgehammer
+
+
+
 
 val runN = "run"
 datatype ms_kind = MS_PLAIN | MS_SH | MS_TRY0
@@ -151,6 +156,7 @@ fun unalias_raw_param (name, value) =
     | NONE => (name, value)))
 
 val any_type_enc = type_enc_of_string Strict "erased"
+
 
 (* "provers =", "type_enc =", "lam_trans =", "fact_filter =", and "max_facts ="
    can be omitted. For the last four, this is a secret feature. *)
@@ -799,7 +805,7 @@ let
         val _ =
           if won then
             (wait_until_both_started ();
-             (case !sh_ref of SOME fut => Future.cancel fut | NONE => ()))
+             (case !sh_ref of SOME fut => let val _ = writeln "cancelling sh" in Future.cancel fut end | NONE => ()))
           else ()
       in
         res
@@ -811,6 +817,7 @@ let
   val sh_fut =
     Future.fork (fn () =>
       let
+        val _ = "sh future started"
         val _ = Synchronized.change started (fn n => n + 1)
         val (outc, msg) =
           my_hammer_away i (Seq.the_result "" (Proof.apply adref state0))
@@ -848,6 +855,7 @@ let
            ignore (Exn.capture Future.join um_fut));
 
   (* 兜底：仅当 fast_result 失败 且 给了 rescue 方法 *)
+  val _ = writeln "get final result"
   val final_result =
     (case fast_result of
        ("success", _) => fast_result
@@ -857,6 +865,7 @@ let
              (* 在  if both a vanilla sledgehammer and the user's simp method failed, apply a more heavyweight
                     "rescue" method which tries to solve the goal and ask for help for residual subgoals from sledgehammer*)
              let
+               
                val state_subgoaled = (#2 o Subgoal.subgoal_cmd Binding.empty_atts NONE (false, [])) state0;
                val (r, m) = rescue_then_sh_text rescue_ref rescue_txt state_subgoaled
              in
@@ -997,7 +1006,7 @@ end
 
 (* 打开/关闭调试输出 *)
 val v5_debug = Unsynchronized.ref true;
-fun V5_LOG s = if !v5_debug then Output.information s else ();
+fun V5_LOG s = ( if !v5_debug then Output.information s else ());
 
 (* 超时（秒）——可以按需调小/调大再观察 *)
 val v5_timeout_plain_secs    = 2;   (* PLAIN 的方法执行超时 *)
