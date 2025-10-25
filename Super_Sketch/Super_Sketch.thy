@@ -62,7 +62,7 @@ fun writeFileln dir_str msg =
     File.append file (msg ^ "\n")
   end;
 
-val _ = writeFileln "$USER_HOME/Desktop/d4res.txt" "firstline"
+val _ = writeFileln "$USER_HOME/Desktop/double4log/d4res.txt" "firstline"
 
 val _ = Future.fork
 val print_name = Token.print_name o Thy_Header.get_keywords';
@@ -510,7 +510,7 @@ fun ppt_simp4 ms state js indent
         in (SOME ( mref), SOME txt) end
       else (NONE, NONE)
 
-    val (outcome, msg) =
+    val (outcome, msg) =   
       Sledgehammer_Commands1.my_hammer_or_method_away4
         1 state
         solver_ref solver_txt
@@ -825,7 +825,9 @@ fun ppt_main_simp4
                adref      adtxt
                resref     restxt
                first_split_add_rescue')
-    |> (fn s =>  writeFileln ("$USER_HOME/Desktop/double4log/d4_" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) s)
+    |> (fn s =>  let val _ = Output.information s; 
+        val _ = writeFileln ("$USER_HOME/Desktop/double4log/d4_" ^ 
+          Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) s in () end)
   end
 
 

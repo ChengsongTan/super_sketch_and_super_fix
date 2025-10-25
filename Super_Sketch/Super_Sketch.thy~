@@ -62,7 +62,7 @@ fun writeFileln dir_str msg =
     File.append file (msg ^ "\n")
   end;
 
-val _ = writeFileln "$USER_HOME/Desktop/double4log/d4res.txt" "firstline"
+val _ = writeFileln "$USER_HOME/Desktop/d4res.txt" "firstline"
 
 val _ = Future.fork
 val print_name = Token.print_name o Thy_Header.get_keywords';
