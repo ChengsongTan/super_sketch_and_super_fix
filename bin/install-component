@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+
+# Register current repo as an Isabelle component for the current Isabelle version
+# Example target file: ~/.isabelle/Isabelle2025/components
+
+USER_BASE="${ISABELLE_HOME_USER:-$HOME/.isabelle}"
+VER="${ISABELLE_IDENTIFIER:-Isabelle2025}"
+COMP_FILE="$USER_BASE/$VER/components"
+
+mkdir -p "$(dirname "$COMP_FILE")"
+if ! grep -Fqx "$PWD" "$COMP_FILE" 2>/dev/null; then
+  echo "$PWD" >> "$COMP_FILE"
+  echo "Registered component: $PWD"
+else
+  echo "Component already registered: $PWD"
+fi
+
+echo "Run: isabelle components -a"
+

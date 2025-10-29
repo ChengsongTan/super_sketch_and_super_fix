@@ -1,0 +1,11 @@
+theory Testing_mini 
+  imports 
+    Super_Fix.Super_Fix
+    Complex_Main
+begin
+
+
+super_fix HAMMER[simp]
+  "/cygdrive/c/Users/kaihong/Desktop/super_sketch_and_super_fix/Super_Fix/examples/thys_with_errors/Testing_mini.thy"
+
+end

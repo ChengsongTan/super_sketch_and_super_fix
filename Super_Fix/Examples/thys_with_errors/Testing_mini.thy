@@ -1,0 +1,4943 @@
+theory Testing_mini imports  "../../../Super_Sketch/Super_Sketch"  "../../../Super_Fix/AllBackgroundInvariants"  begin
+sledgehammer_params [dont_minimize, dont_try0, timeout = 10, preplay_timeout = 0, slices = 36]
+thm allTransitions'_def
+
+lemma my_map_concat8: shows "List.concat (List.map (\<lambda>f. f T 0) ([t1, t2, t3, t4, t5, t6, t7, t8] )) =
+   t1 T 0 @ t2 T 0 @ t3 T 0 @ t4 T 0 @ t5 T 0 @ t6 T 0 @ t7 T 0 @ t8 T 0 "
+  by simp
+
+lemma my_map_concat: shows "List.concat (List.map (\<lambda>f. f T 0) ([t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, 
+    t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, 
+    t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, 
+    t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68] )) =
+   t1 T 0 @ t2 T 0 @ t3 T 0 @ t4 T 0 @ t5 T 0 @ t6 T 0 @ t7 T 0 @ t8 T 0 @ t9 T 0 @ t10 T 0 @ t11 T 0 
+    @ t12 T 0 @ t13 T 0 @ t14 T 0 @ t15 T 0 @ t16 T 0 @ t17 T 0 @ t18 T 0 
+    @ t19 T 0 @ t20 T 0 @ t21 T 0 @ t22 T 0 @ t23 T 0 @ t24 T 0 @ t25 T 0 @ t26 T 0 @ t27 T 0 @ t28 T 0 
+    @ t29 T 0 @ t30 T 0 @ t31 T 0 @ t32 T 0 @ t33 T 0 @ t34 T 0 @ t35 T 0 @ t36 T 0 @ t37 T 0 @ t38 T 0 
+    @ t39 T 0 @ t40 T 0 @ t41 T 0 @ 
+    t42 T 0 @ t43 T 0 @ t44 T 0 @ t45 T 0 @ t46 T 0 @ t47 T 0 @ t48 T 0 @ t49 T 0 @ t50 T 0 @ t51 T 0 
+    @ t52 T 0 @ t53 T 0 @ t54 T 0 @ t55 T 0 @ t56 T 0 @ t57 T 0 @ t58 T 0 @ t59 T 0 @ t60 T 0 @ t61 T 0 
+    @ t62 T 0 @ t63 T 0 @ t64 T 0 @ t65 T 0 @ t66 T 0 @ t67 T 0 @ t68 T 0"
+  by simp
+
+
+
+lemma my_set_concat_split_8elems : shows "(\<forall> T' \<in> set (l1 @ l2 @ l3 @ l4 @ l5 @ l6 @ l7 @ l8). P T') =
+  ((\<forall> T' \<in> set l1. P T') \<and> (\<forall> T' \<in> set l2. P T') \<and> (\<forall> T' \<in> set l3. P T') \<and> (\<forall> T' \<in> set l4. P T') \<and> (\<forall> T' \<in> set l5. P T') \<and> (\<forall> T' \<in> set l6. P T') \<and> (\<forall> T' \<in> set l7. P T') \<and> (\<forall> T' \<in> set l8. P T'))"
+proof (-)
+  show goal1: "(\<forall>T'\<in>set (l1 @ l2 @ l3 @ l4 @ l5 @ l6 @ l7 @ l8). P T') = ((\<forall>T'\<in>set l1. P T') \<and> (\<forall>T'\<in>set l2. P T') \<and> (\<forall>T'\<in>set l3. P T') \<and> (\<forall>T'\<in>set l4. P T') \<and> (\<forall>T'\<in>set l5. P T') \<and> (\<forall>T'\<in>set l6. P T') \<and> (\<forall>T'\<in>set l7. P T') \<and> (\<forall>T'\<in>set l8. P T'))" 
+    apply  (auto)
+ done
+qed
+
+lemma my_set_concat_split_68elems : shows "(\<forall> T' \<in> set (l1 @ l2 @ l3 @ l4 @ l5 @ l6 @ l7 @ l8 @ l9 @ l10 @ l11 @ l12 @ l13 @ l14 @ l15 @ l16 @ l17 @ l18 @ l19 @ l20 @ l21 @ l22 @ l23 @ l24 @ l25 @ l26 @ l27 @ l28 @ l29 @ l30 @ l31 @ l32 @ l33 @ l34 @ l35 @ l36 @ l37 @ l38 @ l39 @ l40 @ l41 @ l42 @ l43 @ l44 @ l45 @ l46 @ l47 @ l48 @ l49 @ l50 @ l51 @ l52 @ l53 @ l54 @ l55 @ l56 @ l57 @ l58 @ l59 @ l60 @ l61 @ l62 @ l63 @ l64 @ l65 @ l66 @ l67 @ l68). P T') =
+  ((\<forall> T' \<in> set l1. P T') \<and> (\<forall> T' \<in> set l2. P T') \<and> (\<forall> T' \<in> set l3. P T') \<and> (\<forall> T' \<in> set l4. P T') \<and> (\<forall> T' \<in> set l5. P T') \<and> (\<forall> T' \<in> set l6. P T') \<and> (\<forall> T' \<in> set l7. P T') \<and> (\<forall> T' \<in> set l8. P T') \<and> (\<forall> T' \<in> set l9. P T') \<and> (\<forall> T' \<in> set l10. P T') \<and> (\<forall> T' \<in> set l11. P T') \<and> (\<forall> T' \<in> set l12. P T') \<and> (\<forall> T' \<in> set l13. P T') \<and> (\<forall> T' \<in> set l14. P T') \<and> (\<forall> T' \<in> set l15. P T') \<and> (\<forall> T' \<in> set l16. P T') \<and> (\<forall> T' \<in> set l17. P T') \<and> (\<forall> T' \<in> set l18. P T') \<and> (\<forall> T' \<in> set l19. P T') \<and> (\<forall> T' \<in> set l20. P T') \<and> (\<forall> T' \<in> set l21. P T') \<and> (\<forall> T' \<in> set l22. P T') \<and> (\<forall> T' \<in> set l23. P T') \<and> (\<forall> T' \<in> set l24. P T') \<and> (\<forall> T' \<in> set l25. P T') \<and> (\<forall> T' \<in> set l26. P T') \<and> (\<forall> T' \<in> set l27. P T') \<and> (\<forall> T' \<in> set l28. P T') \<and> (\<forall> T' \<in> set l29. P T') \<and> (\<forall> T' \<in> set l30. P T') \<and> (\<forall> T' \<in> set l31. P T') \<and> (\<forall> T' \<in> set l32. P T') \<and> (\<forall> T' \<in> set l33. P T') \<and> (\<forall> T' \<in> set l34. P T') \<and> (\<forall> T' \<in> set l35. P T') \<and> (\<forall> T' \<in> set l36. P T') \<and> (\<forall> T' \<in> set l37. P T') \<and> (\<forall> T' \<in> set l38. P T') \<and> (\<forall> T' \<in> set l39. P T') \<and> (\<forall> T' \<in> set l40. P T') \<and> (\<forall> T' \<in> set l41. P T') \<and> (\<forall> T' \<in> set l42. P T') \<and> (\<forall> T' \<in> set l43. P T') \<and> (\<forall> T' \<in> set l44. P T') \<and> (\<forall> T' \<in> set l45. P T') \<and> (\<forall> T' \<in> set l46. P T') \<and> (\<forall> T' \<in> set l47. P T') \<and> (\<forall> T' \<in> set l48. P T') \<and> (\<forall> T' \<in> set l49. P T') \<and> (\<forall> T' \<in> set l50. P T') \<and> (\<forall> T' \<in> set l51. P T') \<and> (\<forall> T' \<in> set l52. P T') \<and> (\<forall> T' \<in> set l53. P T') \<and> (\<forall> T' \<in> set l54. P T') \<and> (\<forall> T' \<in> set l55. P T') \<and> (\<forall> T' \<in> set l56. P T') \<and> (\<forall> T' \<in> set l57. P T') \<and> (\<forall> T' \<in> set l58. P T') \<and> (\<forall> T' \<in> set l59. P T') \<and> (\<forall> T' \<in> set l60. P T') \<and> (\<forall> T' \<in> set l61. P T') \<and> (\<forall> T' \<in> set l62. P T') \<and> (\<forall> T' \<in> set l63. P T') \<and> (\<forall> T' \<in> set l64. P T') \<and> (\<forall> T' \<in> set l65. P T') \<and> (\<forall> T' \<in> set l66. P T') \<and> (\<forall> T' \<in> set l67. P T') \<and> (\<forall> T' \<in> set l68. P T'))"
+proof (-)
+  show goal1: "(\<forall>T'\<in>set (l1 @ l2 @ l3 @ l4 @ l5 @ l6 @ l7 @ l8 @ l9 @ l10 @ l11 @ l12 @ l13 @ l14 @ l15 @ l16 @ l17 @ l18 @ l19 @ l20 @ l21 @ l22 @ l23 @ l24 @ l25 @ l26 @ l27 @ l28 @ l29 @ l30 @ l31 @ l32 @ l33 @ l34 @ l35 @ l36 @ l37 @ l38 @ l39 @ l40 @ l41 @ l42 @ l43 @ l44 @ l45 @ l46 @ l47 @ l48 @ l49 @ l50 @ l51 @ l52 @ l53 @ l54 @ l55 @ l56 @ l57 @ l58 @ l59 @ l60 @ l61 @ l62 @ l63 @ l64 @ l65 @ l66 @ l67 @ l68). P T') = ((\<forall>T'\<in>set l1. P T') \<and> (\<forall>T'\<in>set l2. P T') \<and> (\<forall>T'\<in>set l3. P T') \<and> (\<forall>T'\<in>set l4. P T') \<and> (\<forall>T'\<in>set l5. P T') \<and> (\<forall>T'\<in>set l6. P T') \<and> (\<forall>T'\<in>set l7. P T') \<and> (\<forall>T'\<in>set l8. P T') \<and> (\<forall>T'\<in>set l9. P T') \<and> (\<forall>T'\<in>set l10. P T') \<and> (\<forall>T'\<in>set l11. P T') \<and> (\<forall>T'\<in>set l12. P T') \<and> (\<forall>T'\<in>set l13. P T') \<and> (\<forall>T'\<in>set l14. P T') \<and> (\<forall>T'\<in>set l15. P T') \<and> (\<forall>T'\<in>set l16. P T') \<and> (\<forall>T'\<in>set l17. P T') \<and> (\<forall>T'\<in>set l18. P T') \<and> (\<forall>T'\<in>set l19. P T') \<and> (\<forall>T'\<in>set l20. P T') \<and> (\<forall>T'\<in>set l21. P T') \<and> (\<forall>T'\<in>set l22. P T') \<and> (\<forall>T'\<in>set l23. P T') \<and> (\<forall>T'\<in>set l24. P T') \<and> (\<forall>T'\<in>set l25. P T') \<and> (\<forall>T'\<in>set l26. P T') \<and> (\<forall>T'\<in>set l27. P T') \<and> (\<forall>T'\<in>set l28. P T') \<and> (\<forall>T'\<in>set l29. P T') \<and> (\<forall>T'\<in>set l30. P T') \<and> (\<forall>T'\<in>set l31. P T') \<and> (\<forall>T'\<in>set l32. P T') \<and> (\<forall>T'\<in>set l33. P T') \<and> (\<forall>T'\<in>set l34. P T') \<and> (\<forall>T'\<in>set l35. P T') \<and> (\<forall>T'\<in>set l36. P T') \<and> (\<forall>T'\<in>set l37. P T') \<and> (\<forall>T'\<in>set l38. P T') \<and> (\<forall>T'\<in>set l39. P T') \<and> (\<forall>T'\<in>set l40. P T') \<and> (\<forall>T'\<in>set l41. P T') \<and> (\<forall>T'\<in>set l42. P T') \<and> (\<forall>T'\<in>set l43. P T') \<and> (\<forall>T'\<in>set l44. P T') \<and> (\<forall>T'\<in>set l45. P T') \<and> (\<forall>T'\<in>set l46. P T') \<and> (\<forall>T'\<in>set l47. P T') \<and> (\<forall>T'\<in>set l48. P T') \<and> (\<forall>T'\<in>set l49. P T') \<and> (\<forall>T'\<in>set l50. P T') \<and> (\<forall>T'\<in>set l51. P T') \<and> (\<forall>T'\<in>set l52. P T') \<and> (\<forall>T'\<in>set l53. P T') \<and> (\<forall>T'\<in>set l54. P T') \<and> (\<forall>T'\<in>set l55. P T') \<and> (\<forall>T'\<in>set l56. P T') \<and> (\<forall>T'\<in>set l57. P T') \<and> (\<forall>T'\<in>set l58. P T') \<and> (\<forall>T'\<in>set l59. P T') \<and> (\<forall>T'\<in>set l60. P T') \<and> (\<forall>T'\<in>set l61. P T') \<and> (\<forall>T'\<in>set l62. P T') \<and> (\<forall>T'\<in>set l63. P T') \<and> (\<forall>T'\<in>set l64. P T') \<and> (\<forall>T'\<in>set l65. P T') \<and> (\<forall>T'\<in>set l66. P T') \<and> (\<forall>T'\<in>set l67. P T') \<and> (\<forall>T'\<in>set l68. P T'))" apply  (auto)
+ done
+qed
+
+
+(*
+lemma my_set_concat_Lall: shows "(\<forall> T' \<in> set (l1 @ l2 @ l3). P T') = ((Lall l1 P) \<and> (Lall  l2 P) \<and> (Lall l3 P))"
+  sorry
+*)
+
+lemma Ball_Lall: shows "Ball (set ls) P = Lall ls P"
+  apply(induct ls)
+   apply simp
+  by (smt (verit) Lall.elims(1) Lall.simps(2) Lall.simps(3) list.set_cases list.set_intros(1) list.set_intros(2) set_ConsD)
+
+
+lemma forall_conjI: "(\<forall>x \<in> S. P x) \<and> (\<forall>x \<in> S. Q x) \<Longrightarrow> \<forall>x \<in> S. (P x \<and> Q x)"
+  by simp
+
+lemma Lall_unfold: "(B  \<Longrightarrow> b T \<Longrightarrow> P (f T) ) \<Longrightarrow> (B  \<Longrightarrow> T' \<in> set (if b T then [f T] else []) \<Longrightarrow> P T')"
+  by simp
+  
+
+
+find_theorems "_ \<in> set _ \<Longrightarrow> _ = _"
+lemma in_singleton: "x \<in> set [a] \<Longrightarrow> x = a"
+  by simp
+
+named_theorems thms_to_unfold "A list of thoerems to unfold"
+declare InvalidLoad'_def [thms_to_unfold]
+    and SharedLoad'_def [thms_to_unfold]
+    and InvalidStore'_def [thms_to_unfold]
+    and SharedStore'_def [thms_to_unfold] and
+SharedEvict'_def [thms_to_unfold] and
+SharedEvictData'_def [thms_to_unfold] and
+ModifiedEvict'_def [thms_to_unfold] and
+SharedSnpInv'_def [thms_to_unfold] and
+ISDSnpInv'_def [thms_to_unfold] and
+ISDData'_def [thms_to_unfold] and
+ISDIData'_def [thms_to_unfold] and
+IMADData'_def [thms_to_unfold] and
+SMADData'_def [thms_to_unfold] and
+IMADGO'_def [thms_to_unfold] and
+ISADGO'_def [thms_to_unfold] and
+ISADData'_def [thms_to_unfold] and
+SMADGO'_def [thms_to_unfold] and
+SMAGO'_def [thms_to_unfold] and
+SMADSnpInv'_def [thms_to_unfold] and
+SMDData'_def [thms_to_unfold] and
+IMAGO'_def [thms_to_unfold] and
+ISAGO'_def [thms_to_unfold] and
+ModifiedStore'_def [thms_to_unfold] and
+ModifiedLoad'_def [thms_to_unfold] and
+SIAGO_WritePull'_def [thms_to_unfold] and
+SIAGO_WritePullDrop'_def [thms_to_unfold] and
+IIAGO_WritePullDrop'_def [thms_to_unfold] and
+IIAGO_WritePull'_def [thms_to_unfold] and
+IMDData'_def [thms_to_unfold] and
+MIASnpDataInvalid'_def [thms_to_unfold] and
+MIASnpDataShared'_def [thms_to_unfold] and
+MIASnpInv'_def [thms_to_unfold] and
+MIAGO_WritePull'_def [thms_to_unfold] and
+SIASnpInv'_def [thms_to_unfold] and
+ModifiedSnpInv'_def [thms_to_unfold] and
+ModifiedSnpDataShared'_def [thms_to_unfold] and
+ModifiedSnpDataInvalid'_def [thms_to_unfold] and
+HostInvalidRdShared'_def [thms_to_unfold] and
+HostInvalidRdOwn'_def [thms_to_unfold] and
+HostSharedRdShared'_def [thms_to_unfold] and
+HostShared_CleanEvict_NotLastDrop'_def [thms_to_unfold] and
+HostShared_CleanEvict_NotLastData'_def [thms_to_unfold] and
+HostShared_CleanEvict_Last'_def [thms_to_unfold] and
+HostShared_CleanEvictNoData_NotLast'_def [thms_to_unfold] and
+HostShared_CleanEvictNoData_Last'_def [thms_to_unfold] and
+HostShared_DirtyEvict'_def [thms_to_unfold] and
+HostModifiedDirtyEvict'_def [thms_to_unfold] and
+HostModifiedRdShared'_def [thms_to_unfold] and
+HostModifiedRdOwn'_def [thms_to_unfold] and
+HostSharedRdOwn'_def [thms_to_unfold] and
+HostSharedRdOwnSelf'_def [thms_to_unfold] and
+HostSDData'_def [thms_to_unfold] and
+HostSADData'_def [thms_to_unfold] and
+HostMDData'_def [thms_to_unfold] and
+HostIDData'_def [thms_to_unfold] and
+HostMADData'_def [thms_to_unfold] and
+HostSADRspIFwdM'_def [thms_to_unfold] and
+HostSADRspSFwdM'_def [thms_to_unfold] and
+HostMADRspIFwdM'_def [thms_to_unfold] and
+HostMARspIFwdM'_def [thms_to_unfold] and
+HostSARspIFwdM'_def [thms_to_unfold] and
+HostSARspSFwdM'_def [thms_to_unfold] and
+HostIBDataPrevious'_def [thms_to_unfold] and
+HostSBData'_def [thms_to_unfold] and
+HostMBData'_def [thms_to_unfold] and
+HostInvalidDirtyEvict'_def [thms_to_unfold] and
+HostMARspIHitSE'_def [thms_to_unfold] and
+SIACGO'_def [thms_to_unfold]
+
+named_theorems actions_to_unfold "a list of actions to unfold"
+declare sendReq_def [actions_to_unfold] and
+clearBuffer_def [actions_to_unfold] and
+sendReqPerformInstruction_def [actions_to_unfold] and
+sendSnpResp_def [actions_to_unfold] and
+copyInDataPerformInstr_def [actions_to_unfold] and
+sendSnpRespAndData_def [actions_to_unfold] and 
+sendHostDataGO_def [actions_to_unfold] and
+copyInData_def [actions_to_unfold] and
+consumeGO_def [actions_to_unfold] and
+consumeGOSendDataPerformEvict_def [actions_to_unfold] and
+consumeGOPerform_def [actions_to_unfold] and
+sendGOFromSnpResp_def [actions_to_unfold] and
+sendEvictResp_def [actions_to_unfold] and
+discardDataHost_def [actions_to_unfold] and
+copyInAndForwardData_def [actions_to_unfold] and
+noInvalidateSharers_def[actions_to_unfold] and
+invalidateSharers_def [actions_to_unfold] and
+sendSnoop_def [actions_to_unfold] and
+copyInDataHost_def [actions_to_unfold] and
+consumeGODiscard_def [actions_to_unfold] 
+
+lemma zero0_simp: "(if ((0::nat) = 0) then x else y) = x"
+  by simp
+
+
+lemma Ball_set_nil: "(\<forall>x\<in>set ([]::'a list). P x) \<longleftrightarrow> True" by simp
+lemma Ball_set_singleton: "(\<forall>x\<in>set [a]. P x) \<longleftrightarrow> P a" by simp
+lemma Ball_set_if_singleton:
+  "(\<forall>x\<in>set (if b then [a] else []). P x) \<longleftrightarrow> (b \<longrightarrow> P a)"
+  by (cases b) simp_all
+
+
+
+definition first_five: "first_five T = ((SWMR T) \<and>
+    C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and> 
+    H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and> 
+    H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) T)"
+
+definition second_five: "second_five T = (H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) T \<and>
+    H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) T) "
+
+definition first_twelve : "first_twelve T = ((SWMR T) \<and>
+    C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and> 
+    H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and> 
+    H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) T \<and>
+    H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) T \<and>
+    H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) T \<and>
+    C_H_state IMAD (nextReqIs RdOwn) Modified SD T)"
+
+
+definition first_hundred: "first_hundred T = ((SWMR T) \<and>
+    C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and> 
+    H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and> 
+    H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T \<and>
+    H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) T \<and>
+    H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) T \<and>
+    H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) T \<and>
+    C_H_state IMAD (nextReqIs RdOwn) Modified SD T \<and>
+    C_H_state IMAD (nextReqIs RdOwn) Modified SAD T \<and>
+    C_H_state IMAD (nextReqIs RdOwn) Modified SA T \<and>
+    C_H_state Invalid nextStore Modified SAD T \<and>
+    C_H_state Invalid nextStore Modified SA T \<and>
+    C_H_state Invalid nextStore Modified SD T \<and>
+    (HSTATE SharedM T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1) \<and>
+    (HSTATE SD T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1) \<and>
+    (HSTATE MD T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1) \<and>
+    C_msg_not RdShared IMAD T \<and>
+    C_msg_not RdShared Invalid T \<and>
+    H_msg_P_same ModifiedM (nextReqIs DirtyEvict) (\<lambda>T i. CSTATE MIA T i \<or> CSTATE IIA T i) T \<and>
+    C_msg_P_host MIA (nextGOPendingIs GO_WritePull) (\<lambda>T. \<not> HSTATE ModifiedM T) T \<and>
+    C_msg_P_same MIA (nextGOPendingIs GO_WritePull) nextEvict T \<and>
+    C_msg_P_host MIA (nextGOPendingIs GO_WritePull) (HSTATE ID) T \<and>
+    C_state_not MIA RdShared T \<and>
+    C_msg_P_same IIA (nextGOPendingIs GO_WritePullDrop) nextEvict T \<and> \<comment>\<open>True because premise false (no GO-WPD should be sent to DE)\<close>
+    C_msg_P_same IIA (nextGOPendingIs GO_WritePullDrop) (\<lambda>T i. \<not> nextReqIs RdShared T i) T \<and> \<comment>\<open>True bc premise false\<close>
+    C_msg_P_same IIA (nextGOPendingIs GO_WritePullDrop) (\<lambda>T i. \<not> nextDTHDataPending T i) T \<and> \<comment>\<open>True bc premise false\<close>
+    H_C_state_msg_same ModifiedM Modified (\<lambda>T i. \<not> nextReqIs RdShared T i) T \<and>
+    C_msg_P_same IIA (nextGOPendingIs GO_WritePull) nextEvict T \<and> \<comment>\<open>True and premise might be true\<close>
+    C_msg_P_same IIA (nextGOPendingIs GO_WritePull) (\<lambda>T i. \<not> nextReqIs RdShared T i) T \<and>
+    C_msg_P_same IIA (nextGOPendingIs GO_WritePull) (\<lambda>T i. \<not> nextDTHDataPending T i) T \<and>
+    H_C_state_msg_oppo ModifiedM IIA (\<lambda>T i. \<not> nextReqIs RdShared T i) T \<and>
+    C_msg_P_host Shared (nextSnoopIs SnpInv) (HSTATE MA) T \<and>
+    C_msg_state RdShared ISAD T \<and>
+    C_not_C_msg Modified ISAD nextGOPending T \<and>
+    C_msg_P_same Invalid nextStore (\<lambda>T i. \<not> nextHTDDataPending T i) T \<and>
+    C_msg_P_same Invalid nextStore (\<lambda>T i. \<not> nextSnoopIs SnpInv T i) T \<and>
+    C_msg_P_same ISAD nextGOPending (\<lambda>T i. \<not> nextReqIs RdShared T i) T \<and>
+    (snps2 T \<noteq> [] \<longrightarrow> reqs1 T = [] \<and> snpresps2 T = [] \<and> dthdatas2 T = [] \<and> reqresps1 T = []) \<and>
+    (snps1 T \<noteq> [] \<longrightarrow> reqs2 T = [] \<and> snpresps1 T = [] \<and> dthdatas1 T = [] \<and> reqresps2 T = []) \<and>
+    (length (reqs1 T) \<le> 1 \<and> (length (reqs2 T) \<le> 1)) \<and>
+    (length (snps2 T) \<le> 1   \<and> length (snps1 T) \<le> 1) \<and>
+    C_msg_P_same Shared (nextSnoopIs SnpInv) (\<lambda>T i. \<not> nextHTDDataPending T i) T \<and>
+    C_msg_P_same IIA (nextGOPendingIs GO_WritePull) (\<lambda> T i. \<not>nextSnoopPending T i) T \<and>
+    C_msg_P_oppo Invalid nextStore (\<lambda>T i. \<not> nextSnoopPending T i) T \<and>
+    (CSTATE Invalid T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = [] \<and> htddatas1 T = []) \<and>
+    (CSTATE Invalid T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = [] \<and> htddatas2 T = []) \<and>
+    (CSTATE Shared T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = [] \<and> htddatas1 T = []) \<and>
+    (CSTATE Shared T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = [] \<and> htddatas2 T = []) \<and>
+    (CSTATE IIA T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> htddatas1 T = []) \<and>
+    (CSTATE IIA T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> htddatas2 T = []) \<and>
+    (CSTATE Invalid T 0 \<longrightarrow> reqs1 T = []) \<and>
+    (CSTATE Invalid T 1 \<longrightarrow> reqs2 T = []) \<and>
+    (CSTATE Shared T 0 \<longrightarrow> reqs1 T = []) \<and>
+    (CSTATE Shared T 1 \<longrightarrow> reqs2 T = []) \<and>
+    (CSTATE Modified T 0 \<longrightarrow> \<not>CSTATE Modified T 1) \<and>
+    (CSTATE Modified T 1 \<longrightarrow> \<not>CSTATE Modified T 0) \<and>
+    (CSTATE ISD T 0 \<longrightarrow> \<not>HSTATE ModifiedM T) \<and>
+    (CSTATE ISD T 1 \<longrightarrow> \<not>HSTATE ModifiedM T) \<and>
+    (CSTATE ISD T 0 \<longrightarrow> nextLoad T 0) \<and>
+    (CSTATE ISD T 1 \<longrightarrow> nextLoad T 1) \<and>
+    (C_msg_P_host ISD (nextSnoopIs SnpInv) (HSTATE MA) T) \<and>
+    (length (htddatas1 T) \<le> 1) \<and>
+    (length (htddatas2 T) \<le> 1) \<and>
+    (CSTATE ISD T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = []) \<and>
+    (CSTATE ISD T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = []) \<and>
+    (CSTATE ISD T 0 \<longrightarrow> reqs1 T = []) \<and>
+    (CSTATE ISD T 1 \<longrightarrow> reqs2 T = []) \<and>
+    (CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> reqs1 T = []) \<and>
+    (CSTATE IMAD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> reqs2 T = []) \<and>
+    (length (reqresps1 T) \<le> 1) \<and>
+    (length (reqresps2 T) \<le> 1) \<and>
+    (CSTATE MIA T 0 \<and> (nextGOPendingIs GO_WritePull T 0)  \<longrightarrow> snps1 T = [] ) \<and>
+    (CSTATE MIA T 1 \<and> (nextGOPendingIs GO_WritePull T 1)  \<longrightarrow> snps2 T = [] ) \<and>
+    (CSTATE MIA T 0 \<and> (nextGOPendingIs GO_WritePull T 0) \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> htddatas1 T = []) \<and>
+    (CSTATE MIA T 1 \<and> (nextGOPendingIs GO_WritePull T 1) \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> htddatas2 T = []) \<and>
+    (CSTATE ISAD T 0 \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) \<and>
+    (CSTATE ISAD T 1 \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) \<and>
+    (C_msg_P_same MIA  (nextReqIs DirtyEvict) (nextEvict) T) \<and>
+    (reqs1 T \<noteq> [] \<longrightarrow> reqresps1 T = []) \<and>
+    (reqs2 T \<noteq> [] \<longrightarrow> reqresps2 T = []) \<and>
+    (reqs1 T \<noteq> [] \<longrightarrow> snpresps2 T = []) \<and>
+    (reqs2 T \<noteq> [] \<longrightarrow> snpresps1 T = []) \<and>
+    (reqs1 T \<noteq> [] \<longrightarrow> htddatas1 T = []) \<and>
+    (reqs2 T \<noteq> [] \<longrightarrow> htddatas2 T = []) \<and>
+    (HSTATE ModifiedM T  \<and> nextReqIs RdOwn T 0 \<longrightarrow> (CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1)) \<and>
+    (HSTATE ModifiedM T  \<and> nextReqIs RdOwn T 1 \<longrightarrow> (CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)) \<and>
+    (HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> (CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1)) \<and>
+    (HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> (CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)) \<and>
+    (HSTATE MB T \<and> CSTATE IIA T 0 \<longrightarrow> (CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1)) \<and>
+    (HSTATE MB T \<and> CSTATE IIA T 1 \<longrightarrow> (CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)) \<and>
+    (reqs1 T \<noteq> [] \<longrightarrow> reqresps1 T = [] ) \<and>
+    (reqs2 T \<noteq> [] \<longrightarrow> reqresps2 T = [] ) \<and>
+    (HSTATE SAD T \<longrightarrow> (CSTATE ISAD T 0 \<or> CSTATE ISAD T 1)) \<and>
+    (HSTATE ModifiedM T \<longrightarrow> \<not>CSTATE Shared T 0 \<and> \<not>CSTATE Shared T 1) \<and>
+    (HSTATE SD T \<and> dthdatas1 T \<noteq> [] \<longrightarrow> htddatas2 T = []) \<and>
+    (HSTATE SD T \<and> dthdatas2 T \<noteq> [] \<longrightarrow> htddatas1 T = [])) "
+
+
+
+definition first8Transitions' :: "(Type1State \<Rightarrow> nat \<Rightarrow> Type1State list) list" where 
+  "first8Transitions' = [
+InvalidLoad',
+SharedLoad',
+InvalidStore',
+SharedStore',
+SharedEvict',
+SharedEvictData',
+ModifiedEvict',
+SharedSnpInv'
+]"
+
+
+thm SWMR_state_machine_def
+(*800 conjuncts * 70 rules*)
+theorem all_transitions_preserve_P  : assumes
+  "SWMR_state_machine T" shows " \<forall>T' \<in> set (concat (map (\<lambda> transition. transition T 0) allTransitions' )).  first_twelve T'"
+proof -
+  have i0: "SWMR T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i3: "C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i4: "H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i5: "H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i6: "C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i10: "H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i11: "H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i12: "H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i13: "H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i14: "H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i15: "H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i16: "C_H_state IMAD (nextReqIs RdOwn) Modified SD T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i17: "C_H_state IMAD (nextReqIs RdOwn) Modified SAD T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i18: "C_H_state IMAD (nextReqIs RdOwn) Modified SA T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i19: "C_H_state Invalid nextStore Modified SAD T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i20: "C_H_state Invalid nextStore Modified SA T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i21: "C_H_state Invalid nextStore Modified SD T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i22: "HSTATE SharedM T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i23: "HSTATE SD T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i24: "HSTATE MD T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i25: "C_msg_not RdShared IMAD T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i26: "C_msg_not RdShared Invalid T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i27: "H_msg_P_same ModifiedM (nextReqIs DirtyEvict) (\<lambda>T i. CSTATE MIA T i \<or> CSTATE IIA T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i28: "C_msg_P_host MIA (nextGOPendingIs GO_WritePull) (\<lambda>T. \<not> HSTATE ModifiedM T) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i29: "C_msg_P_same MIA (nextGOPendingIs GO_WritePull) nextEvict T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i30: "C_msg_P_host MIA (nextGOPendingIs GO_WritePull) (HSTATE ID) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i31: "C_state_not MIA RdShared T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i32: "C_msg_P_same IIA (nextGOPendingIs GO_WritePullDrop) nextEvict T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i34: "C_msg_P_same IIA (nextGOPendingIs GO_WritePullDrop) (\<lambda>T i. \<not> nextReqIs RdShared T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i35: "C_msg_P_same IIA (nextGOPendingIs GO_WritePullDrop) (\<lambda>T i. \<not> nextDTHDataPending T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i36: "H_C_state_msg_same ModifiedM Modified (\<lambda>T i. \<not> nextReqIs RdShared T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i37: "C_msg_P_same IIA (nextGOPendingIs GO_WritePull) nextEvict T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i39: "C_msg_P_same IIA (nextGOPendingIs GO_WritePull) (\<lambda>T i. \<not> nextReqIs RdShared T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i40: "C_msg_P_same IIA (nextGOPendingIs GO_WritePull) (\<lambda>T i. \<not> nextDTHDataPending T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i41: "H_C_state_msg_oppo ModifiedM IIA (\<lambda>T i. \<not> nextReqIs RdShared T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i46: "C_msg_P_host Shared (nextSnoopIs SnpInv) (HSTATE MA) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i47: "C_msg_state RdShared ISAD T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i49: "C_not_C_msg Modified ISAD nextGOPending T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i50: "C_msg_P_same Invalid nextStore (\<lambda>T i. \<not> nextHTDDataPending T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i51: "C_msg_P_same Invalid nextStore (\<lambda>T i. \<not> nextSnoopIs SnpInv T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i52: "C_msg_P_same ISAD nextGOPending (\<lambda>T i. \<not> nextReqIs RdShared T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i55: "snps2 T \<noteq> [] \<longrightarrow> reqs1 T = [] \<and> snpresps2 T = [] \<and> dthdatas2 T = [] \<and> reqresps1 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i56: "snps1 T \<noteq> [] \<longrightarrow> reqs2 T = [] \<and> snpresps1 T = [] \<and> dthdatas1 T = [] \<and> reqresps2 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i57: "length (reqs1 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i58: "length (reqs2 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i59: "C_msg_P_same Shared (nextSnoopIs SnpInv) (\<lambda>T i. \<not> nextHTDDataPending T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i60: "length (snps2 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i61: "length (snps1 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i611old: "C_msg_P_same IIA (nextGOPendingIs GO_WritePull) (\<lambda> T i. \<not>nextSnoopPending T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i612old: "C_msg_P_oppo Invalid nextStore (\<lambda>T i. \<not> nextSnoopPending T i) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i613old: "(CSTATE Invalid T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = [] \<and> htddatas1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i614old: "(CSTATE Invalid T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = [] \<and> htddatas2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i615old: "(CSTATE Shared T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = [] \<and> htddatas1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i616old: "(CSTATE Shared T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = [] \<and> htddatas2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i617old: "(CSTATE IIA T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> htddatas1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i618old: "(CSTATE IIA T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> htddatas2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i68: "CSTATE Invalid T 0 \<longrightarrow> reqs1 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i69: "CSTATE Invalid T 1 \<longrightarrow> reqs2 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i70: "CSTATE Shared T 0 \<longrightarrow> reqs1 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i71: "CSTATE Shared T 1 \<longrightarrow> reqs2 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i72: "CSTATE Modified T 0 \<longrightarrow> \<not>CSTATE Modified T 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i73: "CSTATE Modified T 1 \<longrightarrow> \<not>CSTATE Modified T 0" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i74: "CSTATE ISD T 0 \<longrightarrow> \<not>HSTATE ModifiedM T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i75: "CSTATE ISD T 1 \<longrightarrow> \<not>HSTATE ModifiedM T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i76: "C_msg_P_host ISD (nextSnoopIs SnpInv) (HSTATE MA) T" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i77: "length (htddatas1 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i78: "length (htddatas2 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i79: "CSTATE ISD T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i80: "CSTATE ISD T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i81: "CSTATE ISD T 0 \<longrightarrow> reqs1 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i82: "CSTATE ISD T 1 \<longrightarrow> reqs2 T = []" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i83: "(CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> reqs1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i84: "(CSTATE IMAD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> reqs2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i85: "(length (reqresps1 T) \<le> 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i86: "(length (reqresps2 T) \<le> 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i87: "(CSTATE MIA T 0 \<and> (nextGOPendingIs GO_WritePull T 0)  \<longrightarrow> snps1 T = [] )" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i88: "(CSTATE MIA T 1 \<and> (nextGOPendingIs GO_WritePull T 1)  \<longrightarrow> snps2 T = [] )" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i89: "(CSTATE MIA T 0 \<and> (nextGOPendingIs GO_WritePull T 0) \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i90: "(CSTATE MIA T 1 \<and> (nextGOPendingIs GO_WritePull T 1) \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i91: "(CSTATE ISAD T 0 \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i92: "(CSTATE ISAD T 1 \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i93: "(C_msg_P_same MIA  (nextReqIs DirtyEvict) (nextEvict) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i94: "(reqs1 T \<noteq> [] \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i95: "(reqs2 T \<noteq> [] \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i98: "(reqs1 T \<noteq> [] \<longrightarrow> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i99: "(reqs2 T \<noteq> [] \<longrightarrow> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i100: "(reqs1 T \<noteq> [] \<longrightarrow> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i101: "(reqs2 T \<noteq> [] \<longrightarrow> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i751old: " (CSTATE ISD T 0 \<longrightarrow> nextLoad T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)+
+have i752old: " (CSTATE ISD T 1 \<longrightarrow> nextLoad T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)+
+have i104: "(reqs1 T \<noteq> [] \<longrightarrow> reqresps1 T = [] ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i105: "(reqs2 T \<noteq> [] \<longrightarrow> reqresps2 T = [] ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i106: "(HSTATE SAD T \<longrightarrow> (CSTATE ISAD T 0 \<or> CSTATE ISAD T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i107: "(HSTATE ModifiedM T \<longrightarrow> \<not>CSTATE Shared T 0 \<and> \<not>CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i108: "(HSTATE SD T \<and> dthdatas1 T \<noteq> [] \<longrightarrow> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i109: "(HSTATE SD T \<and> dthdatas2 T \<noteq> [] \<longrightarrow> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i110: "(length (dthdatas1 T ) \<le> 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i111: "(length (dthdatas2 T ) \<le> 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i112: "(HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> (CSTATE ISAD T 1 \<or> CSTATE ISD T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i113: "(HSTATE SD T \<and> nextDTHDataFrom 1 T \<longrightarrow> (CSTATE ISAD T 0 \<or> CSTATE ISD T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i114: "(HSTATE SA T \<and> (nextSnpRespIs RspIFwdM T 0 \<or> nextSnpRespIs RspSFwdM T 0) \<longrightarrow> CSTATE ISAD T 1 \<or> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i115: "(HSTATE SA T \<and> (nextSnpRespIs RspIFwdM T 1 \<or> nextSnpRespIs RspSFwdM T 1) \<longrightarrow> CSTATE ISAD T 0 \<or> CSTATE ISA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i118: "(snpresps1 T \<noteq> [] \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i119: "(snpresps2 T \<noteq> [] \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i120: "(length (snpresps1 T) \<le> 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i121: "(length (snpresps2 T) \<le> 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i126: "(HSTATE SAD T \<and> snpresps1 T \<noteq> [] \<longrightarrow> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i127: "(HSTATE SAD T \<and> snpresps2 T \<noteq> [] \<longrightarrow> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i128: "(HSTATE MD T \<and> reqs1 T \<noteq> [] \<longrightarrow> dthdatas1 T \<noteq> []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i129: "(HSTATE MD T \<and> reqs2 T \<noteq> [] \<longrightarrow> dthdatas2 T \<noteq> []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i130: "(HSTATE ID T \<and> dthdatas1 T \<noteq> [] \<longrightarrow> CSTATE Invalid T 0 \<or> CSTATE ISAD T 0 \<or> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i131: "(HSTATE ID T \<and> dthdatas2 T \<noteq> [] \<longrightarrow> CSTATE Invalid T 1 \<or> CSTATE ISAD T 1 \<or> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i132: "(HSTATE ID T \<and> dthdatas1 T \<noteq> [] \<longrightarrow> \<not>CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i133: "(HSTATE ID T \<and> dthdatas2 T \<noteq> [] \<longrightarrow> \<not>CSTATE MIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i136: "(dthdatas1 T \<noteq> [] \<and> HSTATE SD T \<longrightarrow> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i137: "(dthdatas2 T \<noteq> [] \<and> HSTATE SD T \<longrightarrow> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i138: "(CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> nextLoad T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i139: "(CSTATE ISD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> nextLoad T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i142: "(C_msg_P_same IIA (nextGOPendingIs GO_WritePullDrop) (\<lambda> T i. \<not>nextSnoopPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i143: "(CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> HSTATE SD T \<or> HSTATE SharedM T \<or> HSTATE MAD T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i144: "(CSTATE ISAD T 1 \<and> nextGOPending T 1 \<longrightarrow> HSTATE SD T \<or> HSTATE SharedM T \<or> HSTATE MAD T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i145: "(CSTATE ISAD T 0 \<longrightarrow> nextLoad T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i146: "(CSTATE ISAD T 1 \<longrightarrow> nextLoad T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i147: "(CSTATE ISAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i148: "(CSTATE ISAD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i149: "(CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i150: "(CSTATE ISAD T 1 \<and> nextGOPending T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i153: "((CSTATE Invalid T 0 \<or> CSTATE ISDI T 0) \<and> HSTATE MD T \<longrightarrow> dthdatas1 T \<noteq> []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i154: "((CSTATE Invalid T 1 \<or> CSTATE ISDI T 1) \<and> HSTATE MD T \<longrightarrow> dthdatas2 T \<noteq> []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i159: "(HSTATE ModifiedM T \<longrightarrow> snpresps2 T = [] \<and> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i160: "(HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> CSTATE ISAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i161: "(HSTATE SAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> CSTATE ISAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i164: "(HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i165: "(HSTATE SAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i166: "(HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqs2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i167: "(HSTATE SAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqs1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i168: "(HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqs2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i169: "(HSTATE SD T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqs1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i170: "(HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i171: "(HSTATE SharedM T \<and> nextReqIs RdOwn T 1 \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i172: "(HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i173: "(HSTATE SharedM T \<and> nextReqIs RdShared T 1 \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i178: "(CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> HSTATE IB T \<or> HSTATE SB T \<or> HSTATE MB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i179: "(CSTATE IIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<longrightarrow> HSTATE IB T \<or> HSTATE SB T \<or> HSTATE MB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i180: "(CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> HSTATE SharedM T \<or> HSTATE InvalidM T \<or> HSTATE ModifiedM T \<or> HSTATE SB T \<or> HSTATE ID T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i181: "(CSTATE IIA T 1 \<and> nextGOPendingIs GO_WritePullDrop T 1 \<longrightarrow> HSTATE SharedM T \<or> HSTATE InvalidM T \<or> HSTATE ModifiedM T \<or> HSTATE SB T \<or> HSTATE ID T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i182: "(CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MA T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i183: "(CSTATE IMAD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MA T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i186: "(HSTATE SharedM T \<longrightarrow> dthdatas1 T = [] \<and> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i187: "(CSTATE MIA T 1 \<longrightarrow> \<not>CSTATE MIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i188: "(CSTATE MIA T 0 \<longrightarrow> \<not>CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i189: "(HSTATE ModifiedM T \<longrightarrow> dthdatas2 T = [] \<and> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i190: "(nextDTHDataFrom  0 T \<longrightarrow> \<not> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i191: "(nextDTHDataFrom  1 T \<longrightarrow> \<not> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i192: "(nextDTHDataFrom 0 T \<longrightarrow> \<not> nextDTHDataFrom 1 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i193: "(nextDTHDataFrom 1 T \<longrightarrow> \<not> nextDTHDataFrom 0 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i194: "(HSTATE SA T \<longrightarrow> dthdatas2 T = [] \<and> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i195: "(HSTATE SD T \<longrightarrow> \<not> CSTATE IIA T 0 \<or> \<not> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i196: "(HSTATE SAD T \<longrightarrow> (\<not> CSTATE IIA T 0 \<or> nextSnpRespIs RspIFwdM T 0) \<and> (\<not> CSTATE IIA T 1 \<or> nextSnpRespIs RspIFwdM T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i197: "(CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> \<not> nextDTHDataFrom 1 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i198: "(CSTATE IIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<longrightarrow> \<not> nextDTHDataFrom 0 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i199: "(CSTATE IIA T 0 \<longrightarrow> \<not> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i200: "(CSTATE IIA T 1 \<longrightarrow> \<not> CSTATE IIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i301: "(CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> \<not> nextDTHDataFrom 1 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i302: "(CSTATE MIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<longrightarrow> \<not> nextDTHDataFrom 0 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i305: "(snpresps1 T \<noteq> [] \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i306: "(snpresps2 T \<noteq> [] \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i307: "(HSTATE SharedM T \<and> nextReqIs RdShared T 1 \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i308: "(HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i309: "(HSTATE SD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i310: "(HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i313: "(HSTATE ModifiedM T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i314: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePull) nextEvict T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i315: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePull) (\<lambda>T i. \<not> nextReqIs RdShared T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i316: "(CSTATE SIA T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i317: "(CSTATE SIA T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i318: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePull) (\<lambda> T i. \<not>nextSnoopPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i319: "(CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> HSTATE IB T \<or> HSTATE SB T \<or> HSTATE MB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i320: "(CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<longrightarrow> HSTATE IB T \<or> HSTATE SB T \<or> HSTATE MB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i321: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePull) (\<lambda>T i. \<not> nextDTHDataPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i322: "(CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> \<not> nextDTHDataFrom 1 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i323: "(CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<longrightarrow> \<not> nextDTHDataFrom 0 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i324: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePullDrop) nextEvict T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i325: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePullDrop) (\<lambda>T i. \<not> nextReqIs RdShared T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i326: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePullDrop) (\<lambda> T i. \<not>nextSnoopPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i327: "(CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> HSTATE InvalidM T \<or> HSTATE SharedM T \<or> HSTATE SB T \<or> HSTATE IB T \<or> HSTATE ModifiedM T \<or> HSTATE ID T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i328: "(CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePullDrop T 1 \<longrightarrow> HSTATE InvalidM T \<or> HSTATE SharedM T \<or> HSTATE SB T \<or> HSTATE IB T \<or> HSTATE ModifiedM T \<or> HSTATE ID T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i329: "(C_msg_P_same SIA (nextGOPendingIs GO_WritePullDrop) (\<lambda>T i. \<not> nextDTHDataPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i332: "(CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MA T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i333: "(CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow>  HSTATE SharedM T \<or> HSTATE SA T \<or> HSTATE MA T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i334: "(CSTATE ISAD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow>  HSTATE SharedM T \<or> HSTATE SA T \<or> HSTATE MA T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i335: "(CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> (CSTATE IMAD T 1 \<and> nextHTDDataPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i336: "(CSTATE ISAD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> (CSTATE IMAD T 0 \<and> nextHTDDataPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i337: "(C_not_C_msg Modified IMAD nextGOPending T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i338: "(CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> HSTATE MD T \<or> HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i339: "(CSTATE IMAD T 0 \<longrightarrow> nextStore T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i340: "(CSTATE IMAD T 1 \<longrightarrow> nextStore T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i341: "(CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i342: "(CSTATE IMAD T 1 \<and> nextGOPending T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i343: "(snpresps1 T \<noteq> [] \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i344: "(snpresps2 T \<noteq> [] \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i345: "(CSTATE SMAD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MA T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i346: "(CSTATE IMAD T 1 \<and> nextGOPending T 1 \<longrightarrow>  HSTATE MD T \<or> HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i347: "(CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow>  HSTATE MD T \<or> HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i348: "(CSTATE SMAD T 1 \<and> nextGOPending T 1 \<longrightarrow>  HSTATE MD T \<or> HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i349: "(CSTATE SMAD T 0 \<longrightarrow> nextStore T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i350: "(CSTATE SMAD T 1 \<longrightarrow> nextStore T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i351: "(C_msg_P_same IMA (nextGOPending) nextStore T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i352: "(CSTATE IMA T 0 \<or> CSTATE SMA T 0 \<or> CSTATE ISA T 0 \<longrightarrow> \<not> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i353: "(CSTATE IMA T 1 \<or> CSTATE SMA T 1 \<or> CSTATE ISA T 1 \<longrightarrow> \<not> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i354: "(C_msg_P_oppo IMA (nextGOPending) (\<lambda> T i. \<not>nextSnoopPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i355: "(C_msg_P_oppo SMA (nextGOPending) (\<lambda> T i. \<not>nextSnoopPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i356: "(C_msg_P_oppo ISA (nextGOPending) (\<lambda> T i. \<not>nextSnoopPending T i) T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i357: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i358: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i365: "(C_msg_P_same SMA (nextGOPending) nextStore T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i366: "((CSTATE SMA T 0 \<and> nextGOPending T 0 \<or> CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<or> CSTATE SMD T 0 \<and> nextHTDDataPending T 0) \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i367: "((CSTATE SMA T 1 \<and> nextGOPending T 1 \<or> CSTATE IMD T 1 \<and> nextHTDDataPending T 1 \<or> CSTATE SMD T 1 \<and> nextHTDDataPending T 1) \<longrightarrow>  HSTATE ModifiedM T \<or> HSTATE MAD T \<or> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i368: "(CSTATE ISD T 0 \<or> CSTATE ISAD T 0 \<or> CSTATE ISA T 0 \<or> CSTATE ISDI T 0 \<longrightarrow> nextLoad T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i369: "(CSTATE ISD T 1 \<or> CSTATE ISAD T 1 \<or> CSTATE ISA T 1 \<or> CSTATE ISDI T 1 \<longrightarrow> nextLoad T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i370: "(CSTATE IMD T 0 \<or> CSTATE IMAD T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMD T 0 \<or> CSTATE SMAD T 0 \<or> CSTATE SMA T 0  \<longrightarrow> nextStore T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i371: "(CSTATE IMD T 1 \<or> CSTATE IMAD T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMD T 1 \<or> CSTATE SMAD T 1 \<or> CSTATE SMA T 1  \<longrightarrow> nextStore T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i374: "(CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> HSTATE SharedM T \<or> HSTATE MAD T \<or> HSTATE MA T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i375: "(CSTATE ISA T 1 \<and> nextGOPending T 1 \<longrightarrow> HSTATE SharedM T \<or> HSTATE MAD T \<or> HSTATE MA T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i376: "(CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> HSTATE ModifiedM T \<or> HSTATE MAD T  \<or> HSTATE MA T \<or> HSTATE MD T\<or> HSTATE ID T \<or> HSTATE InvalidM T \<or> HSTATE SharedM T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i377: "(CSTATE ISDI T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = [] \<and> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i378: "(CSTATE ISDI T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = [] \<and> snps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i379: "(CSTATE ISDI T 0 \<longrightarrow> \<not>nextReqIs RdOwn T 1 \<or> \<not>HSTATE ModifiedM T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i380: "(CSTATE ISDI T 1 \<longrightarrow> \<not>nextReqIs RdOwn T 0 \<or> \<not>HSTATE ModifiedM T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i381: "(CSTATE Invalid T 0 \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i382: "(CSTATE Invalid T 1 \<longrightarrow> reqresps2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i383: "(CSTATE ISDI T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> HSTATE ModifiedM T \<or> HSTATE MAD T  \<or> HSTATE MA T \<or> HSTATE MD T\<or> HSTATE ID T \<or> HSTATE InvalidM T \<or> HSTATE SharedM T \<or> HSTATE SB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i384: "(CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i385: "(CSTATE Shared T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i388: "(CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i389: "(CSTATE SMAD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i390: "(CSTATE SMAD T 0 \<and> reqresps1 T = [] \<and> htddatas1 T = [] \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i391: "(CSTATE SMAD T 1 \<and> reqresps2 T = [] \<and> htddatas2 T = [] \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i392: "(nextReqIs RdOwn T 0 \<longrightarrow> CSTATE SMAD T 0 \<or> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i393: "(nextReqIs RdOwn T 1 \<longrightarrow> CSTATE SMAD T 1 \<or> CSTATE IMAD T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i396: "(CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<and> CXL_SPG_used T 0 \<longrightarrow> nextReqIs RdOwn T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i397: "(CSTATE SMAD T 1 \<and> nextSnoopIs SnpInv T 1 \<and> CXL_SPG_used T 1 \<longrightarrow> nextReqIs RdOwn T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i400: "(CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i401: "(CSTATE ISD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i406: "(CSTATE IMA T 0 \<or> CSTATE SMA T 0 \<or> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0)  \<longrightarrow> dthdatas1 T = [] \<and> (dthdatas2 T = [] \<or> HSTATE MB T \<or> HSTATE ModifiedM T)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i407: "(CSTATE IMA T 1 \<or> CSTATE SMA T 1 \<or> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1)  \<longrightarrow> dthdatas2 T = [] \<and> (dthdatas1 T = [] \<or> HSTATE MB T \<or> HSTATE ModifiedM T)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i408: "(HSTATE MD T \<longrightarrow> snpresps1 T = [] \<and> snpresps2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i415: "(HSTATE ModifiedM T  \<and> nextReqIs RdOwn T 0 \<longrightarrow> (CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i416: "(HSTATE ModifiedM T  \<and> nextReqIs RdOwn T 1 \<longrightarrow> (CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i417: "((CSTATE Invalid T 0 \<or> CSTATE ISDI T 0) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i418: "((CSTATE Invalid T 1 \<or> CSTATE ISDI T 1) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i419: "(CSTATE IIA T 0 \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i420: "(CSTATE IIA T 1 \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i421: "(HSTATE MD T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i422: "(HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> CSTATE IMAD T 1 \<and> nextGOPending T 1 \<or> CSTATE IMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i423: "(HSTATE MD T \<and> nextDTHDataFrom 1 T \<longrightarrow> CSTATE IMAD T 0 \<and> nextGOPending T 0 \<or> CSTATE IMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i424: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i425: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> CSTATE IMAD T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i426: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i427: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> snpresps1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i430: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> reqs2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i431: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE Modified T 1 \<and> reqs1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i432: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i433: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqresps1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i435: "(CSTATE IMD T 0 \<or> CSTATE SMD T 0 \<or> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextGOPending T 0) \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i436: "(CSTATE IMD T 1 \<or> CSTATE SMD T 1 \<or> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextGOPending T 1) \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i437: "(HSTATE SAD T \<and> (nextSnpRespIs RspIFwdM T 0 \<or> nextSnpRespIs RspSFwdM T 0) \<longrightarrow> CSTATE ISAD T 1 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i438: "(HSTATE SAD T \<and> (nextSnpRespIs RspIFwdM T 1 \<or> nextSnpRespIs RspSFwdM T 1) \<longrightarrow> CSTATE ISAD T 0 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i441: "(nextSnpRespIs RspSFwdM T 0 \<longrightarrow> CSTATE Shared T 0 \<or> CSTATE SMAD T 0 \<or> CSTATE SIA T 0 \<or> CSTATE SIAC T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i442: "(nextSnpRespIs RspSFwdM T 1 \<longrightarrow> CSTATE Shared T 1 \<or> CSTATE SMAD T 1 \<or> CSTATE SIA T 1 \<or> CSTATE SIAC T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i443: "((HSTATE SAD T \<or> HSTATE MAD T \<or> HSTATE SA T \<or> HSTATE MA T) \<and> snpresps1 T \<noteq> [] \<longrightarrow> htddatas1 T = [] \<or> CSTATE ISDI T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i444: "((HSTATE SAD T \<or> HSTATE MAD T \<or> HSTATE SA T \<or> HSTATE MA T) \<and> snpresps2 T \<noteq> [] \<longrightarrow> htddatas2 T = [] \<or> CSTATE ISDI T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i445: "(HSTATE SAD T \<and> (nextSnpRespIs RspIFwdM T 0 \<or> nextSnpRespIs RspSFwdM T 0) \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i446: "(HSTATE SAD T \<and> (nextSnpRespIs RspIFwdM T 1 \<or> nextSnpRespIs RspSFwdM T 1) \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i449: "(HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> dthdatas1 T \<noteq> [] \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i450: "(HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 1 \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> dthdatas2 T \<noteq> [] \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i451: "(HSTATE MA T \<and> snpresps1 T \<noteq> [] \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> htddatas2 T \<noteq> [] \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i452: "(HSTATE MA T \<and> snpresps2 T \<noteq> [] \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> htddatas1 T \<noteq> [] \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i453: "(nextReqIs DirtyEvict T 0 \<longrightarrow> CSTATE MIA T 0 \<or>  CSTATE SIA T 0 \<or> CSTATE IIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i454: "(nextReqIs DirtyEvict T 1 \<longrightarrow> CSTATE MIA T 1 \<or>  CSTATE SIA T 1 \<or> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i455: "(HSTATE MA T \<longrightarrow> dthdatas2 T = [] \<and> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i456: "((nextSnpRespIs RspIFwdM T 0 \<or> nextSnpRespIs RspIHitSE T 0) \<longrightarrow> CSTATE Invalid T 0 \<or> CSTATE ISDI T 0 \<or> CSTATE ISAD T 0 \<or> CSTATE IMAD T 0 \<or> CSTATE IIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i457: "((nextSnpRespIs RspIFwdM T 1 \<or> nextSnpRespIs RspIHitSE T 1) \<longrightarrow> CSTATE Invalid T 1 \<or> CSTATE ISDI T 1 \<or> CSTATE ISAD T 1 \<or> CSTATE IMAD T 1 \<or> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i460: "((CSTATE Invalid T 0  \<or> CSTATE ISDI T 0 \<or> nextReqIs RdOwn T 0) \<and> HSTATE MA T \<longrightarrow> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i461: "((CSTATE Invalid T 1  \<or> CSTATE ISDI T 1 \<or> nextReqIs RdOwn T 1) \<and> HSTATE MA T \<longrightarrow> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0))" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i462: "((CSTATE ISAD T 0 \<and> nextGOPending T 0) \<or> CSTATE ISA T 0 \<or> ( nextHTDDataPending T 0) \<or> CSTATE Shared T 0 \<longrightarrow> \<not> CSTATE Modified T 1 \<and> (dthdatas1 T = [] \<or> nextSnpRespIs RspSFwdM T 0 \<or> HSTATE SD T)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i463: "((CSTATE ISAD T 1 \<and> nextGOPending T 1) \<or> CSTATE ISA T 1 \<or> ( nextHTDDataPending T 1) \<or> CSTATE Shared T 1 \<longrightarrow> \<not> CSTATE Modified T 0 \<and> (dthdatas2 T = [] \<or> nextSnpRespIs RspSFwdM T 1 \<or> HSTATE SD T)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i465: "(CSTATE IMD T 0 \<or> CSTATE SMD T 0 \<or> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextGOPending T 0) \<longrightarrow> ((\<not> CSTATE ISD T 1) \<and> \<not> CSTATE IMD T 1 \<and> \<not> CSTATE SMD T 1 \<and> \<not>( (CSTATE ISAD T 1 \<or> CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextGOPending T 1) \<and> \<not>CSTATE ISA T 1 \<and> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1 \<and> \<not> (  nextHTDDataPending T 1) \<and>  \<not> CSTATE Shared T 1 \<and> \<not> CSTATE Modified T 1) \<or> nextSnoopIs SnpInv T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i466: "(CSTATE IMD T 1 \<or> CSTATE SMD T 1 \<or> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextGOPending T 1) \<longrightarrow> ((\<not> CSTATE ISD T 0) \<and> \<not> CSTATE IMD T 0 \<and> \<not> CSTATE SMD T 0 \<and> \<not>( (CSTATE ISAD T 0 \<or> CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextGOPending T 0) \<and> \<not>CSTATE ISA T 0 \<and> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0 \<and> \<not> (  nextHTDDataPending T 0) \<and>  \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Modified T 0) \<or> nextSnoopIs SnpInv T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i467: "(CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMAD T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i468: "(CSTATE Shared T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMAD T 0 \<or> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i469: "(CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMAD T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i470: "(CSTATE ISD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMAD T 0 \<or> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i471: "(HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow>  \<not> nextReqIs CleanEvict T 0 \<and> \<not> nextReqIs CleanEvictNoData T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i472: "(HSTATE MD T \<and> nextDTHDataFrom 1 T \<longrightarrow>  \<not> nextReqIs CleanEvict T 1 \<and> \<not> nextReqIs CleanEvictNoData T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i473: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow>  \<not> nextReqIs CleanEvict T 0 \<and> \<not> nextReqIs CleanEvictNoData T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i474: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow>  \<not> nextReqIs CleanEvict T 1 \<and> \<not> nextReqIs CleanEvictNoData T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i475: "(CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i476: "(CSTATE Modified T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i477: "(CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i478: "(CSTATE Modified T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i479: "(CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i480: "(CSTATE MIA T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i481: "(CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> CSTATE ISAD T 1 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i482: "(CSTATE MIA T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> CSTATE ISAD T 0 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i483: "(CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i484: "(CSTATE Modified T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i485: "(CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> CSTATE ISAD T 1 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i486: "(CSTATE Modified T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> CSTATE ISAD T 0 ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i487: "(CSTATE Modified T 0 \<longrightarrow> reqs1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i488: "(CSTATE Modified T 1 \<longrightarrow> reqs2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i489: "(CSTATE Modified T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = [] \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i490: "(CSTATE Modified T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = [] \<and> htddatas2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i491: "(HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i492: "(HSTATE InvalidM T \<and> nextReqIs RdShared T 1 \<longrightarrow> dthdatas1 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i493: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1 \<and> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i494: "(nextReqIs RdOwn T 0 \<longrightarrow> \<not> CSTATE ISAD T 0 \<and> \<not> CSTATE Invalid T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i495: "(nextReqIs RdOwn T 1 \<longrightarrow> \<not> CSTATE ISAD T 1 \<and> \<not> CSTATE Invalid T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i496: "(HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i497: "(HSTATE InvalidM T \<and> nextReqIs RdOwn T 1 \<longrightarrow> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i498: "(HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i499: "(HSTATE InvalidM T \<and> nextReqIs RdOwn T 1 \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i500: "(CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i501: "(CSTATE SIA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i502: "(CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i503: "(CSTATE SIA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i504: "(CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> CXL_SPG_used T 0 \<longrightarrow> (nextReqIs CleanEvict T 0 \<or> nextReqIs CleanEvictNoData T 0 )) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i505: "(CSTATE SIA T 1 \<and> nextSnoopIs SnpInv T 1 \<and> CXL_SPG_used T 1 \<longrightarrow> (nextReqIs CleanEvict T 1 \<or> nextReqIs CleanEvictNoData T 1 )) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i506: "(CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMAD T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i507: "(CSTATE SIA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMAD T 0 \<or> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i508: "(CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMAD T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i509: "(CSTATE SMAD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMAD T 0 \<or> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i510: "(HSTATE ID T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1 \<and> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i511: "(HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<longrightarrow> (\<not> CSTATE Modified T 0 \<or> \<not> CSTATE Modified T 1) \<and> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i512: "(HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 1 \<longrightarrow> (\<not> CSTATE Modified T 0 \<or> \<not> CSTATE Modified T 1) \<and> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i513: "(HSTATE ID T \<and> nextReqIs RdOwn T 0 \<longrightarrow> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i514: "(HSTATE ID T \<and> nextReqIs RdOwn T 1 \<longrightarrow> CSTATE IMAD T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i515: "(CSTATE SMAD T 0 \<and> nextGOPending T 0\<longrightarrow> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i516: "(CSTATE SMAD T 1 \<and> nextGOPending T 1\<longrightarrow> nextHTDDataPending T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i517: "(C_msg_P_oppo SMAD nextGOPending (\<lambda>T i. \<not> nextSnoopPending T i) T)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i518: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<longrightarrow> CSTATE SIAC T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i519: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 1 \<longrightarrow> CSTATE SIAC T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i522: "(nextGOPendingIs GO_WritePull T 0 \<and> HSTATE InvalidM T \<longrightarrow> reqresps2 T = [] \<or> nextReqRespStateIs Invalid (reqresps2 T)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i523: "(nextGOPendingIs GO_WritePull T 1 \<and> HSTATE InvalidM T \<longrightarrow> reqresps1 T = [] \<or> nextReqRespStateIs Invalid (reqresps1 T)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i524: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<longrightarrow> nextEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i525: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 1 \<longrightarrow> nextEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i526: "(HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<longrightarrow> nextEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i527: "(HSTATE SharedM T \<and> nextReqIs CleanEvict T 1 \<longrightarrow> nextEvict T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i528: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<longrightarrow> \<not> CSTATE ISDI T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i529: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 1 \<longrightarrow> \<not> CSTATE ISDI T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i530: "(HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<longrightarrow> \<not> CSTATE ISDI T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i531: "(HSTATE SharedM T \<and> nextReqIs CleanEvict T 1 \<longrightarrow> \<not> CSTATE ISDI T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i532: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<longrightarrow> \<not> CSTATE MIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i533: "(HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 1 \<longrightarrow> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i534: "(HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<longrightarrow> \<not> CSTATE MIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i535: "(HSTATE SharedM T \<and> nextReqIs CleanEvict T 1 \<longrightarrow> \<not> CSTATE MIA T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i536: "(CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> htddatas2 T \<noteq> [] \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> htddatas2 T = [])) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i537: "(CSTATE Shared T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> htddatas1 T \<noteq> [] \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> htddatas1 T = []))" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i538: "(nextReqIs DirtyEvict T 0 \<longrightarrow> nextEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i539: "(nextReqIs DirtyEvict T 1 \<longrightarrow> nextEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i540: "(nextReqIs DirtyEvict T 0 \<and> HSTATE InvalidM T \<longrightarrow> \<not> nextDTHDataFrom 1 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i541: "(nextReqIs DirtyEvict T 1 \<and> HSTATE InvalidM T \<longrightarrow> \<not> nextDTHDataFrom 0 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i542: "(nextReqIs DirtyEvict T 0 \<and> HSTATE InvalidM T \<longrightarrow> \<not> CSTATE ISDI T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i543: "(nextReqIs DirtyEvict T 1 \<and> HSTATE InvalidM T \<longrightarrow> \<not> CSTATE ISDI T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i544: "(nextReqIs DirtyEvict T 0 \<and> HSTATE InvalidM T \<longrightarrow> (reqresps2 T = [] \<or> nextReqRespStateIs Invalid (reqresps2 T))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i545: "(nextReqIs DirtyEvict T 1 \<and> HSTATE InvalidM T \<longrightarrow> (reqresps1 T = [] \<or> nextReqRespStateIs Invalid (reqresps1 T)))" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i546: "(CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not>(CSTATE ISA T 1 \<or> nextHTDDataPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i547: "(CSTATE SMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not>(CSTATE ISA T 0 \<or> nextHTDDataPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i548: "(CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MAD T \<and> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i549: "(CSTATE SMD T 1 \<and> nextHTDDataPending T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MAD T \<and> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i550: "(CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> HSTATE SAD T \<and> CSTATE ISAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i551: "(CSTATE SMD T 1 \<and> nextHTDDataPending T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> HSTATE SAD T \<and> CSTATE ISAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i552: "(CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i553: "(CSTATE SMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i554: "(CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i555: "(CSTATE SMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> nextReqIs DirtyEvict T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i556: "((nextReqIs CleanEvictNoData T 0 \<or> nextReqIs CleanEvict T 0) \<longrightarrow> (CSTATE SIA T 0 \<or> CSTATE IIA T 0 \<or> CSTATE SIAC T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i557: "((nextReqIs CleanEvictNoData T 1 \<or> nextReqIs CleanEvict T 1) \<longrightarrow> (CSTATE SIA T 1 \<or> CSTATE IIA T 1 \<or> CSTATE SIAC T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i558: "((CSTATE Shared T 0 \<or> CSTATE Shared T 1) \<longrightarrow> \<not> HSTATE MD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i559: "(CSTATE Shared T 0 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i560: "(CSTATE Shared T 1 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i561: "((nextReqIs CleanEvictNoData T 0 \<or> nextReqIs CleanEvict T 0) \<longrightarrow> nextEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i562: "((nextReqIs CleanEvictNoData T 1 \<or> nextReqIs CleanEvict T 1) \<longrightarrow> nextEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i563: "((nextReqIs CleanEvictNoData T 0 \<or> nextReqIs CleanEvict T 0) \<longrightarrow> \<not> CSTATE ISDI T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i564: "((nextReqIs CleanEvictNoData T 1 \<or> nextReqIs CleanEvict T 1) \<longrightarrow> \<not> CSTATE ISDI T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i565: "((nextReqIs CleanEvictNoData T 0 \<or> nextReqIs CleanEvict T 0) \<longrightarrow> \<not> CSTATE MIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i566: "((nextReqIs CleanEvictNoData T 1 \<or> nextReqIs CleanEvict T 1) \<longrightarrow> \<not> CSTATE MIA T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i567: "(CSTATE IIA T 0 \<and> HSTATE SharedM T \<longrightarrow> reqs2 T = [] \<or> nextReqIs CleanEvict T 1 \<or> nextReqIs CleanEvictNoData T 1 \<or> nextReqIs RdOwn T 1 \<or> nextReqIs RdOwnNoData T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i568: "(CSTATE IIA T 1 \<and> HSTATE SharedM T \<longrightarrow> reqs1 T = [] \<or> nextReqIs CleanEvict T 0 \<or> nextReqIs CleanEvictNoData T 0 \<or> nextReqIs RdOwn T 0 \<or> nextReqIs RdOwnNoData T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i569: "(CSTATE IIA T 0 \<and> HSTATE SharedM T \<longrightarrow> CSTATE Shared T 1 \<or> CSTATE SIA T 1 \<or> CSTATE SMAD T 1 \<or> CSTATE ISAD T 1 \<and> nextGOPending T 1 \<and> nextHTDDataPending T 1 \<or> CSTATE ISA T 1 \<and> nextGOPending T 1 \<or> CSTATE ISD T 1 \<and> nextHTDDataPending T 1 \<or> CSTATE SIAC T 1 \<or> (CSTATE SMA T 1 \<and> nextReqIs RdOwnNoData T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i570: "(CSTATE IIA T 1 \<and> HSTATE SharedM T \<longrightarrow> CSTATE Shared T 0 \<or> CSTATE SIA T 0 \<or> CSTATE SMAD T 0 \<or> CSTATE ISAD T 0 \<and> nextGOPending T 0 \<and> nextHTDDataPending T 0 \<or> CSTATE ISA T 0 \<and> nextGOPending T 0 \<or> CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<or> CSTATE SIAC T 0 \<or> (CSTATE SMA T 0 \<and> nextReqIs RdOwnNoData T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i571: "(CSTATE IIA T 1 \<and> HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<longrightarrow> CSTATE ISAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i572: "(CSTATE IIA T 0 \<and> HSTATE InvalidM T \<and> nextReqIs RdShared T 1 \<longrightarrow> CSTATE ISAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i573: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0 \<and> \<not> CSTATE IMD T 0 \<and> \<not> CSTATE SMD T 0 \<and>  \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1 \<and> \<not> CSTATE IMD T 1 \<and> \<not> CSTATE SMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i574: "(HSTATE InvalidM T \<longrightarrow> \<not> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> (nextGOPending T 0 \<or> nextHTDDataPending T 0)) \<and> \<not> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> (nextGOPending T 1 \<or> nextHTDDataPending T 1))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i575: "(nextGOPendingIs GO_WritePull T 0 \<or> nextGOPendingIs GO_WritePull T 1 \<longrightarrow> \<not> HSTATE InvalidM T)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i576: "(CSTATE MIA T 0 \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1 \<and> \<not> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i577: "(CSTATE MIA T 1 \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0 \<and> \<not> nextHTDDataPending T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i578: "(nextGOPendingIs GO_WritePull T 0 \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i579: "(nextGOPendingIs GO_WritePull T 1 \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i580: "((CSTATE IMA T 0 \<or> CSTATE SMA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0) \<longrightarrow> (HSTATE MA T \<or> HSTATE ModifiedM T \<or> HSTATE MB T \<or> HSTATE MAD T \<or> HSTATE SAD T)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i581: "((CSTATE IMA T 1 \<or> CSTATE SMA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1) \<longrightarrow> (HSTATE MA T \<or> HSTATE ModifiedM T \<or> HSTATE MB T \<or> HSTATE MAD T \<or> HSTATE SAD T))" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i582: "(CSTATE MIA T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = [] \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i583: "(CSTATE MIA T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = [] \<and> htddatas2 T = [])" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i584: "(CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i585: "(CSTATE MIA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i586: "(CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i587: "(CSTATE MIA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i588: "((HSTATE InvalidM T \<or> HSTATE SharedM T \<or> HSTATE ModifiedM T) \<longrightarrow> (\<not> nextGOPendingIs GO_WritePull T 0) \<and> (\<not> nextGOPendingIs GO_WritePull T 1))" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i589: "(CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<and> CSTATE IIA T 1 \<longrightarrow> HSTATE InvalidM T \<or> HSTATE IB T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i590: "(CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePullDrop T 1 \<and> CSTATE IIA T 0 \<longrightarrow> HSTATE InvalidM T \<or> HSTATE IB T)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i591: "(HSTATE InvalidM T \<longrightarrow> dthdatas1 T = [] \<and> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i592: "(CSTATE Invalid T 0 \<longrightarrow> \<not> nextSnoopIs SnpInv T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i593: "(CSTATE Invalid T 1 \<longrightarrow> \<not> nextSnoopIs SnpInv T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i594: "(CSTATE Modified T 0 \<longrightarrow> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i595: "(CSTATE Modified T 1 \<longrightarrow> \<not> CSTATE MIA T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i596: "(HSTATE MA T \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> htddatas2 T \<noteq> [] \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i597: "(HSTATE MA T \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> htddatas1 T \<noteq> [] \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i598: "(CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i599: "(CSTATE SMAD T 1 \<and> nextGOPending T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i600: "(HSTATE MA T \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i601: "(HSTATE MA T \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i602: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> CSTATE ISD T 0 \<and> \<not> CSTATE ISA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i603: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> CSTATE ISD T 1 \<and> \<not> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i604: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> CSTATE SMD T 0 \<and> \<not> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i605: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> CSTATE SMD T 1 \<and> \<not> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i606: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> CSTATE IMD T 0 \<and> \<not> CSTATE IMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i607: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> CSTATE IMD T 1 \<and> \<not> CSTATE IMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i608: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> (CSTATE ISAD T 0 \<and> (nextGOPending T 0 \<or> nextHTDDataPending T 0))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i609: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> (CSTATE IMAD T 0 \<and> (nextGOPending T 0 \<or> nextHTDDataPending T 0))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i610: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> (CSTATE SMAD T 0 \<and> (nextGOPending T 0 \<or> nextHTDDataPending T 0))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i611: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> (CSTATE ISAD T 1 \<and> (nextGOPending T 1 \<or> nextHTDDataPending T 1))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i612: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> (CSTATE IMAD T 1 \<and> (nextGOPending T 1 \<or> nextHTDDataPending T 1))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i613: "(HSTATE InvalidM T \<or> HSTATE ID T \<longrightarrow> \<not> (CSTATE SMAD T 1 \<and> (nextGOPending T 1 \<or> nextHTDDataPending T 1))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i614: "(CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> htddatas2 T \<noteq> []) \<or> ((CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> htddatas2 T = [])) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i615: "(CSTATE ISD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> htddatas1 T \<noteq> []) \<or> ((CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> htddatas1 T = [])) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i616: "(CSTATE ISA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> htddatas2 T \<noteq> []) \<or> ((CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> htddatas2 T = [])) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i617: "(CSTATE ISA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> htddatas1 T \<noteq> []) \<or> ((CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> htddatas1 T = [])) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i618: "(CSTATE ISAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> htddatas2 T \<noteq> []) \<or> ((CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> htddatas2 T = [])) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i619: "(CSTATE ISAD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> htddatas1 T \<noteq> []) \<or> ((CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> htddatas1 T = [])) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i620: "(CSTATE IMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i621: "(CSTATE IMAD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i622: "(CSTATE IMD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i623: "(CSTATE IMD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i624: "(CSTATE IMA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i625: "(CSTATE IMA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i626: "(CSTATE SMAD T 0 \<and> nextGOPending T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i627: "(CSTATE SMAD T 1 \<and> nextGOPending T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i628: "(CSTATE SMD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i629: "(CSTATE SMD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i630: "(CSTATE SMA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i631: "(CSTATE SMA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i632: "(CSTATE ISD T 0 \<or> CSTATE ISA T 0 \<longrightarrow> \<not> HSTATE MD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i633: "(CSTATE ISD T 1 \<or> CSTATE ISA T 1 \<longrightarrow> \<not> HSTATE MD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i634: "(CSTATE ISAD T 0 \<and> (nextHTDDataPending T 0 \<or> nextGOPending T 0) \<longrightarrow> \<not> HSTATE MD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i635: "(CSTATE ISAD T 1 \<and> (nextHTDDataPending T 1 \<or> nextGOPending T 1) \<longrightarrow> \<not> HSTATE MD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i636: "(CSTATE ISD T 0 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i637: "(CSTATE ISD T 1 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i638: "(CSTATE ISA T 0 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i639: "(CSTATE ISA T 1 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i640: "(CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> (CSTATE ISAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i641: "(CSTATE IMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> (CSTATE ISAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i642: "(CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> CSTATE ISA T 1 \<and> \<not> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i643: "(CSTATE IMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i644: "(CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i645: "(CSTATE IMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> CSTATE Shared T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i646: "(CSTATE ISA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i647: "(CSTATE ISA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i648: "(CSTATE ISAD T 0 \<and> nextGOPending T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i649: "(CSTATE ISAD T 1 \<and> nextGOPending T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i650: "(CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MA T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i651: "(CSTATE ISAD T 1 \<and> nextHTDDataPending T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MA T)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i652: "(HSTATE SharedM T \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i653: "(HSTATE SharedM T \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i654: "(HSTATE SharedM T \<longrightarrow> \<not> CSTATE IMD T 0 \<and> \<not> CSTATE SMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i655: "(HSTATE SharedM T \<longrightarrow> \<not> CSTATE IMD T 1 \<and> \<not> CSTATE SMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i656: "(HSTATE SharedM T \<longrightarrow> \<not> (CSTATE IMAD T 0 \<and> (nextGOPending T 0 \<or> nextHTDDataPending T 0))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i657: "(HSTATE SharedM T \<longrightarrow> \<not> (CSTATE IMAD T 1 \<and> (nextGOPending T 1 \<or> nextHTDDataPending T 1))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i658: "(HSTATE SharedM T \<longrightarrow> \<not> (CSTATE SMAD T 0 \<and> (nextGOPending T 0 \<or> nextHTDDataPending T 0))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i659: "(HSTATE SharedM T \<longrightarrow> \<not> (CSTATE SMAD T 1 \<and> (nextGOPending T 1 \<or> nextHTDDataPending T 1))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i660: "(HSTATE SharedM T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i661: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i662: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE ISD T 0 \<and> \<not> CSTATE IMD T 0 \<and> \<not> CSTATE SMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i663: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE ISD T 1 \<and> \<not> CSTATE IMD T 1 \<and> \<not> CSTATE SMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i664: "(HSTATE InvalidM T \<longrightarrow> \<not> (CSTATE ISAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i665: "(HSTATE InvalidM T \<longrightarrow> \<not> (CSTATE ISAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i666: "(HSTATE InvalidM T \<longrightarrow> \<not> (CSTATE IMAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i667: "(HSTATE InvalidM T \<longrightarrow> \<not> (CSTATE IMAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i668: "(HSTATE InvalidM T \<longrightarrow> \<not> (CSTATE SMAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i669: "(HSTATE InvalidM T \<longrightarrow> \<not> (CSTATE SMAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i670: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i671: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE ISA T 1 \<and> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i672: "(HSTATE InvalidM T \<longrightarrow> \<not> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i673: "(HSTATE InvalidM T \<longrightarrow> \<not> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i674: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE Shared T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i675: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i676: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE Modified T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i677: "(CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> snpresps2 T = [] \<and> reqresps1 T = [] \<and> snps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i678: "(CSTATE IMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> snpresps1 T = [] \<and> reqresps2 T = [] \<and> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i679: "(CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<longrightarrow> snpresps2 T = [] \<and> snps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i680: "(CSTATE IMAD T 1 \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<longrightarrow> snpresps1 T = [] \<and> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i681: "(CSTATE IMD T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> CSTATE ISAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i682: "(CSTATE IMD T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> CSTATE ISAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i683: "(CSTATE IMA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> CSTATE ISAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i684: "(CSTATE IMA T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> CSTATE ISAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i685: "(CSTATE IMAD T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> CSTATE ISAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i686: "(CSTATE IMAD T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> CSTATE ISAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i687: "(CSTATE IMD T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i688: "(CSTATE IMD T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i689: "(CSTATE IMA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i690: "(CSTATE IMA T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i691: "(CSTATE IMAD T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i692: "(CSTATE IMD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i693: "(CSTATE IMD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i694: "(CSTATE IMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i695: "(CSTATE IMAD T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i696: "(CSTATE IMA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i697: "(CSTATE IMA T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> HSTATE MAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i698: "(CSTATE IMAD T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i699: "(HSTATE IB T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1 \<and> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i700: "(HSTATE IB T \<and> nextReqIs RdOwn T 0 \<longrightarrow> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i701: "(HSTATE IB T \<and> nextReqIs RdOwn T 1 \<longrightarrow> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i702: "(HSTATE SB T \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Modified T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i703: "(HSTATE SB T \<longrightarrow> length (dthdatas1 T) \<le> 1 \<and> length (dthdatas2 T) \<le> 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i704: "(HSTATE IB T \<longrightarrow> length (dthdatas1 T) \<le> 1 \<and> length (dthdatas2 T) \<le> 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i705: "(HSTATE SB T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i706: "(HSTATE SB T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE IIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i707: "(HSTATE MB T \<longrightarrow> length (dthdatas1 T) \<le> 1 \<and> length (dthdatas2 T) \<le> 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i708: "(HSTATE SB T \<and> nextDTHDataFrom 0 T \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i709: "(HSTATE SB T \<and> nextDTHDataFrom 1 T \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i710: "(HSTATE IB T \<and> nextDTHDataFrom 0 T \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i711: "(HSTATE IB T \<and> nextDTHDataFrom 1 T \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i712: "(HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i713: "(HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i714: "(HSTATE SB T \<longrightarrow> snps2 T = [] \<and> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i715: "(HSTATE IB T \<longrightarrow> snps2 T = [] \<and> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i716: "(HSTATE MB T \<longrightarrow> snps2 T = [] \<and> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i717: "(HSTATE SB T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i718: "(HSTATE SB T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i719: "(HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i720: "(HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i721: "(HSTATE IB T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i722: "(HSTATE IB T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i723: "(HSTATE SB T \<longrightarrow> \<not> CSTATE IMD T 0 \<and> \<not> CSTATE SMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i724: "(HSTATE SB T \<longrightarrow> \<not> CSTATE IMD T 1 \<and> \<not> CSTATE SMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i725: "(HSTATE IB T \<longrightarrow> \<not> CSTATE IMD T 0 \<and> \<not> CSTATE SMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i726: "(HSTATE IB T \<longrightarrow> \<not> CSTATE IMD T 1 \<and> \<not> CSTATE SMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i727: "(HSTATE SharedM T \<and> lastSharer T \<and> nextReqIs CleanEvictNoData T 0 \<longrightarrow> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i728: "(HSTATE SharedM T \<and> lastSharer T \<and> nextReqIs CleanEvictNoData T 1 \<longrightarrow> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i729: "(HSTATE SharedM T \<and> lastSharer T \<and> nextReqIs CleanEvictNoData T 0 \<longrightarrow> \<not> (CSTATE ISAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i730: "(HSTATE SharedM T \<and> lastSharer T \<and> nextReqIs CleanEvictNoData T 1 \<longrightarrow> \<not> (CSTATE ISAD T 0 \<and> nextGOPending T 0))" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i731: "(CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i732: "(CSTATE ISAD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i733: "(HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i734: "(HSTATE SAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i735: "(CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i736: "(CSTATE ISAD T 1 \<and> nextHTDDataPending T 1 \<and> HSTATE MA T \<longrightarrow> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i737: "(HSTATE ModifiedM T \<longrightarrow> (\<not> CSTATE SIA T 0 \<or> nextGOPendingIs GO_WritePullDrop T 0) \<and> (\<not> CSTATE SIA T 1 \<or> nextGOPendingIs GO_WritePullDrop T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i738: "(HSTATE MA T \<and> snpresps1 T \<noteq> [] \<longrightarrow> \<not> CSTATE SIA T 0 \<and> \<not> CSTATE SIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i739: "(HSTATE MA T \<and> snpresps2 T \<noteq> [] \<longrightarrow> \<not> CSTATE SIA T 0 \<and> \<not> CSTATE SIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i740: "(HSTATE MD T \<longrightarrow> \<not> CSTATE SIA T 0 \<and> \<not> CSTATE SIA T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i741: "(CSTATE MIA T 0 \<longrightarrow> \<not> (CSTATE IMAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i742: "(CSTATE MIA T 1 \<longrightarrow> \<not> (CSTATE IMAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i743: "(CSTATE MIA T 0 \<longrightarrow> \<not> (CSTATE SMAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i744: "(CSTATE MIA T 1 \<longrightarrow> \<not> (CSTATE SMAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i745: "(HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i746: "(HSTATE ModifiedM T \<and> nextReqIs RdOwn T 1 \<longrightarrow> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i747: "(HSTATE ModifiedM T \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i748: "(HSTATE MD T \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i749: "(HSTATE MA T \<and> snpresps1 T \<noteq> [] \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i750: "(HSTATE MA T \<and> snpresps2 T \<noteq> [] \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i751: "(CSTATE MIA T 0 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> CSTATE SMA T 1 \<and> \<not> CSTATE SMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i752: "(CSTATE MIA T 1 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> CSTATE SMA T 0 \<and> \<not> CSTATE SMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i753: "(CSTATE MIA T 0 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE IMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i754: "(CSTATE MIA T 1 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE IMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i755: "(CSTATE MIA T 0 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> (CSTATE IMAD T 1 \<and> (nextGOPending T 1 \<or> nextHTDDataPending T 1))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i756: "(CSTATE MIA T 1 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> (CSTATE IMAD T 0 \<and> (nextGOPending T 0 \<or> nextHTDDataPending T 0))) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i757: "(CSTATE MIA T 0 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i758: "(CSTATE MIA T 1 \<and> HSTATE ModifiedM T \<longrightarrow> \<not> CSTATE SMAD T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i759: "(CSTATE IMD T 1 \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i760: "(CSTATE IMD T 0 \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i761: "(HSTATE IB T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i762: "(HSTATE IB T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i763: "(HSTATE IB T \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE ISD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i764: "(HSTATE IB T \<longrightarrow> \<not> CSTATE ISA T 1 \<and> \<not> CSTATE ISD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i765: "(HSTATE IB T \<longrightarrow> \<not> CSTATE SMA T 0 \<and> \<not> CSTATE SMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i766: "(HSTATE IB T \<longrightarrow> \<not> CSTATE SMA T 1 \<and> \<not> CSTATE SMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i767: "(HSTATE IB T \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE IMD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i768: "(HSTATE IB T \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE IMD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i769: "(HSTATE IB T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i770: "(HSTATE IB T \<longrightarrow> \<not> nextHTDDataPending T 0 \<and> \<not> nextHTDDataPending T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i771: "(HSTATE ID T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i772: "(HSTATE ID T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i773: "(HSTATE ID T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i774: "(HSTATE ID T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i775: "(HSTATE ID T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i776: "(HSTATE ID T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i777: "(HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> \<not> CSTATE ISDI T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i778: "(HSTATE ModifiedM T \<and> nextReqIs RdShared T 1 \<longrightarrow> \<not> CSTATE ISDI T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i779: "(HSTATE SD T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i780: "(HSTATE SAD T \<and> snpresps1 T \<noteq> [] \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i781: "(HSTATE SAD T \<and> snpresps2 T \<noteq> [] \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i782: "(HSTATE MD T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i783: "(snpresps1 T \<noteq> [] \<and> HSTATE MAD T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i784: "(snpresps2 T \<noteq> [] \<and> HSTATE MAD T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i785: "(CSTATE IMD T 0 \<and> HSTATE MD T \<longrightarrow> snpresps1 T = [] \<and> snps1 T = [] \<and> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i786: "(CSTATE IMD T 1 \<and> HSTATE MD T \<longrightarrow> snpresps2 T = [] \<and> snps2 T = [] \<and> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i787: "(nextDTHDataFrom 0 T \<and> HSTATE MD T \<and> nextReqIs RdOwn T 0 \<longrightarrow> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i788: "(nextDTHDataFrom 1 T \<and> HSTATE MD T \<and> nextReqIs RdOwn T 1 \<longrightarrow> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i789: "(HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<longrightarrow> \<not> CSTATE Modified T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i790: "(HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 1 \<longrightarrow> \<not> CSTATE Modified T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i791: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE Modified T 1 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i792: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE Modified T 0 \<and> \<not> CSTATE Shared T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i793: "(HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i794: "(HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i795: "(HSTATE SA T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i796: "(HSTATE SharedM T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i797: "(CSTATE IIA T 0 \<and> HSTATE SA T \<longrightarrow> CSTATE ISAD T 1 \<and> nextHTDDataPending T 1 \<or> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i798: "(CSTATE IIA T 1 \<and> HSTATE SA T \<longrightarrow> CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<or> CSTATE ISA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i799: "(HSTATE MA T \<and> snpresps1 T \<noteq> [] \<longrightarrow> htddatas1 T = [] \<or> CSTATE ISDI T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i800: "(HSTATE MA T \<and> snpresps2 T \<noteq> [] \<longrightarrow> htddatas2 T = [] \<or> CSTATE ISDI T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i801: "(HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> (CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i802: "(HSTATE MB T \<longrightarrow> \<not> CSTATE ISD T 0 \<and> \<not> CSTATE ISD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i803: "(HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> CSTATE Invalid T 0 \<or> CSTATE ISAD T 0 \<or> CSTATE IMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i804: "(HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> CSTATE Invalid T 1 \<or> CSTATE ISAD T 1 \<or> CSTATE IMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i805: "(HSTATE MB T \<longrightarrow> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i806: "(HSTATE MB T \<longrightarrow> snpresps1 T = [] \<and> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i807: "(HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i808: "(HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i809: "(HSTATE MB T \<longrightarrow> \<not> CSTATE SIA T 0 \<and> \<not> CSTATE SIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i810: "(HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextReqIs RdOwn T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i811: "(HSTATE MB T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextReqIs RdOwn T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i812: "(HSTATE MB T \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE ISA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i813: "(CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<and> HSTATE SB T \<longrightarrow> \<not> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i814: "(CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<and> HSTATE SB T \<longrightarrow> \<not> CSTATE IIA T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i815: "(HSTATE IB T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i816: "(HSTATE IB T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i817: "(HSTATE SB T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i818: "(HSTATE SB T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i819: "(HSTATE SB T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i820: "(HSTATE SB T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i821: "(HSTATE ID T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i822: "(HSTATE ID T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i823: "(CSTATE Modified T 0 \<longrightarrow> \<not> nextReqIs RdOwn T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i824: "(CSTATE Modified T 1 \<longrightarrow> \<not> nextReqIs RdOwn T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i825: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE ISD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i826: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE ISD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i827: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> (CSTATE ISAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i828: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> (CSTATE ISAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i829: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> (CSTATE IMA T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i830: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> (CSTATE IMA T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i831: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> (CSTATE ISA T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i832: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> (CSTATE ISA T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i833: "((CSTATE ISAD T 0 \<and> nextGOPending T 0) \<or> CSTATE ISA T 0 \<or> ( nextHTDDataPending T 0) \<or> CSTATE Shared T 0 \<longrightarrow> \<not> (CSTATE IMA T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i834: "((CSTATE ISAD T 1 \<and> nextGOPending T 1) \<or> CSTATE ISA T 1 \<or> ( nextHTDDataPending T 1) \<or> CSTATE Shared T 1 \<longrightarrow> \<not> (CSTATE IMA T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i835: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> snps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i836: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i837: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE MIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i838: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i839: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE SIA T 0 \<and> \<not> CSTATE SIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i840: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE SIA T 1 \<and> \<not> CSTATE SIA T 0)  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i841: "(CSTATE Modified T 0 \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1 \<and> (htddatas2 T = [] \<or> CSTATE ISDI T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i842: "(CSTATE Modified T 1 \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0 \<and> (htddatas1 T = [] \<or> CSTATE ISDI T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i843: "(CSTATE Modified T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i844: "(CSTATE Modified T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i845: "(CSTATE Modified T 0 \<longrightarrow> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i846: "(CSTATE Modified T 1 \<longrightarrow> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i847: "(CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> (CSTATE ISAD T 1 \<and> nextGOPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i848: "(CSTATE SMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> (CSTATE ISAD T 0 \<and> nextGOPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i849: "(CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE ISA T 1 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i850: "(CSTATE SMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE ISA T 0 \<and> \<not> CSTATE Shared T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i851: "(CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i852: "(CSTATE SMA T 1 \<and> nextGOPending T 1 \<longrightarrow> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i853: "(CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE IMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i854: "(CSTATE SMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE IMA T 0)  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i855: "(CSTATE Invalid T 0 \<longrightarrow> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i856: "(CSTATE Invalid T 1 \<longrightarrow> snps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i857: "(HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> CSTATE ISD T 1 \<or> CSTATE ISAD T 1 \<and> nextGOPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i858: "(HSTATE SD T \<and> nextDTHDataFrom 1 T \<longrightarrow> CSTATE ISD T 0 \<or> CSTATE ISAD T 0 \<and> nextGOPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i859: "(HSTATE SAD T \<longrightarrow> \<not> nextGOPendingIs GO_WritePull T 0 \<and> \<not> nextGOPendingIs GO_WritePull T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i860: "(HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i861: "(CSTATE SMAD T 0 \<and> nextGOPending T 0 \<and> nextHTDDataPending T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> HSTATE SAD T \<and> CSTATE ISAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i862: "(CSTATE SMAD T 1 \<and> nextGOPending T 1 \<and> nextHTDDataPending T 1 \<and> nextSnoopIs SnpData T 1 \<longrightarrow> HSTATE SAD T \<and> CSTATE ISAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i863: "(CSTATE SMAD T 0 \<and> nextGOPending T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i864: "(CSTATE SMAD T 1 \<and> nextGOPending T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i865: "(CSTATE SMAD T 0 \<and> nextGOPending T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> snps2 T = [] \<and> snpresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i866: "(CSTATE SMAD T 1 \<and> nextGOPending T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> snps1 T = [] \<and> snpresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i867: "(CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<and> HSTATE IB T \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i868: "(CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<and> HSTATE IB T \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i869: "(CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<and> HSTATE SB T \<longrightarrow> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i870: "(CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<and> HSTATE SB T \<longrightarrow> \<not> CSTATE MIA T 0)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i871: "(HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<longrightarrow> CSTATE IIA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i872: "(HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 1 \<longrightarrow> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i873: "(HSTATE InvalidM T \<longrightarrow> (\<not> CSTATE SIA T 0 \<or> nextGOPendingIs GO_WritePullDrop T 0) \<and> (\<not> CSTATE SIA T 1 \<or> nextGOPendingIs GO_WritePullDrop T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i874: "(HSTATE MA T  \<and> nextSnpRespIs RspIFwdM T 0 \<longrightarrow> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i875: "(HSTATE MA T  \<and> nextSnpRespIs RspIFwdM T 1 \<longrightarrow> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0))  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i876: "(HSTATE MB T \<and> nextDTHDataFrom 0 T \<longrightarrow> (CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i877: "(HSTATE MB T \<and> CSTATE IIA T 0 \<longrightarrow> (CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i878: "(HSTATE MB T \<and> CSTATE IIA T 1 \<longrightarrow> (CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i883: "length (dthdatas1 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i884: "length (dthdatas2 T) \<le> 1" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i885: "(HSTATE IB T \<and> CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i886: "(HSTATE IB T \<and> CSTATE IIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i887: "(HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i888: "(HSTATE MAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i889: "(HSTATE MA T \<and> snpresps1 T \<noteq> [] \<longrightarrow> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i890: "(HSTATE MA T \<and> snpresps2 T \<noteq> [] \<longrightarrow> \<not> CSTATE Shared T 0 \<and> \<not> CSTATE Shared T 1)  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i891: "(CSTATE IMAD T 0 \<and> nextGOPending T 0 \<and> HSTATE MD T \<longrightarrow> snpresps1 T = [] \<and> snps1 T = [] \<and> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i892: "(CSTATE IMAD T 1 \<and> nextGOPending T 1 \<and> HSTATE MD T \<longrightarrow> snpresps2 T = [] \<and> snps2 T = [] \<and> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i893: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1 \<and> (htddatas2 T = [] \<or> CSTATE ISDI T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i894: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0 \<and> (htddatas1 T = [] \<or> CSTATE ISDI T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i895: "(CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1 \<and> (htddatas2 T = [] \<or> CSTATE ISDI T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i896: "(CSTATE SMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0 \<and> (htddatas1 T = [] \<or> CSTATE ISDI T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i897: "(CSTATE Modified T 0 \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i898: "(CSTATE Modified T 1 \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i899: "(nextSnpRespIs RspIHitSE T 0 \<longrightarrow> \<not> CSTATE IMA T 0 \<and> \<not> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i900: "(nextSnpRespIs RspIHitSE T 1 \<longrightarrow> \<not> CSTATE IMA T 1 \<and> \<not> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i901: "(CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i902: "(CSTATE IMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i903: "(CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i904: "(CSTATE SMD T 1 \<and> nextHTDDataPending T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i905: "(CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i906: "(CSTATE IMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i907: "(CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i908: "(CSTATE SMA T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i909: "(CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i910: "(CSTATE IMAD T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i911: "(HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i912: "(HSTATE MD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i913: "(CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> \<not> CSTATE SMAD T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i914: "(CSTATE SMAD T 1 \<and> nextGOPending T 1 \<longrightarrow> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i915: "(HSTATE InvalidM T \<longrightarrow> \<not> CSTATE SMAD T 1 \<and> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i916: "(HSTATE IB T \<longrightarrow> \<not> CSTATE SMAD T 1 \<and> \<not> CSTATE SMAD T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i917: "(HSTATE ID T \<longrightarrow> \<not> CSTATE SMAD T 1 \<and> \<not> CSTATE SMAD T 0)  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i918: "(HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i919: "(HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 1 \<longrightarrow> \<not> nextReqIs DirtyEvict T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i920: "(CSTATE Modified T 0 \<longrightarrow> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i921: "(CSTATE Modified T 1 \<longrightarrow> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i922: "(HSTATE ModifiedM T \<longrightarrow> snps1 T = [] \<and> snps2 T = [])  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i923: "(CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> CSTATE IMAD T 1 \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i924: "(CSTATE SMAD T 1 \<and> nextHTDDataPending T 1 \<and> nextSnoopIs SnpInv T 1 \<longrightarrow> CSTATE IMAD T 0 \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i925: "(CSTATE SMAD T 1 \<and> HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<longrightarrow> \<not> nextReqIs DirtyEvict T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i926: "(CSTATE SMAD T 0 \<and> HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 1 \<longrightarrow> \<not> nextReqIs DirtyEvict T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i927: "(CSTATE SIAC T 0 \<and> HSTATE SA T \<longrightarrow> \<not> CSTATE Modified T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i928: "(CSTATE SIAC T 1 \<and> HSTATE SA T \<longrightarrow> \<not> CSTATE Modified T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i929: "(CSTATE SIAC T 0 \<longrightarrow> \<not> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i930: "(CSTATE SIAC T 1 \<longrightarrow> \<not> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i931: "((CSTATE SIAC T 0 \<and> nextGOPending T 0 \<and> nextGOPendingState Invalid T 0) --> snps2 T = [] \<and> snpresps2 T = [] \<and> htddatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i932: "((CSTATE SIAC T 1 \<and> nextGOPending T 1 \<and> nextGOPendingState Invalid T 1) --> snps1 T = [] \<and> snpresps1 T = [] \<and> htddatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i933: "((CSTATE SIAC T 0 \<and> nextGOPending T 0 \<and> nextGOPendingState Invalid T 0) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or> (CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i934: "((CSTATE SIAC T 1 \<and> nextGOPending T 1 \<and> nextGOPendingState Invalid T 1) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or> (CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i935: "((CSTATE SIAC T 0 \<and> nextGOPending T 0 \<and> nextGOPendingState Invalid T 0) \<and> HSTATE MD T \<longrightarrow> dthdatas1 T \<noteq> []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i936: "((CSTATE SIAC T 1 \<and> nextGOPending T 1 \<and> nextGOPendingState Invalid T 1) \<and> HSTATE MD T \<longrightarrow> dthdatas2 T \<noteq> []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i937: "((CSTATE SIAC T 0 \<and> nextGOPending T 0 \<and> nextGOPendingState Invalid T 0) \<and> HSTATE MA T \<longrightarrow>(CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i938: "((CSTATE SIAC T 1 \<and> nextGOPending T 1 \<and> nextGOPendingState Invalid T 1) \<and> HSTATE MA T \<longrightarrow>(CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i939: "((CSTATE SIAC T 0 \<and> nextGOPending T 0 \<and> nextGOPendingState Invalid T 0) --> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i940: "((CSTATE SIAC T 1 \<and> nextGOPending T 1 \<and> nextGOPendingState Invalid T 1) --> snps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i941: "((CSTATE SIAC T 0 \<and> nextGOPending T 0 \<and> nextGOPendingState Invalid T 0) --> reqs1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i942: "((CSTATE SIAC T 1 \<and> nextGOPending T 1 \<and> nextGOPendingState Invalid T 1) --> reqs2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i943: "(HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<longrightarrow> \<not> nextHTDDataPending T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i944: "(HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 1 \<longrightarrow> \<not> nextHTDDataPending T 1)" by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i945: "(HSTATE SB T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i946: "(nextReqIs CleanEvictNoData T 0 \<longrightarrow> CSTATE SIAC T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i947: "(nextReqIs CleanEvictNoData T 1 \<longrightarrow> CSTATE SIAC T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i948: "(nextSnpRespIs RspIHitSE T 0 \<longrightarrow> \<not> nextDTHDataFrom 0 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i949: "(nextSnpRespIs RspIHitSE T 1 \<longrightarrow> \<not> nextDTHDataFrom 1 T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i950: "(nextSnpRespIs RspIFwdM T 0 \<longrightarrow> \<not> nextReqIs CleanEvictNoData T 0) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i951: "(nextSnpRespIs RspIFwdM T 1 \<longrightarrow> \<not> nextReqIs CleanEvictNoData T 1)  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i952: "(CSTATE SMA T 0 \<and> nextSnoopIs SnpData T 0 \<and> nextGOPending T 0 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i953: "(CSTATE SMA T 1 \<and> nextSnoopIs SnpData T 1 \<and> nextGOPending T 1 \<longrightarrow> HSTATE SAD T) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i954: "((CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or>(CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i955: "((CSTATE SIA T 1 \<and> nextGOPendingIs GO_WritePullDrop T 1) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or>(CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)   " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i956: "((CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> \<not> CSTATE IIA T 1 \<and> GTS T 1) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 1 \<or> CSTATE MIA T 1 \<or> (CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<and> nextGOPending T 1 \<or>(CSTATE IMA T 1 \<or> CSTATE SMA T 1) \<and> nextGOPending T 1 \<or> (CSTATE IMD T 1 \<or> CSTATE SMD T 1) \<and> nextHTDDataPending T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i957: "((CSTATE SIAC T 1 \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<and> \<not> CSTATE IIA T 0 \<and> GTS T 0) \<and> HSTATE ModifiedM T \<longrightarrow> CSTATE Modified T 0 \<or> CSTATE MIA T 0 \<or> (CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<and> nextGOPending T 0 \<or>(CSTATE IMA T 0 \<or> CSTATE SMA T 0) \<and> nextGOPending T 0 \<or> (CSTATE IMD T 0 \<or> CSTATE SMD T 0) \<and> nextHTDDataPending T 0)   " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i958: "((CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> \<not> CSTATE IIA T 1 \<and> GTS T 1) \<and> HSTATE MD T \<longrightarrow> dthdatas1 T \<noteq> []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i959: "((CSTATE SIAC T 1 \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<and> \<not> CSTATE IIA T 0 \<and> GTS T 0) \<and> HSTATE MD T \<longrightarrow> dthdatas2 T \<noteq> [])  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i960: "((CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> \<not> CSTATE IIA T 1 \<and> GTS T 1) \<and> HSTATE MA T \<longrightarrow> ((CSTATE IMAD T 1 \<or> CSTATE SMAD T 1) \<and> nextHTDDataPending T 1 \<or> CSTATE IMA T 1 \<or> CSTATE SMA T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i961: "((CSTATE SIAC T 1 \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<and> \<not> CSTATE IIA T 0 \<and> GTS T 0) \<and> HSTATE MA T \<longrightarrow> ((CSTATE IMAD T 0 \<or> CSTATE SMAD T 0) \<and> nextHTDDataPending T 0 \<or> CSTATE IMA T 0 \<or> CSTATE SMA T 0)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i962: "(HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> snps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i963: "(HSTATE SD T \<and> nextDTHDataFrom 1 T \<longrightarrow> snps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i964: "(HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> reqresps1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i965: "(HSTATE SD T \<and> nextDTHDataFrom 1 T \<longrightarrow> reqresps2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i966: "(HSTATE ID T \<and> nextDTHDataFrom 0 T \<longrightarrow> (\<not> CSTATE SIA T 1 \<or> nextGOPendingIs GO_WritePullDrop T 1) ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i967: "(HSTATE ID T \<and> nextDTHDataFrom 1 T \<longrightarrow> (\<not> CSTATE SIA T 0 \<or> nextGOPendingIs GO_WritePullDrop T 0) ) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i968: "(CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<and> HSTATE ID T \<longrightarrow> (\<not> CSTATE SIA T 1 \<or> nextGOPendingIs GO_WritePullDrop T 1)) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i969: "(CSTATE MIA T 1 \<and> nextGOPendingIs GO_WritePull T 1 \<and> HSTATE ID T \<longrightarrow> (\<not> CSTATE SIA T 0 \<or> nextGOPendingIs GO_WritePullDrop T 0))  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i970: "(HSTATE SAD T \<and> nextDTHDataFrom 1 T \<longrightarrow> \<not> CSTATE MIA T 0 \<and> \<not> CSTATE MIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i971: "(CSTATE SIAC T 0 \<and> HSTATE MD T \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i972: "(CSTATE SIAC T 1 \<and> HSTATE MD T \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<longrightarrow> dthdatas2 T = [])  " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i973: "(CSTATE SIAC T 0 \<and> HSTATE MA T \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i974: "(CSTATE SIAC T 1 \<and> HSTATE MA T \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i975: "(CSTATE SIAC T 0 \<and> HSTATE MAD T \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<longrightarrow> dthdatas1 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i976: "(CSTATE SIAC T 1 \<and> HSTATE MAD T \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<longrightarrow> dthdatas2 T = []) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+have i977: "(HSTATE SharedM T \<and> CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<longrightarrow> \<not> CSTATE IIA T 1) " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+  have i978: "(HSTATE SharedM T \<and> CSTATE SIAC T 1 \<and> nextGOPendingIs GO T 1 \<and> nextGOPendingState Invalid T 1 \<longrightarrow> \<not> CSTATE IIA T 0)   " by (insert assms, unfold SWMR_state_machine_def, elim conjE, assumption)
+  show ?thesis
+  unfolding first_twelve SWMR_state_machine_def
+  unfolding allTransitions'_def my_map_concat my_set_concat_split_68elems
+
+  
+  
+  
+
+  sorry
+  
+  
+
+  show goal_1: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+    proof (intro impconjI)
+   show goal1_1: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  simp by simp
+   show goal1_2: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  simp by simp
+   show goal1_3: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant InvalidLoad'_CSTATE_otherside MESI_State.distinct(11)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i23) by simp
+   show goal1_4: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant InvalidLoad'_CSTATE_otherside MESI_State.distinct(11,143)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i106) by simp
+   show goal1_5: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  auto
+ by (smt (verit) CSTATE_various_forms2 i381 nextReqRespIs.simps(1)) by simp
+   show goal1_6: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) InvalidLoad'_CSTATE_otherside InvalidLoad'_HSTATE MESI_State.distinct(11)
+    SMADSnpInv_C_msg_not_half i22) by simp
+   show goal1_7: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant InvalidLoad'_CSTATE_otherside MESI_State.distinct(11)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i22) by simp
+   show goal1_8: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_inequality_invariant C_msg_state_def InvalidLoad'_CSTATE_otherside
+    InvalidLoad'_nextReqIs_otherside MESI_State.distinct(11) SMADSnpInv_C_msg_not_half i47) by simp
+   show goal1_9: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis hstate_invariants(24,4) i189 nextDTHDataPending_def nextDTHDataPending_general_rule_4_0
+    nextDTHDataPending_general_rule_4_flipped_1) by simp
+   show goal1_10: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (cases "reqs1 T")
+ apply (metis HSTATE_X_Evict_invariant1 H_msg_P_oppo_def i159 i613old nextSnpRespIs_invariant1
+   nextSnpRespIs_invariant2 snpresps1_InvalidLoad snpresps2_InvalidLoad)
+  apply (metis HSTATE_X_Evict_invariant1 H_msg_P_oppo_def i159 i613old nextSnpRespIs_property1 nextSnpRespIs_property2
+   snpresps1_InvalidLoad snpresps2_InvalidLoad) by simp
+   show goal1_11: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     by simp (*failed to find proof*)
+   show goal1_12: "CSTATE Invalid T 0 \<and> nextLoad T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdShared] [ 0 s= ISAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_disj1 InvalidLoad'_CSTATE_otherside InvalidLoad'_CSTATE_sameside InvalidLoad'_HSTATE
+    MESI_State.distinct(11) i23) by simp
+qed
+  show goal_2: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> SWMR (T [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (T [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+    proof (intro impconjI)
+   show goal2_1: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> SWMR (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def SWMR_def devcache1_ISDIData_invariant_aux1 devcache2_copy_perform1_invariant i0) 
+   show goal2_2: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(3,97)) 
+   show goal2_3: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op i23 remove_instr_HSTATE) 
+   show goal2_4: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(101,11,3) i106
+    remove_instr_HSTATE) 
+   show goal2_5: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(101,3)) 
+   show goal2_6: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op i22 remove_instr_HSTATE) 
+   show goal2_7: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op i22 remove_instr_HSTATE) 
+   show goal2_8: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_general_rule_10_0 i107) 
+   show goal2_9: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i107 remove_instr_HSTATE) 
+   show goal2_10: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i107 remove_instr_HSTATE) 
+   show goal2_11: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i107 remove_instr_HSTATE) 
+   show goal2_12: "CSTATE Shared T 0 \<and> nextLoad T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(3) i70
+    reqs1_empty_not_nextReqIs_general_invariant reqs1_remove_op) 
+qed
+  show goal_3: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+    proof (intro impconjI)
+   show goal3_1: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_various_forms1 MESI_State.distinct(105,15) SharedSnpInv'_CSTATE_invariant5) 
+   show goal3_2: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(15,187) SharedSnpInv'_CSTATE_invariant5) 
+   show goal3_3: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant InvalidStore'_CSTATE_otherside MESI_State.distinct(15)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i23) 
+   show goal3_4: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant InvalidStore'_CSTATE_otherside MESI_State.distinct(11,143,15)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i106) 
+   show goal3_5: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(15,261) SharedSnpInv'_CSTATE_invariant5) 
+   show goal3_6: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) InvalidStore'_CSTATE_otherside InvalidStore'_HSTATE MESI_State.distinct(15)
+    SMADSnpInv_C_msg_not_half i22) 
+   show goal3_7: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant InvalidStore'_CSTATE_otherside InvalidStore'_HSTATE MESI_State.distinct(15)
+    SharedSnpInv'_CSTATE_invariant5 i22) 
+   show goal3_8: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_state_def InvalidStore'_CSTATE_otherside InvalidStore'_nextReqIs_invariant1
+    MESI_State.distinct(11,143) i47) 
+   show goal3_9: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_not_def C_msg_state_def C_state_not_def HTDDataPending_htddatas_invariant2
+    InvalidStore'_nextReqIs_invariant1 MESI_State.distinct(263,283) hstate_invariants(24,4) i101 i26 i31 i417 i47 i488
+    nextReqIs_not_various_forms2 reqs2_InvalidStore) 
+   show goal3_10: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_not_def C_msg_state_def C_state_not_def InvalidStore'_nextReqIs_invariant1
+    MESI_State.distinct(11,263,265,281,283,285) hstate_invariants(24,4) i144 i189 i22 i23 i25 i26 i31 i353 i417 i449
+    i450 i47 i702 nextReqIs_otherside_rule_2_0 nextSnpRespIs_general_rule_9_0) 
+   show goal3_11: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_not_def C_msg_state_def C_state_not_def InvalidStore'_nextReqIs_invariant1
+    MESI_State.distinct(11,263,265,281,283,285) hstate_invariants(24,4) i144 i189 i22 i23 i25 i26 i31 i353 i417 i449
+    i450 i47 i702 nextReqIs_otherside_rule_2_0 nextSnpRespIs_general_rule_9_0) 
+   show goal3_12: "CSTATE Invalid T 0 \<and> nextStore T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdOwn] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 InvalidStore'_CSTATE_otherside MESI_State.distinct(15) SharedSnpInv'_CSTATE_invariant5
+    hstate_invariants(24,4) i23) 
+qed
+  show goal_4: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+    proof (intro impconjI)
+   show goal4_1: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_various_forms1 MESI_State.distinct(125,35) SharedStore'_CSTATE_sameside) 
+   show goal4_2: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  simp 
+   show goal4_3: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(35) SharedSnpInv'_CSTATE_invariant5
+    SharedStore'_CSTATE_otherside hstate_invariants(24,4) i23) 
+   show goal4_4: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(101,11,35) SharedSnpInv'_CSTATE_invariant5
+    SharedStore'_CSTATE_otherside hstate_invariants(24,4) i106) 
+   show goal4_5: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(281,35) SharedSnpInv'_CSTATE_invariant5) 
+   show goal4_6: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) MESI_State.distinct(35) SMADSnpInv_C_msg_not_half SharedStore'_CSTATE_otherside
+    SharedStore'_HSTATE i22) 
+   show goal4_7: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(35) SharedSnpInv'_CSTATE_invariant5
+    SharedStore'_CSTATE_otherside hstate_invariants(24,4) i22) 
+   show goal4_8: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedStore'_HSTATE i107) 
+   show goal4_9: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedStore'_HSTATE i107) 
+   show goal4_10: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedStore'_HSTATE i107) 
+   show goal4_11: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedStore'_HSTATE i107) 
+   show goal4_12: "CSTATE Shared T 0 \<and> nextStore T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq RdOwn] [ 0 s= SMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(347,35) SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_5: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+    proof (intro impconjI)
+   show goal5_1: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  simp 
+   show goal5_2: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  simp 
+   show goal5_3: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_starting_transaction_otherside_invariant1 MESI_State.distinct(47)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i23) 
+   show goal5_4: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_starting_transaction_otherside_invariant1
+    MESI_State.distinct(101,11,47) SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i106) 
+   show goal5_5: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  simp 
+   show goal5_6: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_otherside_rule_10 InvalidX_HSTATE1 MESI_State.distinct(47) SharedSnpInv_C_msg_not_half
+    i22) 
+   show goal5_7: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_starting_transaction_otherside_invariant1 MESI_State.distinct(47)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i22) 
+   show goal5_8: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_X_Evict_invariant1 i107) 
+   show goal5_9: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_X_Evict_invariant1 i107) 
+   show goal5_10: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_X_Evict_invariant1 i107) 
+   show goal5_11: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_X_Evict_invariant1 i107) 
+   show goal5_12: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq CleanEvictNoData] [ 0 s= SIAC])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(359,47) SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_6: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+    proof (intro impconjI)
+   show goal6_1: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  simp 
+   show goal6_2: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(215,43,7) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant4) 
+   show goal6_3: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_starting_transaction_otherside_invariant1 MESI_State.distinct(43)
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i23) 
+   show goal6_4: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_starting_transaction_otherside_invariant1
+    MESI_State.distinct(101,11,43) SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i106) 
+   show goal6_5: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  simp 
+   show goal6_6: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) MESI_State.distinct(43) SMADSnpInv_C_msg_not_half SharedEvictData'_CSTATE_otherside
+    SharedEvictData'_HSTATE i22) 
+   show goal6_7: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(43) SharedEvictData'_CSTATE_otherside
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i22) 
+   show goal6_8: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedEvictData'_HSTATE i107) 
+   show goal6_9: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedEvictData'_HSTATE i107) 
+   show goal6_10: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedEvictData'_HSTATE i107) 
+   show goal6_11: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SharedEvictData'_HSTATE i107) 
+   show goal6_12: "CSTATE Shared T 0 \<and> nextEvict T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq CleanEvict] [ 0 s= SIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(355,43) SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_7: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+    proof (intro impconjI)
+   show goal7_1: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> SWMR ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  simp 
+   show goal7_2: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant ModifiedEvict'_CSTATE_otherside ModifiedEvict'_nextHTDDataPending
+    SharedSnpInv'_CSTATE_invariant5 i576 i73) 
+   show goal7_3: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ModifiedEvict'_HSTATE i23) 
+   show goal7_4: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(11,27) ModifiedEvict'_CSTATE_otherside
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(24,4) i106) 
+   show goal7_5: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) C_not_C_msg_def ModifiedEvict'_CSTATE_otherside i49 i72 nextGOPending_DeviceModifiedEvict) 
+   show goal7_6: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ModifiedEvict'_HSTATE i22) 
+   show goal7_7: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ModifiedEvict'_CSTATE_otherside ModifiedEvict'_HSTATE i22 i72) 
+   show goal7_8: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) MESI_State.distinct(27) ModifiedEvict'_CSTATE_otherside SMADSnpInv_C_msg_not_half i72) 
+   show goal7_9: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis hstate_invariants(24,4) i189 i73 i897 nextDTHDataPending_def nextDTHDataPending_general_rule_4_0) 
+   show goal7_10: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(11) ModifiedEvict'_nextReqIs_invariant1 ReqType.distinct(11)
+    hstate_invariants(24,4) i370 i417 i419 i456 i463 i487 i594 i72 i841 nextReqIs_invariant
+    nextSnpRespIs_general_rule_9_0 nextStore_nextEvict_exclusive) 
+   show goal7_11: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     sorry (*failed to find proof*)
+   show goal7_12: "CSTATE Modified T 0 \<and> nextEvict T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=rdreq DirtyEvict] [ 0 s= MIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ModifiedEvict'_CSTATE_otherside ModifiedEvict'_HSTATE i23 i72) 
+qed
+  show goal_8: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+    proof (intro impconjI)
+   show goal8_1: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def MESI_State.distinct(5,95) SharedSnpInv'_CSTATE_invariant5) 
+   show goal8_2: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(139,5) SharedSnpInv'_CSTATE_invariant5) 
+   show goal8_3: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(5) SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant
+    SharedSnpInv'_MAD_CSTATE_invariant2 SharedSnpInv'_MAD_CSTATE_invariant3 SharedSnpInv'_MAD_CSTATE_invariant4
+    hstate_invariants(12,2,24,7) i23 nextSnoopIs_otherside_rule_1_0) 
+   show goal8_4: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(149) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i384 i699) 
+   show goal8_5: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(143,5) SharedSnpInv'_CSTATE_invariant5
+    nextSnoopIs_otherside_rule_1_0) 
+   show goal8_6: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(87) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i384 i699) 
+   show goal8_7: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis SharedSnpInv_C_msg_not_half2 SharedSnpInv_HSTATE i384 i467 i559 i653 i657 i659
+    nextSnoopIs_otherside_rule_1_0) 
+   show goal8_8: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i107) 
+   show goal8_9: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i107) 
+   show goal8_10: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i107) 
+   show goal8_11: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i107) 
+   show goal8_12: "CXL_SPG_used T 0 \<and> CSTATE Shared T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= Invalid])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(147,5) SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_9: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+    proof (intro impconjI)
+   show goal9_1: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def MESI_State.distinct(103,13) SharedSnpInv'_CSTATE_invariant5) 
+   show goal9_2: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(13,185) SharedSnpInv'_CSTATE_invariant5) 
+   show goal9_3: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(177,289) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i400) 
+   show goal9_4: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(149) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i400 i763) 
+   show goal9_5: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(13,259) SharedSnpInv'_CSTATE_invariant5) 
+   show goal9_6: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(117,87) HSTATE_invariant3 hstate_invariants(12,2,24,7) i400
+    nextSnoopIs_otherside_rule_1_0) 
+   show goal9_7: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(13) SMADSnpInv_ModifiedM_aux2
+    SharedSnpInv'_CSTATE_invariant5 i81 nextReqIs_nonempty_reqs1) 
+   show goal9_8: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i74) 
+   show goal9_9: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i74) 
+   show goal9_10: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i74) 
+   show goal9_11: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i74) 
+   show goal9_12: "CXL_SPG_used T 0 \<and> CSTATE ISD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= ISDI])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(13,295) SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_10: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal10_1: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (cases "htddatas1 T")
+ apply (smt (verit) nextHTDDataPending_various_forms1)
+sorry (*split: sledgehammer failed*) 
+   show goal10_2: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 HTDDataPending_htddatas_invariant1
+    MESI_State.distinct(3) SMDData_Modified_aux1 SharedSnpInv'_CSTATE_invariant5 i751old i921 nextLoad_devstate) 
+   show goal10_3: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 HTDDataPending_htddatas_invariant1
+    MESI_State.distinct(3) SMDData_Modified_aux1 SharedSnpInv'_CSTATE_invariant5 i751old i921 nextLoad_devstate) 
+   show goal10_4: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 MESI_State.distinct(3) SMDData_Modified_aux1
+    SharedSnpInv'_CSTATE_invariant5 i368 i921 nextHTDDataPending_various_forms1 nextLoad_devstate) 
+   show goal10_5: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 MESI_State.distinct(3) SMDData_Modified_aux1
+    SharedSnpInv'_CSTATE_invariant5 i751old i921 nextHTDDataPending_various_forms1 nextLoad_devstate) 
+   show goal10_6: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 MESI_State.distinct(3) SMDData_Modified_aux1
+    SharedSnpInv'_CSTATE_invariant5 i368 i921 nextHTDDataPending_various_forms1 nextLoad_devstate) 
+   show goal10_7: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 MESI_State.distinct(3) SMDData_Modified_aux1
+    SharedSnpInv'_CSTATE_invariant5 i368 i921 nextHTDDataPending_various_forms1 nextLoad_devstate) 
+   show goal10_8: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ISDData_HSTATE i74) 
+   show goal10_9: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ISDData_HSTATE i74) 
+   show goal10_10: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ISDData_HSTATE i74) 
+   show goal10_11: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) ISDData_HSTATE i74) 
+   show goal10_12: "CSTATE ISD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Shared] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_6 CSTATE_inequality_invariant CSTATE_otherside_rule_5_0 MESI_State.distinct(3)
+    hstate_invariants(17,20,24) i23 remove_instr_HSTATE) 
+qed
+  show goal_11: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal11_1: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_6 CSTATE_various_forms1 MESI_State.distinct(5,95)) 
+   show goal11_2: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(139,5) SMDData_Modified_aux1
+    SharedSnpInv'_CSTATE_invariant5 i368 nextLoad_devstate) 
+   show goal11_3: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISDIData_otherside CSTATE_inequality_invariant ISDIData_HSTATE MESI_State.distinct(5)
+    SMDData_Modified_aux1 SharedSnpInv'_CSTATE_invariant5 i23 i368 nextLoad_devstate) 
+   show goal11_4: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_5_0 MESI_State.distinct(5) SMDData_Modified_aux1
+    SharedSnpInv'_CSTATE_invariant5 i368 i921 nextHTDDataPending_various_forms1 nextLoad_devstate) 
+   show goal11_5: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_6 CSTATE_inequality_invariant MESI_State.distinct(143,5)) 
+   show goal11_6: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISDIData_otherside CSTATE_inequality_invariant ISDIData_HSTATE ISDIData_Shared
+    MESI_State.distinct(5) i22) 
+   show goal11_7: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISDIData_otherside CSTATE_inequality_invariant ISDIData_HSTATE ISDIData_Shared
+    MESI_State.distinct(5) i22) 
+   show goal11_8: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant ISDIData_HSTATE MESI_State.distinct(5) SMDData_Modified_aux1
+    SharedSnpInv'_CSTATE_invariant5 i368 i778 nextLoad_devstate nextReqIs_general_rule_7_0) 
+   show goal11_9: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def MESI_State.distinct(259) hstate_invariants(17,20,24) i47
+    i778 nextReqIs_general_rule_7_0 remove_instr_HSTATE) 
+   show goal11_10: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def MESI_State.distinct(259) hstate_invariants(17,20,24) i47
+    i778 nextReqIs_general_rule_7_0 remove_instr_HSTATE) 
+   show goal11_11: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def MESI_State.distinct(259) hstate_invariants(17,20,24) i47
+    i778 nextReqIs_general_rule_7_0 remove_instr_HSTATE) 
+   show goal11_12: "CSTATE ISDI T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Invalid] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISDIData_otherside CSTATE_inequality_invariant ISDIData_HSTATE MESI_State.distinct(5)
+    SMDData_Modified_aux1 SharedSnpInv'_CSTATE_invariant5 i23 i368 nextLoad_devstate) 
+qed
+  show goal_12: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal12_1: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  simp 
+   show goal12_2: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant1 CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(17) i921 nextHTDDataPending_various_forms1) 
+   show goal12_3: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_IMADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3 IMADData_HSTATE
+    MESI_State.distinct(17) i23) 
+   show goal12_4: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_IMADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3 IMADData_HSTATE
+    MESI_State.distinct(11,17,261) i106) 
+   show goal12_5: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_IMADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3 C_not_C_msg_def
+    MESI_State.distinct(17) i337 nextGOPending_DeviceIMADData) 
+   show goal12_6: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_IMADData i656) 
+   show goal12_7: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_IMADData i656) 
+   show goal12_8: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_IMADData_otherside CSTATE_inequality_invariant C_msg_state_def MESI_State.distinct(11,261) i47
+    nextReqIs_IMADData) 
+   show goal12_9: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant HSTATE_general_rule_3_0 MESI_State.distinct(15)
+    SharedSnpInv'_CSTATE_invariant5_2 SharedSnpInv'_MAD_CSTATE_invariant4 dthdatas1_general_rule_2_0 i189
+    nextDTHDataPending_def nextDTHDataPending_other_rule_4_0 nextDTHDataPending_remove_op) 
+   show goal12_10: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis IMADData_reqs1 IMADData_snpresps1 hstate_invariants(17,20,24) i159 i83 nextSnpRespIs_property1
+    reqs1_empty_not_nextReqIs_general_invariant) 
+   show goal12_11: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis IMADData_reqs1 IMADData_snpresps2 hstate_invariants(17,20,24) i159 i83 nextSnpRespIs_property2
+    reqs1_empty_not_nextReqIs_general_invariant) 
+   show goal12_12: "CSTATE IMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= IMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3 MESI_State.distinct(17,329)) 
+qed
+  show goal_13: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal13_1: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_various_forms1 CSTATE_xyad_htdd_invariant3 MESI_State.distinct(127,37)) 
+   show goal13_2: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant1 CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(37) i844) 
+   show goal13_3: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_SMADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(37) SMADData_HSTATE i23) 
+   show goal13_4: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_SMADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(37) i844) 
+   show goal13_5: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  simp 
+   show goal13_6: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_SMADData i658) 
+   show goal13_7: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_SMADData i658) 
+   show goal13_8: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_SMADData_otherside CSTATE_inequality_invariant C_msg_state_def MESI_State.distinct(281)
+    i47 i844 nextReqIs_SMADData) 
+   show goal13_9: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def HSTATE_general_rule_3_0 MESI_State.distinct(281)
+    dthdatas1_general_rule_2_0 i189 i47 nextDTHDataPending_def nextReqIs_general_rule_5_0) 
+   show goal13_10: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_inequality_invariant C_msg_state_def HSTATE_SMADData MESI_State.distinct(281,347) i417 i419
+    i456 i47 i577 i833 i844 i902 i904 i908 i910 i914 nextReqIs_SMADData nextSnpRespIs_general_rule_5_0) 
+   show goal13_11: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HTDDataPending_htddatas_invariant1 SMADData_reqs1 SMADData_snpresps2 hstate_invariants(17,20,24) i100
+    i159 nextSnpRespIs_property2 reqs1_empty_not_nextReqIs_general_invariant) 
+   show goal13_12: "CSTATE SMAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= SMA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3 MESI_State.distinct(349,37)) 
+qed
+  show goal_14: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+    proof (intro impconjI)
+   show goal14_1: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def MESI_State.distinct(109,19,3) SharedSnpInv'_CSTATE_invariant5
+    devcache1_consume_reqresps1_invariant devcache2_consume_reqresps1_invariant) 
+   show goal14_2: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  simp 
+   show goal14_3: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal14_4: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     sorry (*failed to find proof*)
+   show goal14_5: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(19,265) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal14_6: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg i656) 
+   show goal14_7: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg i656) 
+   show goal14_8: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_6 C_msg_not_def C_not_C_msg_def i25 i337 i791 nextReqIs_general_rule_6_0) 
+   show goal14_9: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_not_def H_msg_P_oppo_def ISADGO'_HSTATE_neg i13 i25 nextDTHDataPending_general_rule_2_0
+    nextReqIs_general_rule_6_0) 
+   show goal14_10: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_not_def H_msg_P_oppo_def ISADGO'_HSTATE_neg i14 i25 nextReqIs_general_rule_6_0
+    nextSnpRespIs_general_rule_6_0) 
+   show goal14_11: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_not_def H_msg_P_same_def ISADGO'_HSTATE_neg i15 i25 nextReqIs_general_rule_6_0
+    nextSnpRespIs_general_rule_6_0) 
+   show goal14_12: "CSTATE IMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= IMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(19,331) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_15: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+    proof (intro impconjI)
+   show goal15_1: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def MESI_State.distinct(3,7,97) SharedSnpInv'_CSTATE_invariant5
+    devcache1_consume_reqresps1_invariant devcache2_consume_reqresps1_invariant devcache2_sequals1_invariant) 
+   show goal15_2: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_4 CSTATE_different1 CSTATE_otherside_rule_6 C_not_C_msg_def i49) 
+   show goal15_3: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_4 CSTATE_disj1 CSTATE_otherside_rule_4_0 MESI_State.distinct(7)
+    hstate_invariants(14,2,24) i23 nextGOPending_yes_reqresp_rule_6_1) 
+   show goal15_4: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal15_5: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(183,7) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal15_6: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_4 CSTATE_disj1 CSTATE_otherside_rule_4_0 MESI_State.distinct(7)
+    hstate_invariants(14,2,24) i22 nextGOPending_yes_reqresp_rule_6_1) 
+   show goal15_7: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal15_8: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal15_9: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis H_msg_P_oppo_def ISADGO'_HSTATE_neg i13 nextDTHDataPending_general_rule_2_0
+    nextReqIs_general_rule_6_0) 
+   show goal15_10: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_state_def H_msg_P_oppo_def H_msg_P_same_def ISADGO'_HSTATE_neg i14 i15 i47 i778 i834
+    nextReqIs_general_rule_6_0 nextSnpRespIs_general_rule_6_0) 
+   show goal15_11: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_state_def H_msg_P_oppo_def H_msg_P_same_def ISADGO'_HSTATE_neg i14 i15 i47 i778 i834
+    nextReqIs_general_rule_6_0 nextSnpRespIs_general_rule_6_0) 
+   show goal15_12: "CSTATE ISAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= ISD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_4 CSTATE_disj1 CSTATE_otherside_rule_4_0 MESI_State.distinct(7)
+    hstate_invariants(14,2,24) i23 nextGOPending_yes_reqresp_rule_6_1) 
+qed
+  show goal_16: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal16_1: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  simp 
+   show goal16_2: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  simp 
+   show goal16_3: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(9) hstate_invariants(17,20,24) i23) 
+   show goal16_4: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant1 CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(9) i921 nextHTDDataPending_various_forms1) 
+   show goal16_5: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant1 CSTATE_xyad_htdd_invariant3
+    HTDDataPending_htddatas_invariant1 MESI_State.distinct(9) i921) 
+   show goal16_6: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(9) hstate_invariants(17,20,24) i22) 
+   show goal16_7: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3
+    MESI_State.distinct(9) hstate_invariants(17,20,24) i22) 
+   show goal16_8: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISADData_otherside CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3 C_msg_state_def
+    MESI_State.distinct(11,9) i47 nextReqIs_ISADData) 
+   show goal16_9: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HOST_State.distinct(11,17,3,35,7) HSTATE_ISADData HSTATE_invariant4 i333) 
+   show goal16_10: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HTDDataPending_htddatas_invariant1 i100 i731 nextReqIs_general_rule_5_0 nextSnpRespIs_general_rule_5_0
+    nextSnpRespIs_invariant1 reqs1_empty_not_nextReqIs_general_invariant) 
+   show goal16_11: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def HOST_State.distinct(11,3,35,9) HSTATE_invariant3
+    HTDDataPending_htddatas_invariant2 MESI_State.distinct(261,281,283) hstate_invariants(17,20,24) i101 i333 i352 i47
+    i653 i731 i735 i875 i943 nextReqIs_general_rule_5_0 nextSnpRespIs_general_rule_5_0 nextSnpRespIs_invariant1
+    reqs2_empty_not_nextReqIs_general_invariant) 
+   show goal16_12: "CSTATE ISAD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= ISA] [ 0 :=dd getHTDDataOrMakeup T 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_inequality_invariant CSTATE_xyad_htdd_invariant3 MESI_State.distinct(9) i494
+    nextReqIs_ISADData) 
+qed
+  show goal_17: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+    proof (intro impconjI)
+   show goal17_1: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  simp 
+   show goal17_2: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  simp 
+   show goal17_3: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     sorry (*failed to find proof*)
+   show goal17_4: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_6 CSTATE_remove_op MESI_State.distinct(39)
+    SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i844) 
+   show goal17_5: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_4_0 CSTATE_remove_op MESI_State.distinct(39)
+    SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i844 nextGOPending_yes_reqresp_rule_6_1) 
+   show goal17_6: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg i515 i658) 
+   show goal17_7: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg i515 i658) 
+   show goal17_8: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_6 CSTATE_remove_op MESI_State.distinct(39)
+    SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i844) 
+   show goal17_9: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis H_msg_P_oppo_def ISADGO'_HSTATE_neg i13 i777 nextDTHDataPending_general_rule_2_0
+    nextReqIs_general_rule_6_0) 
+   show goal17_10: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis H_msg_P_oppo_def H_msg_P_same_def hstate_invariants(14,2,24) i14 i15 nextReqIs_general_rule_6_0
+    nextSnpRespIs_general_rule_6_0) 
+   show goal17_11: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal17_12: "CSTATE SMAD T 0 \<and> nextGOPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= SMD] [ 0 -=reqresp ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(39) SMADGO'_CSTATE_otherside SMADGO'_CSTATE_sameside
+    SMADGO'_nextReqIs_invariant_not_RdOwn i844 nextGOPending_yes_reqresp_rule_6_1) 
+qed
+  show goal_18: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal18_1: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_2 CSTATE_otherside_rule_4_0 CSTATE_various_forms1 CSTATE_various_forms6
+    MESI_State.distinct(3) devcache2_consume_reqresps1_invariant devcache2_copy_perform1_invariant i849) 
+   show goal18_2: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal18_3: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(141,171,175,179,9) HSTATE_invariant3 ISADGO'_HSTATE_neg i366
+    remove_instr_HSTATE) 
+   show goal18_4: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal18_5: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_4_0 CSTATE_remove_op MESI_State.distinct(11)
+    SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i847 nextGOPending_DeviceModifiedStore
+    nextGOPending_yes_reqresp_rule_4_1 nextGOPending_yes_reqresp_rule_6_1) 
+   show goal18_6: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i652) 
+   show goal18_7: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i652) 
+   show goal18_8: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal18_9: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_oppo_def SMAGO_nextDTHDataPending_sameside SMAGO_nextHTDDataPending_otherside i13
+    nextReqIs_SMAGO_IMAD_invariant1 nextReqIs_SMAGO_IMAD_invariant2) 
+   show goal18_10: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_oppo_def SMAGO_nextSnpRespIs_otherside SMAGO_nextSnpRespIs_sameside i14
+    nextReqIs_SMAGO_IMAD_invariant1 nextReqIs_SMAGO_IMAD_invariant2) 
+   show goal18_11: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_same_def SMAGO_nextSnpRespIs_otherside SMAGO_nextSnpRespIs_sameside i15
+    nextReqIs_SMAGO_IMAD_invariant1 nextReqIs_SMAGO_IMAD_invariant2) 
+   show goal18_12: "CSTATE SMA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(141,175,223,9) HSTATE_invariant3 HSTATE_rule_2 i366) 
+qed
+  show goal_19: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+    proof (intro impconjI)
+   show goal19_1: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def MESI_State.distinct(105,15) SharedSnpInv'_CSTATE_invariant5) 
+   show goal19_2: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(15,187) SharedSnpInv'_CSTATE_invariant5) 
+   show goal19_3: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (cases "snpresps1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal19_4: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_7_0 MESI_State.distinct(15) SharedSnpInv'_CSTATE_invariant5 i844
+    nextSnoopIs_otherside_rule_1_0) 
+   show goal19_5: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(15,261) SharedSnpInv'_CSTATE_invariant5) 
+   show goal19_6: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (cases "snpresps1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal19_7: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(15) ReqType.distinct(1) SharedSnpInv'_CSTATE_invariant5
+    i396 nextReqIs_general_rule_8_0 nextReqIs_invariant_variant1) 
+   show goal19_8: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_different1 CSTATE_inequality_invariant CSTATE_otherside_rule_7_0 C_m_h_C_def
+    HSTATE_invariant_ModifiedSnpInv H_C_state_msg_same_def SharedSnpInv'_CSTATE_invariant5 i396 i694 i745 i823
+    i844) 
+   show goal19_9: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_not_def HSTATE_invariant4 HSTATE_invariant_ModifiedSnpInv
+    H_msg_P_oppo_def SMADSnpInv_nextReqIs i13 i147 i25 i396 i694 i745 i746 nextDTHDataPending_general_rule_6_0) 
+   show goal19_10: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i353 i396 i415 i508 i758 i844 i902 i904 i906 i908 i910 i914) 
+   show goal19_11: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv i353 i396 i415 i508 i758 i844 i902 i904 i906 i908 i910 i914) 
+   show goal19_12: "CXL_SPG_used T 0 \<and> CSTATE SMAD T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IMAD])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_different1 CSTATE_otherside_rule_7_0 SharedSnpInv'_CSTATE_invariant5 i844) 
+qed
+  show goal_20: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal20_1: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_6 CSTATE_inequality_invariant CSTATE_various_forms1 CSTATE_various_forms2
+    CSTATE_various_forms6 MESI_State.distinct(3,351,561) SharedSnpInv'_MAD_CSTATE_invariant4
+    devcache2_consume_hdata1_invariant devcache2_copy_hdata1_invariant devcache2_copy_perform1_invariant i352 i385 i465
+    i560) 
+   show goal20_2: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_otherside_rule_5_0 i546 i921 nextHTDDataPending_otherside_rule_2_0
+    nextHTDDataPending_various_forms1) 
+   show goal20_3: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(141,175,9) HSTATE_invariant3 hstate_invariants(17,20,24) i366 i770
+    remove_instr_HSTATE) 
+   show goal20_4: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 MESI_State.distinct(351) dthdatas1_general_rule_4_0
+    i435 i466 i628 i898 nextDTHDataPending_def nextDTHDataPending_other_rule_5_0 nextDTHDataPending_remove_op) 
+   show goal20_5: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 HTDDataPending_htddatas_invariant1
+    MESI_State.distinct(351,561) i148 i352 i465 i597 i921 nextGOPending_DeviceSMDData) 
+   show goal20_6: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SMDData_HSTATE i654) 
+   show goal20_7: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SMDData_HSTATE i654) 
+   show goal20_8: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_otherside_rule_5_0 i100 i921 nextHTDDataPending_def nextReqIs_general_rule_7_0
+    nextReqIs_nonempty_reqs1) 
+   show goal20_9: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_general_rule_5_0 dthdatas1_general_rule_4_0 i189 i435 i465 i629 nextDTHDataPending_def
+    nextDTHDataPending_other_rule_5_0 nextDTHDataPending_remove_op nextHTDDataPending_def) 
+   show goal20_10: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def MESI_State.distinct(285,351) hstate_invariants(17,20,24)
+    i417 i419 i456 i462 i465 i47 i546 i577 i625 i631 nextHTDDataPending_various_forms1 nextReqIs_general_rule_7_0
+    nextSnpRespIs_general_rule_7_0 remove_instr_HSTATE) 
+   show goal20_11: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (cases "htddatas1 T")
+ apply (smt (verit) HTDDataPending_htddatas_invariant1)
+sorry (*split: sledgehammer failed*) 
+   show goal20_12: "CSTATE SMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(141,171,175,9) HSTATE_invariant3 hstate_invariants(17,20,24) i366
+    remove_instr_HSTATE) 
+qed
+  show goal_21: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal21_1: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_4_0 CSTATE_otherside_rule_7 CSTATE_various_forms6
+    devcache2_consume_reqresps1_invariant devcache2_copy_perform1_invariant i791 i834) 
+   show goal21_2: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis i352 i834 nextHTDDataPending_general_rule_4_0) 
+   show goal21_3: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(141,175,197,81,9) HSTATE_invariant3 ISADGO'_HSTATE_neg i357
+    remove_instr_HSTATE) 
+   show goal21_4: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal21_5: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_2_0 i791 i834 nextGOPending_DeviceModifiedStore
+    nextGOPending_yes_reqresp_rule_6_1) 
+   show goal21_6: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i652) 
+   show goal21_7: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i652) 
+   show goal21_8: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal21_9: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_oppo_def SMAGO_nextDTHDataPending_sameside SMAGO_nextHTDDataPending_otherside i13
+    nextReqIs_SMAGO_IMAD_invariant1 nextReqIs_SMAGO_IMAD_invariant2) 
+   show goal21_10: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_oppo_def SMAGO_nextSnpRespIs_otherside SMAGO_nextSnpRespIs_sameside i14
+    nextReqIs_SMAGO_IMAD_invariant1 nextReqIs_SMAGO_IMAD_invariant2) 
+   show goal21_11: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_same_def SMAGO_nextSnpRespIs_otherside SMAGO_nextSnpRespIs_sameside i15
+    nextReqIs_SMAGO_IMAD_invariant1 nextReqIs_SMAGO_IMAD_invariant2) 
+   show goal21_12: "CSTATE IMA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Modified] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(11,141,175,179,9) HSTATE_invariant3 ISADGO'_HSTATE_neg i357
+    remove_instr_HSTATE) 
+qed
+  show goal_22: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal22_1: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps1_noGOPendingp)
+sorry (*split: sledgehammer failed*) 
+   show goal22_2: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(3) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5 i352 nextGOPending_yes_reqresp_rule_4_1 nextHTDDataPending_general_rule_4_0) 
+   show goal22_3: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ISAGO_otherside_invariant2 CSTATE_inequality_invariant ISADGO'_HSTATE_neg
+    ISAGO_nextHTDDataPending_otherside MESI_State.distinct(3) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5 hstate_invariants(14,2,24) i23 remove_instr_HSTATE) 
+   show goal22_4: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(147,149,167,37,77) HSTATE_invariant3 HSTATE_rule_2 i374) 
+   show goal22_5: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(101,3) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal22_6: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_2_0 HSTATE_rule_2 MESI_State.distinct(3)
+    SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i22) 
+   show goal22_7: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_2_0 HSTATE_rule_2 MESI_State.distinct(3)
+    SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i22) 
+   show goal22_8: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i747) 
+   show goal22_9: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i747) 
+   show goal22_10: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i747) 
+   show goal22_11: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 i747) 
+   show goal22_12: "CSTATE ISA T 0 \<and> nextGOPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Shared] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_2_0 HSTATE_rule_2 MESI_State.distinct(3)
+    SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i23) 
+qed
+  show goal_23: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> SWMR (T [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (T [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+    proof (intro impconjI)
+   show goal23_1: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> SWMR (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_various_forms6 SWMR_def devcache2_copy_perform1_invariant i0 i73) 
+   show goal23_2: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op i463 i72 i897 nextHTDDataPending_remove_op) 
+   show goal23_3: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i23 remove_instr_HSTATE) 
+   show goal23_4: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_remove_op i73 i897 nextDTHDataPending_def nextDTHDataPending_remove_op) 
+   show goal23_5: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op C_not_C_msg_def i49 i72 nextGOPending_DeviceModifiedStore) 
+   show goal23_6: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i22 remove_instr_HSTATE) 
+   show goal23_7: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op i22 i72 remove_instr_HSTATE) 
+   show goal23_8: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i487 i72 nextEvict_IIAGO_WritePullDrop_CSTATE_invariant nextReqIs_general_rule_13_0
+    nextReqIs_nonempty_reqs1) 
+   show goal23_9: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis dthdatas1_perform_instr i189 i73 i897 nextDTHDataFrom_def nextDTHDataPending_def
+    nextDTHDataPending_remove_op remove_instr_HSTATE) 
+   show goal23_10: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis i489 i845 nextSnpRespIs_invariant1 nextSnpRespIs_invariant2 snpresps1_remove_op
+    snpresps2_remove_op) 
+   show goal23_11: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis i489 i845 nextSnpRespIs_invariant1 nextSnpRespIs_invariant2 snpresps1_remove_op
+    snpresps2_remove_op) 
+   show goal23_12: "CSTATE Modified T 0 \<and> nextStore T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_general_rule_10_0 i23 i72 nextEvict_IIAGO_WritePullDrop_CSTATE_invariant) 
+qed
+  show goal_24: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> SWMR (T [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (T [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+    proof (intro impconjI)
+   show goal24_1: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> SWMR (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_various_forms1 CSTATE_various_forms6 SWMR_def devcache2_copy_perform1_invariant i0
+    i72) 
+   show goal24_2: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HTDDataPending_htddatas_invariant1 HTDDataPending_htddatas_invariant2 htddatas1_general_rule_12_0
+    htddatas2_remove_op i489 i920) 
+   show goal24_3: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i23 remove_instr_HSTATE) 
+   show goal24_4: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_remove_op i73 i897 nextDTHDataPending_def nextDTHDataPending_remove_op) 
+   show goal24_5: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op C_not_C_msg_def i49 i72 nextGOPending_DeviceModifiedStore) 
+   show goal24_6: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i22 remove_instr_HSTATE) 
+   show goal24_7: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_remove_op i22 i72 remove_instr_HSTATE) 
+   show goal24_8: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) i487 i72 nextEvict_IIAGO_WritePullDrop_CSTATE_invariant nextReqIs_general_rule_13_0
+    nextReqIs_nonempty_reqs1) 
+   show goal24_9: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis dthdatas1_perform_instr i189 i73 i897 nextDTHDataFrom_def nextDTHDataPending_def
+    nextDTHDataPending_remove_op remove_instr_HSTATE) 
+   show goal24_10: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis SARspSFwdM_invariant1 i487 i845 nextReqIs_not_various_forms1 reqs1_remove_op snpresps1_remove_op) 
+   show goal24_11: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis SARspSFwdM_invariant1 SARspSFwdM_invariant2 i489 i845 snpresps1_remove_op snpresps2_remove_op) 
+   show goal24_12: "CSTATE Modified T 0 \<and> nextLoad T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD (T [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HSTATE_general_rule_10_0 i23 i72 nextEvict_IIAGO_WritePullDrop_CSTATE_invariant) 
+qed
+  show goal_25: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> SWMR (consumeGOSendData 0 Invalid T) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+    proof (intro impconjI)
+   show goal25_1: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> SWMR (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (smt (verit) i316 i94 list.discI reqresps_empty_noGOPendingIs1) 
+   show goal25_2: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (smt (verit) i316 i94 list.discI reqresps_empty_noGOPendingIs1) 
+   show goal25_3: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (smt (verit) i94 list.distinct(1) reqresps_empty_noGOPendingIs1) 
+   show goal25_4: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_5: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_6: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_7: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_8: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_9: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (smt (verit) i94 list.distinct(1) reqresps_empty_noGOPendingIs1) 
+   show goal25_10: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_11: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal25_12: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+qed
+  show goal_26: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal26_1: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_remove_op CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(5,95)
+    SharedSnpInv'_CSTATE_invariant5 devcache1_consume_reqresps1_invariant) 
+   show goal26_2: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(139,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal26_3: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps_empty_noGOPendingIs1)
+sorry (*split: sledgehammer failed*) 
+   show goal26_4: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal26_5: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(143,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal26_6: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps_empty_noGOPendingIs1)
+  apply (metis CSTATE_otherside_rule_2_0 C_msg_P_same_def HSTATE_rule_2 H_msg_P_same_def i10 i325
+   nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2 nextReqIs_general_rule_4_0) 
+   show goal26_7: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) reqresps_empty_noGOPendingIs1)
+sorry (*split: sledgehammer failed*) 
+   show goal26_8: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_7 C_msg_P_same_def HSTATE_rule_2 H_msg_P_same_def i12 i325 i493 i589 i777 i778
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1 nextReqIs_general_rule_4_0) 
+   show goal26_9: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_oppo_def SIAGO_WritePullDrop_nextHTDDataPending_otherside
+    SIAGO_WritePullDrop_nextHTDDataPending_sameside i13 nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2) 
+   show goal26_10: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_P_same_def HSTATE_rule_2 H_msg_P_oppo_def SIAGO_WritePullDrop_nextSnpRespIs_sameside i14 i325
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1 nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2) 
+   show goal26_11: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_P_same_def HSTATE_rule_2 H_msg_P_same_def SIAGO_WritePullDrop_nextSnpRespIs_otherside i15 i325
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1 nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2) 
+   show goal26_12: "CSTATE SIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(147,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_27: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal27_1: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_remove_op CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(5,95)
+    SharedSnpInv'_CSTATE_invariant5 devcache1_consume_reqresps1_invariant) 
+   show goal27_2: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(139,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal27_3: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_7 C_msg_P_same_def HSTATE_rule_2 SIAGO_WritePullDrop_nextHTDDataPending_sameside
+    i23 i35) 
+   show goal27_4: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal27_5: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_inequality_invariant MESI_State.distinct(143,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal27_6: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_7 C_msg_P_same_def HSTATE_rule_2 i22 i34
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1) 
+   show goal27_7: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_P_same_def MESI_State.distinct(5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5 i34 nextReqIs_general_rule_13_0 nextReqIs_general_rule_6_0) 
+   show goal27_8: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_7 C_msg_P_same_def HSTATE_rule_2 H_C_state_msg_same_def i34 i36
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1 nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2) 
+   show goal27_9: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_oppo_def SIAGO_WritePullDrop_nextHTDDataPending_otherside
+    SIAGO_WritePullDrop_nextHTDDataPending_sameside i13 nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2) 
+   show goal27_10: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_oppo_def SIAGO_WritePullDrop_nextSnpRespIs_otherside
+    SIAGO_WritePullDrop_nextSnpRespIs_sameside i14 nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2) 
+   show goal27_11: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_rule_2 H_msg_P_same_def SIAGO_WritePullDrop_nextSnpRespIs_otherside
+    SIAGO_WritePullDrop_nextSnpRespIs_sameside i15 nextReqIs_SIAGO_WritePullDrop_IMAD_invariant1
+    nextReqIs_SIAGO_WritePullDrop_IMAD_invariant2) 
+   show goal27_12: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePullDrop T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(147,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+qed
+  show goal_28: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> SWMR (consumeGOSendData 0 Invalid T) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+    proof (intro impconjI)
+   show goal28_1: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> SWMR (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_2: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal28_3: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_4: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_5: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (smt (verit) i617old i94 list.discI reqresps_empty_noGOPendingIs1) 
+   show goal28_6: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_7: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_8: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (consumeGOSendData 0 Invalid T)"
+     sorry (*failed to find proof*)
+   show goal28_9: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (smt (verit) i94 list.distinct(1) reqresps_empty_noGOPendingIs1) 
+   show goal28_10: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (smt (verit) i94 list.distinct(1) reqresps_empty_noGOPendingIs1) 
+   show goal28_11: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (metis i94 list.distinct(1) reqresps_empty_noGOPendingIs1) 
+   show goal28_12: "CSTATE IIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD (consumeGOSendData 0 Invalid T)"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+qed
+  show goal_29: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+    proof (intro impconjI)
+   show goal29_1: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> SWMR ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_6 CSTATE_various_forms1 CSTATE_various_forms6 MESI_State.distinct(3)
+    SharedSnpInv'_MAD_CSTATE_invariant4 devcache2_consume_hdata1_invariant devcache2_copy_hdata1_invariant
+    devcache2_copy_perform1_invariant i644) 
+   show goal29_2: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_otherside_rule_5_0 i642 i921 nextHTDDataPending_otherside_rule_2_0
+    nextHTDDataPending_various_forms1) 
+   show goal29_3: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(141,175,197,223,9) HSTATE_invariant3 hstate_invariants(17,20,24) i366
+    remove_instr_HSTATE) 
+   show goal29_4: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 MESI_State.distinct(331) dthdatas1_general_rule_4_0
+    i435 i465 i623 i898 nextDTHDataPending_def nextDTHDataPending_other_rule_5_0 nextDTHDataPending_remove_op) 
+   show goal29_5: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_SMDData_otherside C_not_C_msg_def i337 i465 i478 i640 nextGOPending_DeviceSMDData) 
+   show goal29_6: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SMDData_HSTATE i654) 
+   show goal29_7: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) SMDData_HSTATE i654) 
+   show goal29_8: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_8 C_msg_not_def C_msg_state_def
+    MESI_State.distinct(265) i25 i352 i465 i47 i478 i619 i921 nextReqIs_general_rule_7_0) 
+   show goal29_9: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_general_rule_5_0 dthdatas1_general_rule_4_0 i189 i435 i642 nextDTHDataPending_def
+    nextDTHDataPending_other_rule_5_0 nextDTHDataPending_remove_op) 
+   show goal29_10: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_not_def C_msg_state_def MESI_State.distinct(265,331)
+    hstate_invariants(17,20,24) i100 i26 i417 i419 i456 i462 i465 i47 i577 i625 i631 i640 i642 i778
+    nextHTDDataPending_various_forms1 nextReqIs_general_rule_7_0 nextReqIs_not_various_forms1
+    nextSnpRespIs_general_rule_7_0 remove_instr_HSTATE) 
+   show goal29_11: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (cases "htddatas1 T")
+ apply (smt (verit) HTDDataPending_htddatas_invariant1)
+  apply (metis HSTATE_general_rule_5_0 H_msg_P_same_def i15 nextReqIs_general_rule_7_0
+   nextSnpRespIs_general_rule_7_0) 
+   show goal29_12: "CSTATE IMD T 0 \<and> nextHTDDataPending T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 s= Modified] [ 0 :=dd getHTDDataOrMakeup T 0] [ -=i 0] [ 0 -=devd ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(141,171,175,199,9) HSTATE_invariant3 hstate_invariants(17,20,24) i366
+    remove_instr_HSTATE) 
+qed
+  show goal_30: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal30_1: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(121,31)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal30_2: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  simp 
+   show goal30_3: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i779) 
+   show goal30_4: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_27 MESI_State.distinct(31)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 i595 nat_to_id.simps(1)) 
+   show goal30_5: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(277,31) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal30_6: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i660) 
+   show goal30_7: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i660) 
+   show goal30_8: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(119,7) HSTATE_invariant3 HSTATE_rule_16 i479 nat_to_id.simps(1)
+    nextSnoopIs_otherside_rule_1_0 sendSnpRespAndData_def) 
+   show goal30_9: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(139,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i479
+    nat_to_id.simps(1)) 
+   show goal30_10: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i479
+    nat_to_id.simps(1)) 
+   show goal30_11: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i479
+    nat_to_id.simps(1)) 
+   show goal30_12: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i779) 
+qed
+  show goal_31: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal31_1: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_9_0 CSTATE_various_forms4 CSTATE_various_forms6 MESI_State.distinct(101) i481
+    i595 nat_to_id.simps(1)) 
+   show goal31_2: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(215,43) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal31_3: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i779) 
+   show goal31_4: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_27 MESI_State.distinct(43)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 i595 nat_to_id.simps(1)) 
+   show goal31_5: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(289,43) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal31_6: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i660) 
+   show goal31_7: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i660) 
+   show goal31_8: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i479
+    nat_to_id.simps(1)) 
+   show goal31_9: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i479
+    nat_to_id.simps(1)) 
+   show goal31_10: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i479
+    nat_to_id.simps(1)) 
+   show goal31_11: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i479
+    nat_to_id.simps(1)) 
+   show goal31_12: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= SIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i779) 
+qed
+  show goal_32: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal32_1: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(121,31)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal32_2: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(203,31) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal32_3: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i779) 
+   show goal32_4: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_7_0 MESI_State.distinct(31) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 i595 nextSnoopIs_otherside_rule_1_0) 
+   show goal32_5: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(277,31) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal32_6: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i660) 
+   show goal32_7: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i660) 
+   show goal32_8: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(15) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i584 i769
+    nat_to_id.simps(1)) 
+   show goal32_9: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(15,37) HSTATE_general_rule_9_0 HSTATE_invariant3 i584 nat_to_id.simps(1)) 
+   show goal32_10: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(15,37) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i584
+    nat_to_id.simps(1)) 
+   show goal32_11: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(107,15) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i584
+    nat_to_id.simps(1)) 
+   show goal32_12: "CXL_SPG_used T 0 \<and> CSTATE MIA T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= IIA] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i779) 
+qed
+  show goal_33: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+    proof (intro impconjI)
+   show goal33_1: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_1 CSTATE_otherside_rule_1_0 CSTATE_various_forms1 CSTATE_various_forms6
+    MESI_State.distinct(5) devcache2_copy_perform1_invariant i595 nat_to_id.simps(1)) 
+   show goal33_2: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_4 CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(139,5)
+    SharedSnpInv'_MAD_CSTATE_invariant5 nextGOPendingIs_XIAGOWPD_otherside1) 
+   show goal33_3: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i779 remove_instr_HSTATE) 
+   show goal33_4: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i859 remove_instr_HSTATE) 
+   show goal33_5: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_remove_op MESI_State.distinct(143,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 consumeGOSendDataPerformEvict_def
+    consumeGOSendDataPerform_def) 
+   show goal33_6: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i588 remove_instr_HSTATE) 
+   show goal33_7: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i588 remove_instr_HSTATE) 
+   show goal33_8: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i588 remove_instr_HSTATE) 
+   show goal33_9: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i588 remove_instr_HSTATE) 
+   show goal33_10: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i588 remove_instr_HSTATE) 
+   show goal33_11: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i588 remove_instr_HSTATE) 
+   show goal33_12: "CSTATE MIA T 0 \<and> nextGOPendingIs GO_WritePull T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ nat_to_id 0 +=d2hd D2HData (nextGOID T 0) (read_dev_value 0 T) (clock T)] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis ISADGO'_HSTATE_neg hstate_invariants(9) i779 remove_instr_HSTATE) 
+qed
+  show goal_34: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+    proof (intro impconjI)
+   show goal34_1: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def MESI_State.distinct(121,31) SharedSnpInv'_CSTATE_invariant5) 
+   show goal34_2: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  simp 
+   show goal34_3: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(177) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i502 i600 i766 i768
+    i770) 
+   show goal34_4: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(149) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i502 i600 i766 i768
+    i770) 
+   show goal34_5: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(277,31) SharedSnpInv'_CSTATE_invariant5) 
+   show goal34_6: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(87) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i502 i600 i766 i768 i770) 
+   show goal34_7: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(87) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i502 i600 i766 i768 i770) 
+   show goal34_8: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(17) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i502 i600 i766 i768 i770) 
+   show goal34_9: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_not_def C_msg_state_def C_state_not_def HSTATE_general_rule_7_0 HSTATE_invariant4 H_msg_P_oppo_def
+    i13 i25 i31 i454 i47 i477 i502 i92 nextDTHDataPending_general_rule_6_0 nextReqIs_general_rule_8_0) 
+   show goal34_10: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(17) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i502 i600 i766 i768 i770) 
+   show goal34_11: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(17) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv i502 i600 i766 i768 i770) 
+   show goal34_12: "CXL_SPG_used T 0 \<and> CSTATE SIA T 0 \<and> nextSnoopIs SnpInv T 0 \<and> \<not> nextReqIs DirtyEvict T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIHitSE getTid (getSnoopOrMakeup (getSnoops 0 T))] [0 -=snp ] [ 0 s= IIA])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(15,31,343) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant2 SharedSnpInv'_MAD_CSTATE_invariant3 SharedSnpInv'_MAD_CSTATE_invariant4) 
+qed
+  show goal_35: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal35_1: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_various_forms1 CSTATE_various_forms2 MESI_State.distinct(5,95)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal35_2: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_different1 CSTATE_otherside_rule_7_0 SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant2 SharedSnpInv'_MAD_CSTATE_invariant5 i592 i73) 
+   show goal35_3: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i23) 
+   show goal35_4: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_different1 CSTATE_otherside_rule_7_0 SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant2 SharedSnpInv'_MAD_CSTATE_invariant5 i592 i73) 
+   show goal35_5: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  simp 
+   show goal35_6: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i22) 
+   show goal35_7: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i22) 
+   show goal35_8: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_7_0 SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 i396 i468 i592 i73 i823) 
+   show goal35_9: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(15,37) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i475
+    nat_to_id.simps(1)) 
+   show goal35_10: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(15,37) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i475
+    nat_to_id.simps(1)) 
+   show goal35_11: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(15,37) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i475
+    nat_to_id.simps(1)) 
+   show goal35_12: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpInv T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i23) 
+qed
+  show goal_36: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal36_1: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_otherside_rule_9_0 CSTATE_various_forms4 CSTATE_various_forms6 MESI_State.distinct(101) i485 i73
+    nat_to_id.simps(1)) 
+   show goal36_2: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(3,97) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal36_3: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i23) 
+   show goal36_4: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant CSTATE_otherside_rule_27 MESI_State.distinct(3)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 i72 nat_to_id.simps(1)) 
+   show goal36_5: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant MESI_State.distinct(101,3) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 nat_to_id.simps(1)) 
+   show goal36_6: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i22) 
+   show goal36_7: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i22) 
+   show goal36_8: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_different1 CSTATE_inequality_invariant CSTATE_otherside_rule_7_0 C_state_not_def
+    HSTATE_invariant_ModifiedSnpInv SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5
+    hstate_invariants(9) i107 i31 i594 i73) 
+   show goal36_9: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i483 i699
+    nat_to_id.simps(1)) 
+   show goal36_10: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i483 i699
+    nat_to_id.simps(1)) 
+   show goal36_11: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i483 i699
+    nat_to_id.simps(1)) 
+   show goal36_12: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspSFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Shared] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i23) 
+qed
+  show goal_37: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+    proof (intro impconjI)
+   show goal37_1: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> SWMR ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  simp 
+   show goal37_2: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_ModifiedSnpDataInvalid_otherside_invariant2 CSTATE_disj1 MESI_State.distinct(5)
+    SharedSnpInv'_CSTATE_invariant5 SharedSnpInv'_MAD_CSTATE_invariant5 i73 nat_to_id.simps(1)
+    nextSnoopIs_otherside_rule_1_0) 
+   show goal37_3: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i23) 
+   show goal37_4: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_otherside_rule_7_0 MESI_State.distinct(5) SharedSnpInv'_CSTATE_invariant5
+    SharedSnpInv'_MAD_CSTATE_invariant5 i73 nextSnoopIs_otherside_rule_1_0) 
+   show goal37_5: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  simp 
+   show goal37_6: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i22) 
+   show goal37_7: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i22) 
+   show goal37_8: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i483 i699
+    nat_to_id.simps(1)) 
+   show goal37_9: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i483 i699
+    nat_to_id.simps(1)) 
+   show goal37_10: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i483
+    nat_to_id.simps(1)) 
+   show goal37_11: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,7) HSTATE_invariant3 HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i483
+    nat_to_id.simps(1)) 
+   show goal37_12: "CXL_SPG_used T 0 \<and> CSTATE Modified T 0 \<and> nextSnoopIs SnpData T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T \<lparr>buffer1 := Some (nextSnoop T 0)\<rparr> [0 +=snpresp RspIFwdM nextSnoopID T 0] [0 -=snp ] [ 0 s= Invalid] [ nat_to_id 0 +=d2hd D2HData (nextSnoopID T 0) (read_dev_value 0 T) (clock T)])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HSTATE_invariant_ModifiedSnpInv hstate_invariants(9) i23) 
+qed
+  show goal_38: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal38_1: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_various_forms5 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def
+    HostInvalidRdShared'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def
+    OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i493
+    numeral_One) 
+   show goal38_2: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 i603 i676 numeral_One) 
+   show goal38_3: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) 
+   show goal38_4: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) 
+   show goal38_5: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 i665 i676 nextGOPending_HostInvalidRdShared
+    numeral_One) 
+   show goal38_6: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) 
+   show goal38_7: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) 
+   show goal38_8: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) 
+   show goal38_9: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(3) HSTATE_invariant3 HostInvalidRdShared_HSTATE add_One_commute
+    semiring_norm(5)) 
+   show goal38_10: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(3,89) HSTATE_invariant3 HostInvalidRdShared_HSTATE
+    add_One_commute semiring_norm(5)) 
+   show goal38_11: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(3,89) HSTATE_invariant3 HostInvalidRdShared_HSTATE
+    add_One_commute semiring_norm(5)) 
+   show goal38_12: "HSTATE InvalidM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i493 i676 numeral_One) 
+qed
+  show goal_39: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal39_1: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_various_forms4 DIRTYEVICT_COL_def HostInvalidRdOwn'_devcache_invariant1
+    HostInvalidRdOwn'_devcache_invariant2 MESI_State.distinct(105) i392 i675 i915 semiring_norm(3)) 
+   show goal39_2: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 i603 i676 numeral_One) 
+   show goal39_3: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) 
+   show goal39_4: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) 
+   show goal39_5: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) 
+   show goal39_6: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) 
+   show goal39_7: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) 
+   show goal39_8: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) 
+   show goal39_9: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) H_msg_P_oppo_def assms dthdatas1_general_rule_7_0 i591 minus_req_nextReqIs_False_swmrp_rule_2_0
+   nextDTHDataPending_def numeral_One)
+sorry (*split: sledgehammer failed*) 
+   show goal39_10: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal39_11: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (cases "reqresps1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal39_12: "HSTATE InvalidM T \<and> nextReqIs RdOwn T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i676
+    i823 numeral_One) 
+qed
+  show goal_40: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal40_1: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HostInvalidRdShared'_devcache_invariant1
+    HostInvalidRdShared'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def
+    OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def SWMR_def
+    i0 numeral_One) 
+   show goal40_2: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+   show goal40_3: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+   show goal40_4: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+   show goal40_5: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+   show goal40_6: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+   show goal40_7: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+   show goal40_8: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+   show goal40_9: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(3,89) HSTATE_invariant3 HostInvalidRdShared_HSTATE
+    add_One_commute semiring_norm(5)) 
+   show goal40_10: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(3,89) HSTATE_invariant3 HostInvalidRdShared_HSTATE
+    add_One_commute semiring_norm(5)) 
+   show goal40_11: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(3,89) HSTATE_invariant3 HostInvalidRdShared_HSTATE
+    add_One_commute semiring_norm(5)) 
+   show goal40_12: "HSTATE SharedM T \<and> nextReqIs RdShared T 0 \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= SharedM] [ 0 +=reqresp GO Shared nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdShared_otherside_invariant2 CSTATE_HostInvalidRdShared_otherside_invariant3
+    i22 numeral_One) 
+qed
+  show goal_41: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal41_1: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_3_0 CSTATE_various_forms2 CSTATE_various_forms4 i22) 
+   show goal41_2: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal41_3: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal41_4: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal41_5: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal41_6: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal41_7: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal41_8: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal41_9: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_invariant4
+    HostShared_CleanEvict_NotLastDrop_HSTATE IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def
+    OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def
+    minus_req_nextReqIs_False_swmrp_rule_1_0 numeral_One) 
+   show goal41_10: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastDrop_HSTATE IIA_ROW_def IMAD_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPINV_COL_def
+    minus_req_nextReqIs_False_swmrp_rule_1_0 numeral_One) 
+   show goal41_11: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastDrop_HSTATE IIA_ROW_def IMAD_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPINV_COL_def
+    minus_req_nextReqIs_False_swmrp_rule_1_0 numeral_One) 
+   show goal41_12: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO_WritePullDrop Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastDrop_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+qed
+  show goal_42: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal42_1: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 CSTATE_various_forms2 CSTATE_various_forms4
+    DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def
+    GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal42_2: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal42_3: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal42_4: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal42_5: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal42_6: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal42_7: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal42_8: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal42_9: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(305,35) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastData_HSTATE add_One_commute semiring_norm(5)) 
+   show goal42_10: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(305,35) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastData_HSTATE IMA_ROW_def OFFSET_def add_One_commute semiring_norm(5)) 
+   show goal42_11: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(305,35) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastData_HSTATE IMA_ROW_def OFFSET_def add_One_commute semiring_norm(5)) 
+   show goal42_12: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+qed
+  show goal_43: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal43_1: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSide_rule_3_1 CSTATE_disj1 CSTATE_various_forms4 DATA_COL_def
+    DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def
+    HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(163,175,179,5,95) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def
+    OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i556
+    lastSharer_def numeral_One) 
+   show goal43_2: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def
+    IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def i22 numeral_One) 
+   show goal43_3: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def
+    IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def i22 numeral_One) 
+   show goal43_4: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def
+    IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def i22 numeral_One) 
+   show goal43_5: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def
+    IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def i22 numeral_One) 
+   show goal43_6: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def
+    IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def i22 numeral_One) 
+   show goal43_7: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def
+    IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def i22 numeral_One) 
+   show goal43_8: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i22 numeral_One) 
+   show goal43_9: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_state_def DIRTYEVICT_COL_def MESI_State.distinct(143,163,175,179) OFFSET_def assms
+    i47 i556 lastSharer_def minus_req_nextReqIs_False_swmrp_rule_1_0 nextReqIs_HostInvalidDirtyEvict_otherside_1
+    semiring_norm(3)) 
+   show goal43_10: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def DIRTYEVICT_COL_def MESI_State.distinct(143,163,175,179)
+    OFFSET_def assms i47 i556 lastSharer_def minus_req_nextReqIs_False_swmrp_rule_1_0
+    nextReqIs_HostInvalidDirtyEvict_otherside_1 semiring_norm(3)) 
+   show goal43_11: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_inequality_invariant C_msg_state_def DIRTYEVICT_COL_def MESI_State.distinct(143,163,175,179)
+    OFFSET_def assms i47 i556 lastSharer_def minus_req_nextReqIs_False_swmrp_rule_1_0
+    nextReqIs_HostInvalidDirtyEvict_otherside_1 semiring_norm(3)) 
+   show goal43_12: "HSTATE SharedM T \<and> nextReqIs CleanEvict T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i22 numeral_One) 
+qed
+  show goal_44: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> SWMR ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal44_1: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> SWMR ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 CSTATE_def
+    CSTATE_various_forms1 CSTATE_various_forms2 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(137)
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 i946 numeral_One) 
+   show goal44_2: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal44_3: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal44_4: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal44_5: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal44_6: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal44_7: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal44_8: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal44_9: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost IIA_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISA_ROW_def ISDI_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MD_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def
+    RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def
+    SMA_ROW_def SNPINV_COL_def hstate_invariants(13,8) minus_req_nextReqIs_False_swmrp_rule_1_0 numeral_One) 
+   show goal44_10: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def
+    HostShared_CleanEvictNoData_NotLast_nextSnpRespIs_sameside IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def
+    IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def
+    MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def
+    MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def
+    M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i950
+    minus_req_nextReqIs_False_swmrp_rule_1_0 numeral_One) 
+   show goal44_11: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_invariant3
+    HostShared_CleanEvictNoData_NotLast_HSTATE HostShared_CleanEvictNoData_NotLast_nextSnpRespIs_sameside IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i950 numeral_One) 
+   show goal44_12: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> \<not> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<and> \<not> CSTATE IIA T 1 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SharedM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_NotLast_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+qed
+  show goal_45: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal45_1: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSide_rule_3_1 CSTATE_disj1 CSTATE_various_forms4 DATA_COL_def
+    DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def
+    HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(179) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i22 i518 i727
+    lastSharer_def numeral_One) 
+   show goal45_2: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal45_3: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal45_4: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal45_5: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2 DATA_COL_def
+    DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def
+    HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i22 i729
+    nextGOPending_HostShared_CleanEvictNoData_Last numeral_One) 
+   show goal45_6: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal45_7: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal45_8: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal45_9: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_state_def DIRTYEVICT_COL_def IMA_ROW_def MESI_State.distinct(143,179) OFFSET_def
+    assms i47 i518 lastSharer_def minus_req_nextReqIs_False_swmrp_rule_1_0 nextReqIs_otherside_rule_1_0
+    semiring_norm(3)) 
+   show goal45_10: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) HostShared_CleanEvictNoData_Last_nextSnpRespIs_sameside i950
+    minus_req_nextReqIs_False_swmrp_rule_1_0 numeral_One) 
+   show goal45_11: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_state_def DIRTYEVICT_COL_def IMA_ROW_def MESI_State.distinct(143,179) OFFSET_def
+    assms i47 i518 lastSharer_def minus_req_nextReqIs_False_swmrp_rule_1_0 nextReqIs_otherside_rule_1_0
+    semiring_norm(3)) 
+   show goal45_12: "HSTATE SharedM T \<and> nextReqIs CleanEvictNoData T 0 \<and> lastSharer T \<and> GTS T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= InvalidM] [ 0 +=reqresp GO Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvictNoData_Last_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def
+    GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def
+    IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def
+    ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def
+    MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+qed
+  show goal_46: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> SWMR ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal46_1: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> SWMR ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 CSTATE_def
+    CSTATE_various_forms1 CSTATE_various_forms2 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(121)
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i22 numeral_One) 
+   show goal46_2: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal46_3: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal46_4: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal46_5: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal46_6: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal46_7: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal46_8: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+   show goal46_9: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(305,35) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastData_HSTATE IMA_ROW_def OFFSET_def add_One_commute semiring_norm(5)) 
+   show goal46_10: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(221,35) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastData_HSTATE IMA_ROW_def OFFSET_def add_One_commute semiring_norm(5)) 
+   show goal46_11: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(221,35) HSTATE_invariant3
+    HostShared_CleanEvict_NotLastData_HSTATE IMA_ROW_def OFFSET_def add_One_commute semiring_norm(5)) 
+   show goal46_12: "HSTATE SharedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_NotLastData_otherside_invariant3 i22 numeral_One) 
+qed
+  show goal_47: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> SWMR ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal47_1: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> SWMR ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostModified_DirtyEvict_otherside_invariant2 CSTATE_various_forms4 DATA_COL_def
+    DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def
+    HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i107 i595 numeral_One) 
+   show goal47_2: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostModified_DirtyEvict_otherside_invariant2 i595 i75 numeral_One) 
+   show goal47_3: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_3_0 DIRTYEVICT_COL_def MESI_State.distinct(27) i595) 
+   show goal47_4: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_3_0 DIRTYEVICT_COL_def MESI_State.distinct(27) i595) 
+   show goal47_5: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_3_0 CSTATE_inequality_invariant C_not_C_msg_def i49 i91
+    nextGOPending_yes_reqresp_rule_8_1 semiring_norm(3)) 
+   show goal47_6: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostModified_DirtyEvict_otherside_invariant2 i595 minus_req_nextReqIs_False_swmrp_rule_1_0
+    numeral_One) 
+   show goal47_7: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_3_0 CSTATE_inequality_invariant DIRTYEVICT_COL_def MESI_State.distinct(27) assms
+    minus_req_nextReqIs_False_swmrp_rule_1_0) 
+   show goal47_8: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostModified_DirtyEvict_otherside_invariant2 i595 minus_req_nextReqIs_False_swmrp_rule_1_0
+    numeral_One) 
+   show goal47_9: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(13) HSTATE_invariant3 HostModified_DirtyEvict_HSTATE IMA_ROW_def
+    OFFSET_def add_One_commute semiring_norm(5)) 
+   show goal47_10: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def assms i187 i370 i417 i419 i456 i538 i576 i595 i91
+    minus_req_nextReqIs_False_swmrp_rule_1_0 nextSnpRespIs_general_rule_8_0 nextStore_nextEvict_exclusive) 
+   show goal47_11: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(13) HSTATE_invariant3 HostModified_DirtyEvict_HSTATE IMA_ROW_def
+    OFFSET_def add_One_commute semiring_norm(5)) 
+   show goal47_12: "HSTATE ModifiedM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE MIA T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= ID] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_3_0 CSTATE_inequality_invariant DIRTYEVICT_COL_def MESI_State.distinct(27) assms
+    minus_req_nextReqIs_False_swmrp_rule_1_0) 
+qed
+  show goal_48: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal48_1: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_def CSTATE_various_forms4 DIRTYEVICT_COL_def HOST_DEVNUM_def
+    HostModifiedRdShared'_devcache_invariant1 HostModifiedRdShared'_devcache_invariant2 ISD_ROW_def i107
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal48_2: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostModifiedRdShared_otherside_invariant3 CSTATE_X_rd_invariant1 i74 i75 numeral_One
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal48_3: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_8_0 CSTATE_inequality_invariant C_msg_state_def DIRTYEVICT_COL_def HOST_DEVNUM_def
+    HOST_State.distinct(141) HSTATE_equals_sHost MESI_State.distinct(11) hstate_invariants(13) i47 one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal48_4: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (cases "snps1 T")
+ apply (smt (verit) CSTATE_HostModifiedRdShared_otherside_invariant3 H_msg_P_oppo_def H_msg_P_same_def
+   HostModifiedRdShared_nextHTDDataPending_otherside i12 i13 mod_self numeral_One one_mod_two_eq_one plus_nat.add_0)
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+   CLEANEVICT_NOLAST_COL_def CSTATE_HostModifiedRdShared_otherside_invariant3 DATA_COL_def DIRTYEVICT_COL_def
+   EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def
+   H_msg_P_oppo_def H_msg_P_same_def HostModifiedRdShared_nextHTDDataPending_otherside IIA_ROW_def IMAD_ROW_def
+   IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+   ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+   MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+   MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+   RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+   STORE_COL_def i12 i13 mod_self numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal48_5: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_HostSide_rule_13_0 CSTATE_X_rd_invariant1 CSTATE_inequality_invariant C_msg_state_def
+    C_not_C_msg_def i47 i49 i73 mod_add_self1 mod_by_0 nextGOPending_HostModifiedRdShared one_mod_two_eq_one
+    semiring_norm(3)) 
+   show goal48_6: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostModifiedRdShared_otherside_invariant2 CSTATE_inequality_invariant C_msg_state_def i47
+    i72 minus_req_nextReqIs_False_swmrp_rule_3_0 nextReqIs_otherside_rule_4_0 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal48_7: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostModifiedRdShared_otherside_invariant3 CSTATE_inequality_invariant C_msg_state_def i47
+    i72 minus_req_nextReqIs_False_swmrp_rule_3_0 nextReqIs_otherside_rule_4_0 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal48_8: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostModifiedRdShared_otherside_invariant2 CSTATE_inequality_invariant C_msg_state_def i47
+    i72 minus_req_nextReqIs_False_swmrp_rule_3_0 nextReqIs_otherside_rule_4_0 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal48_9: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(7) HSTATE_equals_sHost assms
+    hstate_invariants(13) minus_req_nextReqIs_False_swmrp_rule_3_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal48_10: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(7) HSTATE_equals_sHost hstate_invariants(13) one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal48_11: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(7) HSTATE_equals_sHost hstate_invariants(13) one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal48_12: "HSTATE ModifiedM T \<and> nextReqIs RdShared T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=snp SnpData nextReqID T 0] [ 5 sHost= SAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_8_0 C_msg_state_def DIRTYEVICT_COL_def HOST_DEVNUM_def
+    MESI_State.distinct(11) assms i47 minus_req_nextReqIs_False_swmrp_rule_3_0 one_mod_two_eq_one plus_nat.add_0) 
+qed
+  show goal_49: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal49_1: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_X_rd_invariant1 CSTATE_general_rule_8_0 CSTATE_various_forms2 CSTATE_various_forms5 i107
+    mod_add_self1 mod_by_0 numeral_eq_iff one_mod_two_eq_one semiring_norm(2)) 
+   show goal49_2: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_HostsModifiedRdOwn_otherside_invariant3 i74 i823 mod_add_self1 mod_by_0 one_mod_two_eq_one
+    semiring_norm(3)) 
+   show goal49_3: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_8_0 DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(175) HSTATE_equals_sHost
+    hstate_invariants(13) i823 one_mod_two_eq_one plus_nat.add_0) 
+   show goal49_4: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_8_0 DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(147) HSTATE_equals_sHost
+    add_0 hstate_invariants(13) i823 one_mod_two_eq_one) 
+   show goal49_5: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_HostsModifiedRdOwn_otherside_invariant3 i494 i823 mod_add_self1 mod_by_0 one_mod_two_eq_one
+    semiring_norm(3)) 
+   show goal49_6: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(85) HSTATE_equals_sHost assms
+    hstate_invariants(13) minus_req_nextReqIs_False_swmrp_rule_3_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal49_7: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_HostsModifiedRdOwn_otherside_invariant3 assms i823 minus_req_nextReqIs_False_swmrp_rule_3_0
+    mod_add_self1 mod_by_0 one_mod_two_eq_one semiring_norm(3)) 
+   show goal49_8: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(15) HSTATE_equals_sHost assms
+    hstate_invariants(13) minus_req_nextReqIs_False_swmrp_rule_3_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal49_9: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(15) HSTATE_equals_sHost assms
+    hstate_invariants(13) minus_req_nextReqIs_False_swmrp_rule_3_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal49_10: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis SARspSFwdM_invariant1 assms i159 minus_req_nextReqIs_False_swmrp_rule_3_0 one_mod_two_eq_one
+    plus_nat.add_0 snpresps1_HostsModifiedRdOwn) 
+   show goal49_11: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis SARspSFwdM_invariant2 assms i159 minus_req_nextReqIs_False_swmrp_rule_3_0 one_mod_two_eq_one
+    plus_nat.add_0 snpresps2_HostsModifiedRdOwn) 
+   show goal49_12: "HSTATE ModifiedM T \<and> nextReqIs RdOwn T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 5 sHost= MAD] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_HostsModifiedRdOwn_otherside_invariant3 assms i823 minus_req_nextReqIs_False_swmrp_rule_3_0
+    mod_add_self1 mod_by_0 one_mod_two_eq_one semiring_norm(3)) 
+qed
+  show goal_50: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> SWMR (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal50_1: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> SWMR (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     apply  (cases "snps1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal50_2: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_3: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_4: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_5: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_6: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_7: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_8: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_9: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_10: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     apply  (cases "snps1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal50_11: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+   show goal50_12: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Shared T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD (sendHostData 0 MA T [ (0 + 1) mod 2 +=snp SnpInv nextReqID T 0] [ 0 -=req ])"
+     sorry (*failed to find proof*)
+qed
+  show goal_51: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal51_1: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_various_forms5 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def
+    HostInvalidRdOwn'_devcache_invariant1 HostInvalidRdOwn'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def SWMR_def i0 i22 numeral_One) 
+   show goal51_2: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+   show goal51_3: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+   show goal51_4: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+   show goal51_5: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+   show goal51_6: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+   show goal51_7: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+   show goal51_8: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+   show goal51_9: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 C_msg_not_def C_msg_state_def add_One_commute assms i26 i47
+    minus_req_nextReqIs_False_swmrp_rule_2_0 mod_add_self1 mod_by_0 nextReqIs_otherside_rule_3_0 one_mod_two_eq_one
+    semiring_norm(5)) 
+   show goal51_10: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_not_def add_One_commute assms i26 minus_req_nextReqIs_False_swmrp_rule_2_0 mod_add_self1 mod_by_0
+    nextReqIs_HostInvalidRdOwn_IMAD_invariant2 one_mod_two_eq_one semiring_norm(5)) 
+   show goal51_11: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis C_msg_not_def add_One_commute assms i26 minus_req_nextReqIs_False_swmrp_rule_2_0 mod_add_self1 mod_by_0
+    nextReqIs_HostInvalidRdOwn_IMAD_invariant2 one_mod_two_eq_one semiring_norm(5)) 
+   show goal51_12: "HSTATE SharedM T \<and> nextReqIs RdOwn T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 0 +=hostdata nextReqID T 0] [ 5 sHost= ModifiedM] [ 0 +=reqresp GO Modified nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostInvalidRdOwn_otherside_invariant2 CSTATE_HostInvalidRdOwn_otherside_invariant3 i22 i823
+    numeral_One) 
+qed
+  show goal_52: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal52_1: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal52_2: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal52_3: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(79) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal52_4: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(77) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal52_5: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal52_6: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal52_7: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal52_8: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal52_9: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(3,79) HSTATE_invariant4
+    HostSBData_HSTATE IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i962 nat_to_id.simps(1) numeral_One) 
+   show goal52_10: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(3,79) HSTATE_invariant4
+    HostSBData_HSTATE IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i962 nat_to_id.simps(1) numeral_One) 
+   show goal52_11: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(3,79) HSTATE_invariant4
+    HostSBData_HSTATE IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i962 nat_to_id.simps(1) numeral_One) 
+   show goal52_12: "HSTATE SD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(79) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+qed
+  show goal_53: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal53_1: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal53_2: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal53_3: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(171) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal53_4: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(143) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal53_5: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal53_6: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(81) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal53_7: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(81) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal53_8: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(11) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal53_9: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(11) HSTATE_equals_sHost
+    IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def INVALID_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def LOAD_COL_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_I_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_RDS_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def
+    M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def
+    hstate_invariants(16) i733 nat_to_id.simps(1) numeral_One) 
+   show goal53_10: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(11) HSTATE_equals_sHost
+    IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def
+    ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def LOAD_COL_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_I_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def hstate_invariants(16)
+    i733 nat_to_id.simps(1) numeral_One) 
+   show goal53_11: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(11) HSTATE_equals_sHost
+    IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def
+    ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def LOAD_COL_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_I_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def hstate_invariants(16)
+    i733 nat_to_id.simps(1) numeral_One) 
+   show goal53_12: "HSTATE SAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= SA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(171) HSTATE_equals_sHost add.assoc add.commute bits_one_mod_two_eq_one
+    hstate_invariants(16) nat_1_add_1 numeral_Bit0 numeral_Bit1 plus_nat.add_0) 
+qed
+  show goal_54: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal54_1: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal54_2: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal54_3: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal54_4: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(7) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal54_5: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal54_6: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal54_7: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal54_8: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal54_9: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal54_10: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def DeviceID.exhaust HOST_DEVNUM_def i129 i190 i193 i408 nat_to_id.simps(1)
+    nextDTHDataFrom_def nextHTDDataPending_SADData nextHTDDataPending_true_rule_2_0 nextReqIs_general_rule_2_0
+    nextReqIs_general_rule_2_flipped_1 nextReqIs_general_rule_9_flipped_1 nextSnpRespIs_def
+    nextSnpRespIs_general_rule_11_flipped_1 nextSnpRespIs_general_rule_1_0 nextSnpRespIs_general_rule_1_flipped_1
+    nextSnpRespIs_property1 nextSnpRespIs_property2 one_mod_two_eq_one plus_nat.add_0
+    reqs2_empty_not_nextReqIs_general_invariant semiring_norm(3) snpresps1_HostIBDataPrevious snpresps1_HostIDData
+    snpresps1_HostMBData snpresps1_HostMDData snpresps2_HostIBDataPrevious snpresps2_HostIDData snpresps2_HostMBData
+    snpresps2_HostMDData) 
+   show goal54_11: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal54_12: "HSTATE MD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+qed
+  show goal_55: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> SWMR ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal55_1: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> SWMR ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal55_2: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal55_3: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(111) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_4: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(109) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_5: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal55_6: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(75) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_7: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(75) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_8: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(5) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_9: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(5) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_10: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(5) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_11: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(5) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+   show goal55_12: "HSTATE ID T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> (CSTATE IIA T ((0 + 1) mod 2) \<or> CSTATE Invalid T ((0 + 1) mod 2) \<or> CSTATE SIA T ((0 + 1) mod 2)) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(111) HSTATE_equals_sHost hstate_invariants(16)
+    semiring_norm(3)) 
+qed
+  show goal_56: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal56_1: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> SWMR ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal56_2: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal56_3: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(177) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal56_4: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(149) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal56_5: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal56_6: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(87) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal56_7: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(87) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal56_8: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(17) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal56_9: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(17) HSTATE_equals_sHost
+    IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def INVALID_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def LOAD_COL_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_I_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_RDS_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def
+    M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def
+    SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def
+    hstate_invariants(16) i835 nat_to_id.simps(1) numeral_One) 
+   show goal56_10: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(17) HSTATE_equals_sHost
+    IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def
+    ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def
+    MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def
+    MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def
+    RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def
+    SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def hstate_invariants(16) i835 nat_to_id.simps(1)
+    numeral_One) 
+   show goal56_11: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HOST_State.distinct(17) HSTATE_equals_sHost
+    IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def
+    ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def
+    MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def
+    MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def
+    RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def
+    SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def hstate_invariants(16) i835 nat_to_id.simps(1)
+    numeral_One) 
+   show goal56_12: "HSTATE MAD T \<and> nextDTHDataFrom 0 T \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ nat_to_id ((0 + 1) mod 2) +=h2dd DTH_HTD (getDTHDataOrMakeup (dthdatas1 T))] [ =hv getSpecificValD2H (getDTHDataOrMakeup (dthdatas1 T))] [ 5 sHost= MA] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(177) HSTATE_equals_sHost hstate_invariants(16)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+qed
+  show goal_57: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+    proof (intro impconjI)
+   show goal57_1: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HostSADRspSFwdM'_devcache_invariant1
+    HostSADRspSFwdM'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def SWMR_def i0 numeral_One
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal57_2: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 CSTATE_inequality_invariant HOST_State.distinct(143,167,195,221,3,77,81)
+    HSTATE_invariant3 MESI_State.distinct(11,183) i334 i437 i770 i943 nextHTDDataPending_general_rule_9_0
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal57_3: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSADRspSFwdM_otherside_invariant2 CSTATE_HostSADRspSFwdM_otherside_invariant3
+    CSTATE_inequality_invariant DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(11,13,15,31,5) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i437 i456 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal57_4: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_HostSADRspSFwdM_otherside_invariant3 CSTATE_different2 CSTATE_general_rule_6_0 HSTATE_invariant4
+    HostSADRspSFwdM_HSTATE bits_one_mod_two_eq_one i23 i437 i789 i790 numeral_eq_iff plus_nat.add_0) 
+   show goal57_5: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSADRspSFwdM_otherside_invariant2 CSTATE_HostSADRspSFwdM_otherside_invariant3
+    CSTATE_inequality_invariant DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(11,13,15,31,5) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i437 i456 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal57_6: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i437 i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal57_7: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSADRspSFwdM_otherside_invariant2 CSTATE_HostSADRspSFwdM_otherside_invariant3
+    CSTATE_disj1 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def
+    GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(11,13,15,31,5) MIAD_ROW_def
+    MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i437 i456 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal57_8: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i437 i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal57_9: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal57_10: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal57_11: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal57_12: "HSTATE SAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 CSTATE_otherside_rule_40 C_H_state_def add_One_commute i17 i437
+    i495 mod_add_self1 mod_by_0 nextReqIs_general_rule_10_0 one_mod_two_eq_one semiring_norm(5)) 
+qed
+  show goal_58: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] ) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+    proof (intro impconjI)
+   show goal58_1: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_various_forms6 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def
+    HostSADRspSFwdM'_devcache_invariant1 HostSADRspSFwdM'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def SWMR_def i0 i789 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal58_2: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 CSTATE_inequality_invariant MESI_State.distinct(183) i437 i789
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal58_3: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 CSTATE_inequality_invariant MESI_State.distinct(3,35,43,47) i441 i789
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal58_4: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_HostSADRspSFwdM_otherside_invariant3 CSTATE_general_rule_6_0 HSTATE_invariant4
+    HostSADRspSFwdM_HSTATE bits_one_mod_two_eq_one i23 i789 plus_nat.add_0) 
+   show goal58_5: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSADRspSFwdM_otherside_invariant2 CSTATE_HostSADRspSFwdM_otherside_invariant3
+    CSTATE_inequality_invariant DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(3,35,43,47) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i441 i789 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal58_6: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostSADRspSFwdM_otherside_invariant2 CSTATE_HostSADRspSFwdM_otherside_invariant3
+    CSTATE_disj1 C_msg_state_def i437 i47 i789 nextReqIs_HostSADRspSFwdM_IMAD_invariant1 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal58_7: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 MESI_State.distinct(3,35,43,47) i441 i789 one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal58_8: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 CSTATE_otherside_rule_40 C_msg_state_def add_One_commute i437 i47
+    i789 nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0 semiring_norm(5)) 
+   show goal58_9: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal58_10: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal58_11: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(9) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal58_12: "HSTATE SAD T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 add_One_commute i437 i495 i789 mod_add_self1 mod_by_0
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one semiring_norm(5)) 
+qed
+  show goal_59: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] ) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+    proof (intro impconjI)
+   show goal59_1: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HostMADRspIFwdM'_devcache_invariant1
+    HostMADRspIFwdM'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def SWMR_def i0 numeral_One
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal59_2: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostMADRspIFwdM_otherside_invariant3 CSTATE_inequality_invariant DATA_COL_def
+    DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def
+    HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(11,13,139,15,183,185,187,203,31,5) MIAD_ROW_def MIA_ROW_def
+    MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def
+    RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def
+    STORE_COL_def i456 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal59_3: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(179) HSTATE_equals_sHost
+    HSTATE_invariant_msnpresp one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal59_4: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(151) HSTATE_equals_sHost
+    HSTATE_invariant_msnpresp one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal59_5: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostMADRspIFwdM_otherside_invariant2 CSTATE_HostMADRspIFwdM_otherside_invariant3
+    CSTATE_inequality_invariant C_not_C_msg_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(11,13,15,31,5) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i456 i49 nextGOPending_HostMADRspIFwdM
+    numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal59_6: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal59_7: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(89) HSTATE_equals_sHost add_One_commute
+    hstate_invariants(15) one_mod_two_eq_one plus_nat.add_0 semiring_norm(5)) 
+   show goal59_8: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal59_9: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(19) HSTATE_equals_sHost add_One_commute
+    hstate_invariants(15) one_mod_two_eq_one plus_nat.add_0 semiring_norm(5)) 
+   show goal59_10: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(19) HSTATE_equals_sHost add_One_commute
+    hstate_invariants(15) one_mod_two_eq_one plus_nat.add_0 semiring_norm(5)) 
+   show goal59_11: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(19) HSTATE_equals_sHost add_One_commute
+    hstate_invariants(15) one_mod_two_eq_one plus_nat.add_0 semiring_norm(5)) 
+   show goal59_12: "HSTATE MAD T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= MD] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(179) HSTATE_equals_sHost add_One_commute
+    hstate_invariants(15) one_mod_two_eq_one plus_nat.add_0 semiring_norm(5)) 
+qed
+  show goal_60: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+    proof (intro impconjI)
+   show goal60_1: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HostMARspIHitSE'_devcache_invariant1
+    HostMARspIHitSE'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def SWMR_def add_0 i0
+    numeral_One one_mod_two_eq_one) 
+   show goal60_2: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 CSTATE_inequality_invariant MESI_State.distinct(17,37) i637 i943
+    nextHTDDataPending_general_rule_9_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal60_3: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis HOST_State.distinct(37,9) HSTATE_invariant3 HostMARspIHitSE_HSTATE bits_one_mod_two_eq_one
+    comm_monoid_add_class.add_0) 
+   show goal60_4: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostMARspIHitSE_otherside_invariant2 CSTATE_HostMARspIHitSE_otherside_invariant3
+    CSTATE_inequality_invariant DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(11,13,15,17,31,35,37,5) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i456 i874 numeral_One
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal60_5: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 CSTATE_inequality_invariant C_not_C_msg_def MESI_State.distinct(17,263,283,37)
+    i49 i72 i736 i874 i943 nextGOPending_yes_reqresp_rule_13_1 one_mod_two_eq_one plus_nat.add_0) 
+   show goal60_6: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal60_7: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostMARspIHitSE_otherside_invariant2 CSTATE_HostMARspIHitSE_otherside_invariant3
+    CSTATE_disj1 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def
+    GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(11,13,15,17,31,35,37,5)
+    MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i456 i874 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal60_8: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) add_0 i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one) 
+   show goal60_9: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (cases "snps1 T")
+ apply (metis H_msg_P_oppo_def add_0 bits_one_mod_two_eq_one dthdatas1_general_rule_9_0 dthdatas2_HostMARspIHitSE i455
+   nextDTHDataPending_def zero_neq_one)
+sorry (*split: sledgehammer failed*) 
+   show goal60_10: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (cases "snps1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal60_11: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     sorry (*failed to find proof*)
+   show goal60_12: "HSTATE MA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 MESI_State.distinct(15,17,329,349,35,37) i353 i461 i823 i874 i943
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+qed
+  show goal_61: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+    proof (intro impconjI)
+   show goal61_1: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HostSARspSFwdM'_devcache_invariant1
+    HostSARspSFwdM'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def SWMR_def i0 numeral_One
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal61_2: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSARspSFwdM_otherside_invariant2 CSTATE_HostSARspSFwdM_otherside_invariant3
+    CSTATE_inequality_invariant DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(11,13,15,31,5,9) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i114 i456 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal61_3: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSARspSFwdM_otherside_invariant2 CSTATE_HostSARspSFwdM_otherside_invariant3
+    CSTATE_disj1 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def
+    GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(11,13,15,31,5,9) MIAD_ROW_def
+    MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i114 i456 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal61_4: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSARspSFwdM_otherside_invariant2 CSTATE_HostSARspSFwdM_otherside_invariant3
+    CSTATE_disj1 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def
+    GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(11,13,15,31,5,9) MIAD_ROW_def
+    MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i114 i456 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal61_5: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSARspSFwdM_otherside_invariant2 CSTATE_HostSARspSFwdM_otherside_invariant3
+    CSTATE_inequality_invariant DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(11,13,15,31,5,9) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i114 i456 numeral_One one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal61_6: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal61_7: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSARspSFwdM_otherside_invariant2 CSTATE_HostSARspSFwdM_otherside_invariant3
+    CSTATE_disj1 DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def
+    GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def
+    IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def
+    MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def
+    MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MESI_State.distinct(11,13,15,31,5,9) MIAD_ROW_def
+    MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def
+    RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def
+    SNPINV_COL_def STORE_COL_def i114 i456 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal61_8: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal61_9: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost hstate_invariants(15)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal61_10: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal61_11: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal61_12: "HSTATE SA T \<and> nextSnpRespIs RspIFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostSADRspSFwdM_otherside_invariant2 CSTATE_HostSADRspSFwdM_otherside_invariant3
+    C_H_state_def HSTATE_equals_sHost cong_exp_iff_simps(7) hstate_invariants(15) i18 i392 i823 i844 mod_add_left_eq
+    mod_self nextReqIs_HostSADRspSFwdM_IMAD_invariant2 nextReqIs_HostSARspSFwdM_IMAD_invariant1 numeral_Bit1
+    numeral_One one_add_one one_mod_two_eq_one) 
+qed
+  show goal_62: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] ) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+    proof (intro impconjI)
+   show goal62_1: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HostSARspSFwdM'_devcache_invariant1
+    HostSARspSFwdM'_devcache_invariant2 IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def
+    IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def
+    MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def
+    MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIFWDM_COL_def RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def
+    SIA_ROW_def SMAD_ROW_def SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def SWMR_def i0 numeral_One
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal62_2: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 CSTATE_inequality_invariant MESI_State.distinct(11,183,7,9) i114 i353
+    nextHTDDataPending_general_rule_9_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal62_3: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 MESI_State.distinct(11,3,35,43,47,9) i114 i441 one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal62_4: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 MESI_State.distinct(11,3,35,43,47,9) i114 i441 one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal62_5: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostSARspSFwdM_otherside_invariant2 CSTATE_HostSARspSFwdM_otherside_invariant3
+    CSTATE_inequality_invariant DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def
+    IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def
+    MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def MEM_S_ROW_def
+    MESI_State.distinct(11,3,35,43,47,9) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def add_0 i114 i441 numeral_One
+    one_mod_two_eq_one) 
+   show goal62_6: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal62_7: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 MESI_State.distinct(11,3,35,43,47,9) i114 i441 one_mod_two_eq_one
+    plus_nat.add_0) 
+   show goal62_8: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_msg_state_def MESI_State.distinct(11) i47 i72
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one plus_nat.add_0) 
+   show goal62_9: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost hstate_invariants(15)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal62_10: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal62_11: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_DEVNUM_def HOST_State.distinct(3) HSTATE_equals_sHost HSTATE_invariant_msnpresp
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3)) 
+   show goal62_12: "HSTATE SA T \<and> nextSnpRespIs RspSFwdM T 0 \<and> GTS T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Shared nextSnoopRespID T 0] [ 5 sHost= SharedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 CSTATE_general_rule_6_0 C_H_state_def add_One_commute i114 i18 mod_add_self1 mod_by_0
+    nextReqIs_general_rule_10_0 one_mod_two_eq_one semiring_norm(5)) 
+qed
+  show goal_63: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal63_1: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> SWMR ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (metis i68 neq_Nil_conv) 
+   show goal63_2: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_3: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_4: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_5: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_6: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_7: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_8: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_9: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_10: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_11: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal63_12: "HSTATE IB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<and> CSTATE Invalid T ((0 + 1) mod 2) \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= InvalidM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+qed
+  show goal_64: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> SWMR ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal64_1: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> SWMR ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_2: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_3: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_4: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_5: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_6: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_7: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_8: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_9: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_10: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_11: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal64_12: "HSTATE SB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= SharedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+ apply (metis C_H_state_def DIRTYEVICT_COL_def HOST_State.distinct(79) HSTATE_equals_sHost hstate_invariants(16))
+  apply (metis C_H_state_def DIRTYEVICT_COL_def HOST_State.distinct(79) HSTATE_equals_sHost
+   hstate_invariants(16)) 
+qed
+  show goal_65: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> SWMR ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+    proof (intro impconjI)
+   show goal65_1: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> SWMR ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_2: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_3: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_4: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_5: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_6: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_7: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_8: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_9: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal65_10: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     apply  (cases "reqs1 T")
+sorry (*split: sledgehammer failed*)
+  apply (metis i68 neq_Nil_conv) 
+   show goal65_11: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+   show goal65_12: "HSTATE MB T \<and> nextDTHDataFrom 0 T \<and> CSTATE Invalid T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= ModifiedM] [ nat_to_id 0 -=d2hdHead ])"
+     sorry (*failed to find proof*)
+qed
+  show goal_66: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> SWMR ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+    proof (intro impconjI)
+   show goal66_1: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> SWMR ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_HostShared_CleanEvict_Last_otherside_invariant2 CSTATE_various_forms4 DATA_COL_def
+    DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def
+    HOST_DEVNUM_def IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def
+    ISAD_ROW_def ISA_ROW_def ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def
+    MEM_MAD_ROW_def MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def
+    MEM_SD_ROW_def MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def
+    SMAS_ROW_def SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i675 i676 numeral_One) 
+   show goal66_2: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2 i663 i676 numeral_One) 
+   show goal66_3: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i493 i676 numeral_One) 
+   show goal66_4: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i493 i676 numeral_One) 
+   show goal66_5: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2 i665 i676
+    nextGOPending_HostShared_CleanEvict_Last numeral_One) 
+   show goal66_6: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i493 i676 numeral_One) 
+   show goal66_7: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i493 i676 numeral_One) 
+   show goal66_8: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i493 i676 numeral_One) 
+   show goal66_9: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(37) HSTATE_invariant3 HostShared_CleanEvict_Last_HSTATE
+    IMA_ROW_def OFFSET_def add_One_commute assms i419 i573 i699 i769 i770 minus_req_nextReqIs_False_swmrp_rule_1_0
+    semiring_norm(5)) 
+   show goal66_10: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(37) HSTATE_invariant3 HostShared_CleanEvict_Last_HSTATE
+    IMA_ROW_def OFFSET_def add_One_commute assms i573 i574 i874 minus_req_nextReqIs_False_swmrp_rule_1_0
+    nextSnpRespIs_general_rule_8_0 semiring_norm(5)) 
+   show goal66_11: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis DIRTYEVICT_COL_def HOST_State.distinct(37) HSTATE_invariant3 HostShared_CleanEvict_Last_HSTATE
+    IMA_ROW_def OFFSET_def add_One_commute assms i573 i574 i875 minus_req_nextReqIs_False_swmrp_rule_1_0
+    nextSnpRespIs_general_rule_8_0 semiring_norm(5)) 
+   show goal66_12: "HSTATE InvalidM T \<and> nextReqIs DirtyEvict T 0 \<and> GTS T ((0 + 1) mod 2) \<and> CSTATE IIA T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ 5 sHost= IB] [ 0 +=reqresp GO_WritePull Invalid nextReqID T 0] [ 0 -=req ])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostShared_CleanEvict_Last_otherside_invariant2
+    CSTATE_HostShared_CleanEvict_Last_otherside_invariant3 i493 i676 numeral_One) 
+qed
+  show goal_67: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] ) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+    proof (intro impconjI)
+   show goal67_1: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> SWMR ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def CLEANEVICT_LAST_COL_def
+    CLEANEVICT_NOLAST_COL_def CSTATE_def DATA_COL_def DIRTYEVICT_COL_def EVICT_COL_def GHOST_REQ_def GOI_COL_def
+    GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def GO_COL_def HOST_DEVNUM_def HostMARspIHitSE'_devcache_invariant1
+    IIA_ROW_def IMAD_ROW_def IMAI_ROW_def IMASI_ROW_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISAD_ROW_def ISA_ROW_def
+    ISDI_ROW_def ISD_ROW_def ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_E_ROW_def MEM_ID_ROW_def MEM_MAD_ROW_def
+    MEM_MA_ROW_def MEM_MD_ROW_def MEM_M_ROW_def MEM_RDO_COL_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def
+    MEM_S_ROW_def MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def RSPIFWDM_COL_def RSPIHITI_COL_def
+    RSPIHITSELAST_COL_def RSPIHITSE_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def
+    SMA_ROW_def SNPD_COL_def SNPINV_COL_def STORE_COL_def i845 i889 nextSnpRespIs_invariant1 numeral_One
+    one_mod_two_eq_one plus_nat.add_0) 
+   show goal67_2: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CACHE_TRANS_def CLEANEVICTNODATA_COL_def CLEANEVICTNODATA_NOLAST_COL_def
+    CSTATE_HostMARspIHitSE_otherside_invariant2 CSTATE_different2 CSTATE_disj2 DIRTYEVICT_COL_def GHOST_REQ_def
+    GOI_COL_def GOWRITEPULLDROP_COL_def GOWRITEPULL_COL_def IMAS_ROW_def IMA_ROW_def IMD_ROW_def ISA_ROW_def
+    ISSUE_EVENT_ROW_def MEM_DATA_COL_def MEM_ID_ROW_def MEM_MD_ROW_def MEM_SAD_ROW_def MEM_SA_ROW_def MEM_SD_ROW_def
+    MESI_State.distinct(15,17,187,189,207,209,35,37) MIAD_ROW_def MIA_ROW_def MID_ROW_def M_ROW_def OFFSET_def
+    RSPIHITI_COL_def RSPIHITSELAST_COL_def RSPSFWDM_COL_def SHARED_ROW_def SIA_ROW_def SMAD_ROW_def SMAS_ROW_def
+    SMA_ROW_def SNPINV_COL_def add_0 i451 nextSnpRespIs_invariant1 numeral_One one_mod_two_eq_one) 
+   show goal67_3: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 SARspSFwdM_invariant1 i490 i845 one_mod_two_eq_one plus_nat.add_0) 
+   show goal67_4: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 add_0 i490 i845 nextSnpRespIs_invariant1 one_mod_two_eq_one) 
+   show goal67_5: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostMARspIHitSE_otherside_invariant2 CSTATE_HostMARspIHitSE_otherside_invariant3 i462 i845
+    nextGOPending_HostMARspIHitSE nextSnpRespIs_invariant1 numeral_One one_mod_two_eq_one plus_nat.add_0) 
+   show goal67_6: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 SARspSFwdM_invariant1 i490 i845 mod_add_self1 mod_by_0 one_mod_two_eq_one) 
+   show goal67_7: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 SARspSFwdM_invariant1 i490 i845 mod_add_self1 mod_by_0 one_mod_two_eq_one) 
+   show goal67_8: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (smt (verit) CSTATE_HostMARspIHitSE_otherside_invariant3 i845 i99 nextReqIs_not_various_forms2
+    nextSnpRespIs_invariant1 numeral_One one_mod_two_eq_one plus_nat.add_0 reqs2_HostMARspIHitSE) 
+   show goal67_9: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis OFFSET_def i455 nextDTHDataPending_def nextDTHDataPending_general_rule_7_0 numerals(1)
+    one_mod_two_eq_one plus_nat.add_0 semiring_norm(3) zero_neq_numeral) 
+   show goal67_10: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     sorry (*failed to find proof*)
+   show goal67_11: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (cases "snps1 T")
+sorry (*split: sledgehammer failed*)
+sorry (*split: sledgehammer failed*) 
+   show goal67_12: "HSTATE MA T \<and> nextSnpRespIs RspIHitSE T 0 \<and> GTS T 0 \<and> htddatas1 T = [] \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T [ (0 + 1) mod 2 +=reqresp GO Modified nextSnoopRespID T 0] [ 5 sHost= ModifiedM] [ 0 -=snpresp ] )"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_general_rule_6_0 i490 i845 mod_add_self1 mod_by_0 nextSnpRespIs_property1
+    one_mod_two_eq_one) 
+qed
+  show goal_68: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0]) \<and> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+    proof (intro impconjI)
+   show goal68_1: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> SWMR ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_assign_rule_2 CSTATE_inequality_invariant CSTATE_various_forms2 CSTATE_various_forms6
+    MESI_State.distinct(3,5,95) SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5
+    devcache2_consume_reqresps1_invariant devcache2_copy_perform1_invariant
+    nextGOPending_overlooked_reqresp_rule_4_0) 
+   show goal68_2: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> C_msg_P_oppo ISD nextHTDDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(5) SIAGO_WritePullDrop_CSTATE_aux SharedSnpInv'_CSTATE_invariant5 i929
+    nextHTDDataPending_general_rule_12_0 xyad_go_invariant2) 
+   show goal68_3: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_same SD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) numeral_One reqresps_empty_noGOPendingIs1)
+sorry (*split: sledgehammer failed*) 
+   show goal68_4: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_same SAD nextDTHDataPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) numeral_One reqresps_empty_noGOPendingIs1)
+sorry (*split: sledgehammer failed*) 
+   show goal68_5: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> C_msg_P_oppo ISAD nextGOPending (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(143,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+   show goal68_6: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_same SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) numeral_One reqresps_empty_noGOPendingIs1)
+sorry (*split: sledgehammer failed*) 
+   show goal68_7: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_oppo SharedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal68_8: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> CSTATE Modified T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) numeral_One reqresps_empty_noGOPendingIs1)
+sorry (*split: sledgehammer failed*) 
+   show goal68_9: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextDTHDataPending T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     sorry (*failed to find proof*)
+   show goal68_10: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_oppo ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (cases "reqresps1 T")
+ apply (smt (verit) numeral_One reqresps_empty_noGOPendingIs1)
+sorry (*split: sledgehammer failed*) 
+   show goal68_11: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> H_msg_P_same ModifiedM (nextReqIs RdShared) (\<lambda>T i. \<not> nextSnpRespIs RspIFwdM T i) ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis H_msg_P_same_def ISADGO'_HSTATE_neg hstate_invariants(14,2,24) i14 i15 nextReqIs_general_rule_4_0
+    nextSnpRespIs_general_rule_4_0 remove_instr_HSTATE) 
+   show goal68_12: "CSTATE SIAC T 0 \<and> nextGOPendingIs GO T 0 \<and> nextGOPendingState Invalid T 0 \<and> GTS T ((0 + 1) mod 2) \<and> saneSIACGO T 0 \<longrightarrow> C_H_state IMAD (nextReqIs RdOwn) Modified SD ( T\<lparr>buffer1 := Some (nextGO T 0)\<rparr> [ 0 s= Invalid] [ 0 -=reqresp ] [ -=i 0])"
+     apply  (insert assms , unfold SWMR_def C_msg_P_same_def C_msg_P_oppo_def H_msg_P_same_def C_H_state_def C_msg_not_def H_msg_P_oppo_def C_msg_P_host_def C_state_not_def H_C_state_msg_same_def H_C_state_msg_oppo_def C_msg_state_def C_not_C_msg_def) 
+  apply (metis CSTATE_disj1 MESI_State.distinct(147,5) SIAGO_WritePullDrop_CSTATE_aux
+    SharedSnpInv'_CSTATE_invariant5) 
+qed
+
+
+qed
+
+end

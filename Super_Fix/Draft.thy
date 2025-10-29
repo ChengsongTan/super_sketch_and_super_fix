@@ -1,0 +1,114 @@
+theory Draft
+  imports "Complex_Main" Super_Fix
+
+begin
+
+declare [[ML_print_depth = 4000000]]
+
+
+ML \<open>
+fun split_clause t =
+  let
+    val (fixes, horn) = funpow_yield (length (Term.strip_all_vars t)) Logic.dest_all_global t;
+    val assms = Logic.strip_imp_prems horn;
+    val concl = Logic.strip_imp_concl horn;
+  in (fixes, assms, concl) end;
+
+fun coalesce_method_txt [] = ""
+  | coalesce_method_txt [s] = s
+  | coalesce_method_txt (s1 :: s2 :: ss) =
+      if s1 = "(" orelse s1 = "["
+        orelse s2 = ")" orelse s2 = "]" orelse s2= ":"
+      then s1 ^ coalesce_method_txt (s2 :: ss)
+      else s1 ^ " " ^ coalesce_method_txt (s2 :: ss);
+
+fun print_term ctxt t = 
+  Print.string_of_term ctxt t
+  |> Library.enclose "\"" "\"";
+
+fun print_typ ctxt T = 
+  Print.string_of_type ctxt T
+  |> Library.enclose "\"" "\"";
+
+fun upd_context (var_typs, assms, concl) ctxt =
+  let
+    val fixes = map (fn (s, T) => (Binding.name s, SOME T, NoSyn)) var_typs
+    val ctxt' = ctxt |> Variable.set_body false |> Proof_Context.add_fixes fixes |> snd
+      handle ERROR _ =>
+      ctxt |> Variable.set_body true |> Proof_Context.add_fixes fixes |> snd
+  in ((var_typs, assms, concl), ctxt') end;
+
+fun add_ands indent strs = 
+  let 
+    val sep = "\n" ^ (Symbol.spaces (indent + 2)) ^ "  and ";
+  in space_implode sep strs end;
+
+fun prepare_data ctxt indent (fixes, assms, concl) = 
+  let
+    val opt_assumes = if null assms then NONE
+      else SOME (map (print_term ctxt) assms);
+    val opt_fixes = if null fixes then NONE
+      else SOME (map (fn (v, T) => v ^ " :: " ^ print_typ ctxt T) fixes);
+    val goal = print_term ctxt concl;
+  in (
+    Option.map (add_ands indent) opt_fixes, 
+    Option.map (add_ands indent) opt_assumes, 
+    goal)
+  end;
+
+(* TODO: add SUBGOAL and ASSMS_SHOW *)
+datatype format = LEMMA | SHOW_IF
+
+fun get_formatter format indent num =
+  (case format of 
+  LEMMA => (fn (opt_fixes, opt_assms, goal) => 
+    let
+      val sep = "\n" ^ (Symbol.spaces (indent + 2));
+      val header = "lemma goal" ^ Value.print_int num ^ ": ";
+      val fixes = the_default "" (Option.map (curry (op ^) (sep ^ "fixes ")) opt_fixes);
+      val assms = the_default "" (Option.map (curry (op ^) (sep ^ "assumes ")) opt_assms);
+      val shows = if fixes = "" andalso assms = ""
+        then goal else sep ^ "shows " ^ goal;
+      val sorry = sep ^ "  sorry"
+    in header ^ fixes ^ assms ^ shows ^ sorry end)
+  | SHOW_IF => (fn (opt_fixes, opt_assms, goal) =>
+    let
+      val sep = "\n" ^ (Symbol.spaces (indent + 2));
+      val header = "show goal" ^ Value.print_int num ^ ": ";
+      val fors = the_default "" (Option.map (curry (op ^) (sep ^ "for ")) opt_fixes);
+      val ifs = the_default "" (Option.map (curry (op ^) (sep ^ "if ")) opt_assms);
+      val shows = Symbol.spaces indent ^ header ^ goal;
+      val sorry = if ifs = ""
+        then sep ^ "  sorry" else sep ^ "using that" ^ sep ^ "sorry"
+    in shows ^ ifs ^ fors ^ sorry end));
+
+fun sketch_as format ctxt indent (goal_num, goal_data) =
+  let
+    val ((fixes, assms, concl), ctxt') = upd_context goal_data ctxt;
+    val (opt_fixes, opt_assumes, goal) = prepare_data ctxt' indent (fixes, assms, concl);
+    val formatter = get_formatter format indent goal_num;
+  in formatter (opt_fixes, opt_assumes, goal) end;
+
+\<close>
+
+lemma 
+  assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
+  shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
+  using assms
+
+  apply (intro conjI)
+
+  ML_val \<open>
+  #goal (Proof.goal (Toplevel.proof_of @{Isar.state}))
+  |> Thm.prop_of
+  |> Logic.strip_imp_prems
+  |> map split_clause
+  |> Ops.enumerate_from 1
+  |> map (sketch_as LEMMA \<^context> 2)
+  |> space_implode "\nnext\n"
+  |> (fn prf_skel => "proof(intro conjI)\n" ^ prf_skel ^ "\nqed")
+  |> Output.tracing
+  \<close>
+  oops
+
+end

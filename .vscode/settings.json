@@ -1,0 +1,19 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "Isabelle Cygwin": {
+            "path": "C:\\Users\\kaihong\\Desktop\\Isabelle2025\\contrib\\cygwin\\bin\\bash.exe",
+            "args": [
+                "--login",
+                "-i"
+            ],
+            "icon": "terminal-bash",
+            "env": {
+                "CHERE_INVOKING": "true",
+                "LANG": "en_US.UTF-8",
+                "PATH": "C:\\Users\\kaihong\\Desktop\\Isabelle2025\\bin;${env:PATH}"
+            }
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Isabelle Cygwin"
+}
+

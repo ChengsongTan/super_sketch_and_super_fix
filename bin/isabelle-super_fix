@@ -1,0 +1,380 @@
+#!/usr/bin/env bash
+# Isabelle tool wrapper: "isabelle super_fix"
+# Cross-platform (Linux/macOS/Windows via Isabelle's Cygwin)
+
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  isabelle super_fix [--open|--headless] [--method HAMMER[simp]|TRY0|TRY|SORRYS|LLM]
+                     [--project-root DIR] [--no-build-user-session]
+                     TARGET.thy
+
+Description:
+  - 自动检测 TARGET.thy 所在工程（向上查找 ROOT），把它与 Super_Fix 一起加到 -d 路径。
+  - 在临时目录生成与 TARGET 同名的“fixer” theory，保留原 imports 并额外导入 Super_Fix.Super_Fix。
+  - Windows 自动把路径转为 /cygdrive/c/...，无需用户手填。
+  - --open     ：打开 jEdit 交互查看（默认）
+  - --headless ：直接 build 跑完（适合批处理/CI）
+  - --method   ：选择 super_fix 的策略（默认 HAMMER[simp]）
+  - --project-root DIR ：手动指定用户工程根；否则自动向上找含 ROOT 的目录
+  - --no-build-user-session ：找到用户 ROOT 时，不先行 build 该工程
+
+Examples:
+  isabelle super_fix /path/to/Small_Test.thy
+  isabelle super_fix --headless --method TRY0 ~/proj/A/B/C/Bad.thy
+USAGE
+}
+
+# --- defaults ---
+MODE="open"
+METHOD='HAMMER[simp]'
+PROJECT_ROOT=""
+BUILD_USER_SESSION=1
+
+# --- parse args ---
+ARGS=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --open) MODE="open"; shift;;
+    --headless) MODE="headless"; shift;;
+    --method) METHOD="$2"; shift 2;;
+    --project-root) PROJECT_ROOT="$2"; shift 2;;
+    --no-build-user-session) BUILD_USER_SESSION=0; shift;;
+    -h|--help) usage; exit 0;;
+    --) shift; break;;
+    -*) echo "Unknown option: $1" >&2; usage; exit 1;;
+    *) ARGS+=("$1"); shift;;
+  esac
+done
+
+if [[ ${#ARGS[@]} -ne 1 ]]; then
+  usage; exit 1
+fi
+
+TARGET="${ARGS[0]}"
+if [[ ! -f "$TARGET" ]]; then
+  echo "Target not found: $TARGET" >&2; exit 1
+fi
+
+# --- resolve repo home (from etc/settings or fallback) ---
+SUPER_FIX_HOME="${SUPER_FIX_HOME:-}"
+if [[ -z "${SUPER_FIX_HOME}" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  SUPER_FIX_HOME="$(cd "$SCRIPT_DIR/.." && pwd)"
+fi
+
+SF_DIR="$SUPER_FIX_HOME/Super_Fix"
+if [[ ! -d "$SF_DIR" ]]; then
+  echo "Super_Fix directory not found: $SF_DIR" >&2; exit 1
+fi
+
+# --- os/path helpers ---
+uname_out="$(uname -s 2>/dev/null || echo unknown)"
+is_windows=0
+case "$uname_out" in
+  CYGWIN*|MINGW*|MSYS*) is_windows=1;;
+esac
+
+to_posix_path() {
+  local p="$1"
+  if [[ $is_windows -eq 1 ]]; then
+    cygpath -u "$p"
+  else
+    printf "%s" "$p"
+  fi
+}
+
+TARGET_ABS="$(cd "$(dirname "$TARGET")" && pwd)/$(basename "$TARGET")"
+TARGET_POSIX="$(to_posix_path "$TARGET_ABS")"
+TARGET_DIR="$(cd "$(dirname "$TARGET_ABS")" && pwd)"
+
+# --- detect user project root (dir containing ROOT) ---
+find_root_up() {
+  local dir="$1"
+  while true; do
+    if [[ -f "$dir/ROOT" ]]; then echo "$dir"; return 0; fi
+    local parent="$(cd "$dir/.." && pwd)"
+    if [[ "$parent" == "$dir" ]]; then break; fi
+    dir="$parent"
+  done
+  return 1
+}
+
+USER_ROOT=""
+if [[ -n "$PROJECT_ROOT" ]]; then
+  USER_ROOT="$(cd "$PROJECT_ROOT" && pwd)"
+elif USER_ROOT=$(find_root_up "$TARGET_DIR"); then
+  :
+else
+  USER_ROOT="$TARGET_DIR"
+fi
+
+# --- parse theory header: theory name and imports block ---
+THEORY_NAME=""
+IMPORTS_BLOCK=""
+
+HEADER="$(head -n 200 "$TARGET_ABS")"
+
+if [[ "$HEADER" =~ ^[[:space:]]*theory[[:space:]]+([A-Za-z0-9_\'\-]+) ]]; then
+  THEORY_NAME="${BASH_REMATCH[1]}"
+else
+  echo "Cannot find 'theory' header in $TARGET_ABS" >&2; exit 1
+fi
+
+IMPORTS_BLOCK="$(echo "$HEADER" | awk '
+  BEGIN{in_imp=0}
+  /^[[:space:]]*imports/ {in_imp=1; print; next}
+  /^[[:space:]]*begin[[:space:]]*$/ {in_imp=0}
+  { if (in_imp) print }
+')"
+
+IMPORTS_ENTRIES="$(echo "$IMPORTS_BLOCK" | sed -E '1s/^[[:space:]]*imports[[:space:]]*//')"
+
+# --- create temp session ---
+TMPDIR="$(mktemp -d 2>/dev/null || mktemp -d -t superfix)"
+FIX_THEORY_FILE="$TMPDIR/${THEORY_NAME}.thy"
+ROOT_FILE="$TMPDIR/ROOT"
+
+cat > "$ROOT_FILE" <<EOF
+session FixRun = HOL +
+  directories "$TMPDIR"
+  options [document = false]
+  sessions
+    Super_Fix
+  theories
+    $THEORY_NAME
+EOF
+
+{
+  echo "theory ${THEORY_NAME}"
+  echo "  imports"
+  echo "    Super_Fix.Super_Fix"
+  if [[ -n "$IMPORTS_ENTRIES" ]]; then
+    echo "$IMPORTS_ENTRIES" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | awk '{print "    "$0}'
+  else
+    echo "    Main"
+  fi
+  echo "begin"
+  echo
+  echo "super_fix ${METHOD}"
+  echo "  \"${TARGET_POSIX}\""
+  echo
+  echo "end"
+} > "$FIX_THEORY_FILE"
+
+# --- optionally build user's session first (if ROOT found) ---
+if [[ -f "$USER_ROOT/ROOT" && $BUILD_USER_SESSION -eq 1 ]]; then
+  echo "[super_fix] Building user session(s) under: $USER_ROOT"
+  isabelle build -D "$USER_ROOT" || true
+fi
+
+echo "[super_fix] Target: $TARGET_ABS"
+echo "[super_fix] Temp session: $TMPDIR"
+
+if [[ "$MODE" == "headless" ]]; then
+  # Ensure Super_Fix session root is visible to build
+  isabelle build -d "$SF_DIR" -D "$TMPDIR"
+  echo "[super_fix] Done. Check updated file and .backup beside the target."
+else
+  isabelle jedit -d "$SF_DIR" -d "$USER_ROOT" -d "$TMPDIR" "$FIX_THEORY_FILE"
+fi
+
+#!/usr/bin/env bash
+# Isabelle tool wrapper: "isabelle super_fix"
+# Cross-platform (Linux/macOS/Windows via Isabelle's Cygwin)
+
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  isabelle super_fix [--open|--headless] [--method HAMMER[simp]|TRY0|TRY|SORRYS|LLM]
+                     [--project-root DIR] [--no-build-user-session]
+                     TARGET.thy
+
+Description:
+  - 自动检测 TARGET.thy 所在工程（向上查找 ROOT），把它与 Super_Fix 一起加到 -d 路径。
+  - 在临时目录生成与 TARGET 同名的“fixer” theory，保留原 imports 并额外导入 Super_Fix.Super_Fix。
+  - Windows 自动把路径转为 /cygdrive/c/...，无需用户手填。
+  - --open     ：打开 jEdit 交互查看（默认）
+  - --headless ：直接 build 跑完（适合批处理/CI）
+  - --method   ：选择 super_fix 的策略（默认 HAMMER[simp]）
+  - --project-root DIR ：手动指定用户工程根；否则自动向上找含 ROOT 的目录
+  - --no-build-user-session ：找到用户 ROOT 时，不先行 build 该工程
+
+Examples:
+  isabelle super_fix /path/to/Small_Test.thy
+  isabelle super_fix --headless --method TRY0 ~/proj/A/B/C/Bad.thy
+USAGE
+}
+
+# --- defaults ---
+MODE="open"
+METHOD='HAMMER[simp]'
+PROJECT_ROOT=""
+BUILD_USER_SESSION=1
+
+# --- parse args ---
+ARGS=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --open) MODE="open"; shift;;
+    --headless) MODE="headless"; shift;;
+    --method) METHOD="$2"; shift 2;;
+    --project-root) PROJECT_ROOT="$2"; shift 2;;
+    --no-build-user-session) BUILD_USER_SESSION=0; shift;;
+    -h|--help) usage; exit 0;;
+    --) shift; break;;
+    -*)
+      echo "Unknown option: $1" >&2; usage; exit 1;;
+    *)
+      ARGS+=("$1"); shift;;
+  esac
+done
+
+if [[ ${#ARGS[@]} -ne 1 ]]; then
+  usage; exit 1
+fi
+
+TARGET="${ARGS[0]}"
+if [[ ! -f "$TARGET" ]]; then
+  echo "Target not found: $TARGET" >&2; exit 1
+fi
+
+# --- resolve repo home (from etc/settings or fallback) ---
+SUPER_FIX_HOME="${SUPER_FIX_HOME:-}"
+if [[ -z "${SUPER_FIX_HOME}" ]]; then
+  # fallback: script/../..
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  SUPER_FIX_HOME="$(cd "$SCRIPT_DIR/.." && pwd)"
+fi
+
+SF_DIR="$SUPER_FIX_HOME/Super_Fix"
+if [[ ! -d "$SF_DIR" ]]; then
+  echo "Super_Fix directory not found: $SF_DIR" >&2; exit 1
+fi
+
+# --- os/path helpers ---
+uname_out="$(uname -s 2>/dev/null || echo unknown)"
+is_windows=0
+case "$uname_out" in
+  CYGWIN*|MINGW*|MSYS*) is_windows=1;;
+esac
+
+to_posix_path() {
+  local p="$1"
+  if [[ $is_windows -eq 1 ]]; then
+    # Use cygpath from Isabelle's Cygwin env
+    cygpath -u "$p"
+  else
+    printf "%s" "$p"
+  fi
+}
+
+TARGET_ABS="$(cd "$(dirname "$TARGET")" && pwd)/$(basename "$TARGET")"
+TARGET_POSIX="$(to_posix_path "$TARGET_ABS")"
+TARGET_DIR="$(cd "$(dirname "$TARGET_ABS")" && pwd)"
+
+# --- detect user project root (dir containing ROOT) ---
+find_root_up() {
+  local dir="$1"
+  while true; do
+    if [[ -f "$dir/ROOT" ]]; then echo "$dir"; return 0; fi
+    local parent="$(cd "$dir/.." && pwd)"
+    if [[ "$parent" == "$dir" ]]; then break; fi
+    dir="$parent"
+  done
+  return 1
+}
+
+USER_ROOT=""
+if [[ -n "$PROJECT_ROOT" ]]; then
+  USER_ROOT="$(cd "$PROJECT_ROOT" && pwd)"
+elif USER_ROOT=$(find_root_up "$TARGET_DIR"); then
+  :
+else
+  # no ROOT; fall back to containing dir (still helpful for non-session imports)
+  USER_ROOT="$TARGET_DIR"
+fi
+
+# --- parse theory header: theory name and imports block ---
+THEORY_NAME=""
+IMPORTS_BLOCK=""
+
+# read first 200 lines to be safe
+HEADER="$(head -n 200 "$TARGET_ABS")"
+
+# theory name
+if [[ "$HEADER" =~ ^[[:space:]]*theory[[:space:]]+([A-Za-z0-9_\'\-]+) ]]; then
+  THEORY_NAME="${BASH_REMATCH[1]}"
+else
+  echo "Cannot find 'theory' header in $TARGET_ABS" >&2; exit 1
+fi
+
+# imports (may span multiple lines until 'begin')
+IMPORTS_BLOCK="$(echo "$HEADER" | awk '
+  BEGIN{in_imp=0}
+  /^[[:space:]]*imports/ {in_imp=1; print; next}
+  /^[[:space:]]*begin[[:space:]]*$/ {in_imp=0}
+  { if (in_imp) print }
+')"
+
+# strip leading "imports" keyword to reformat entries
+IMPORTS_ENTRIES="$(echo "$IMPORTS_BLOCK" \
+  | sed -E '1s/^[[:space:]]*imports[[:space:]]*//' )"
+
+# --- create temp session ---
+TMPDIR="$(mktemp -d 2>/dev/null || mktemp -d -t superfix)"
+FIX_THEORY_FILE="$TMPDIR/${THEORY_NAME}.thy"
+ROOT_FILE="$TMPDIR/ROOT"
+
+# Write ROOT: parent Super_Fix; include Fixer theory
+cat > "$ROOT_FILE" <<EOF
+session FixRun = HOL +
+  directories "$TMPDIR"
+  options [document = false]
+  sessions
+    Super_Fix
+  theories
+    $THEORY_NAME
+EOF
+
+# Write Fixer theory: keep original name/imports + add Super_Fix.Super_Fix
+{
+  echo "theory ${THEORY_NAME}"
+  echo "  imports"
+  echo "    Super_Fix.Super_Fix"
+  # re-inject original imports if any
+  if [[ -n "$IMPORTS_ENTRIES" ]]; then
+    # put each entry on its own line, keep quoting
+    echo "$IMPORTS_ENTRIES" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | awk '{print "    "$0}'
+  else
+    echo "    Main"
+  fi
+  echo "begin"
+  echo
+  echo "super_fix ${METHOD}"
+  echo "  \"${TARGET_POSIX}\""
+  echo
+  echo "end"
+} > "$FIX_THEORY_FILE"
+
+# --- optionally build user's session first (if ROOT found) ---
+if [[ -f "$USER_ROOT/ROOT" && $BUILD_USER_SESSION -eq 1 ]]; then
+  echo "[super_fix] Building user session(s) under: $USER_ROOT"
+  isabelle build -D "$USER_ROOT" || true   # 尽量构建；失败也不阻断 super_fix 自身流程
+fi
+
+# --- run ---
+echo "[super_fix] Target: $TARGET_ABS"
+echo "[super_fix] Temp session: $TMPDIR"
+if [[ "$MODE" == "headless" ]]; then
+  isabelle build -D "$TMPDIR"
+  echo "[super_fix] Done. Check updated file and .backup beside the target."
+else
+  # interactive: open jedit with necessary -d dirs
+  isabelle jedit -d "$SF_DIR" -d "$USER_ROOT" -d "$TMPDIR" "$FIX_THEORY_FILE"
+fi
+

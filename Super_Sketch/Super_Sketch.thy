@@ -62,7 +62,7 @@ fun writeFileln dir_str msg =
     File.append file (msg ^ "\n")
   end;
 
-val _ = writeFileln "$USER_HOME/Desktop/double4log/d4res.txt" "firstline"
+(*val _ = writeFileln "$USER_HOME/Desktop/double4log/d4res.txt" "firstline"*)
 
 val _ = Future.fork
 val print_name = Token.print_name o Thy_Header.get_keywords';
@@ -493,8 +493,8 @@ fun ppt_simp4 ms state js indent
     val raw_str = cat_lines lines
     val message = Active.sendback_markup_properties [] raw_str
     val { context = ctxt, facts = _, goal } = Proof.goal state;
-    val _ =    
-        writeFileln ("$USER_HOME/Desktop/double4log/d4_" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ^ gg ^ ".txt" ) message;
+    (*val _ =    
+        writeFileln ("$USER_HOME/Desktop/double4log/d4_" ^ Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ^ gg ^ ".txt" ) message;*)
   in ( message) end
 
 | [] =>
@@ -825,9 +825,10 @@ fun ppt_main_simp4
                adref      adtxt
                resref     restxt
                first_split_add_rescue')
-    |> (fn s =>  let val _ = Output.information s; 
+    |> (fn s => Output.information s)
+ (* (fn s =>  let val _ = Output.information s; 
         val _ = writeFileln ("$USER_HOME/Desktop/double4log/d4_" ^ 
-          Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) s in () end)
+          Context.theory_name {long=false} (Proof_Context.theory_of ctxt) ) s in () end)*)
   end
 
 

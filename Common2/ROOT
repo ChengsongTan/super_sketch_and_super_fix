@@ -1,0 +1,10 @@
+session "BaseProof1" = HOL +
+  options [document = false]
+  sessions
+    "Isabelle_RL"
+  theories
+    Transposed
+    CoherenceProperties
+    BuggyRules
+    BasicInvariants
+    Fixer

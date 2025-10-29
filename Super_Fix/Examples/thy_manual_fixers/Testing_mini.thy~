@@ -1,4 +1,4 @@
-theory Small_Test  
+theory Testing_mini 
   imports 
     Super_Fix.Super_Fix
     Complex_Main
