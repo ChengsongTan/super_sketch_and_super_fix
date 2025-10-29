@@ -1,4 +1,4 @@
-theory T_M300 imports  "../Super_Sketch/Super_Sketch"  AllBackgroundInvariants  begin
+theory Testing6 imports  "../Super_Sketch/Super_Sketch"  AllBackgroundInvariants  begin
 sledgehammer_params [dont_minimize, dont_try0, timeout = 10, preplay_timeout = 0, slices = 36]
 thm allTransitions'_def
 
