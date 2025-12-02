@@ -1,6 +1,6 @@
 theory Try_Sketch
   imports "Super_Fix.Super_Fix"
-  keywords "super_sketch'" :: diag
+  keywords "try_sketch" :: diag
 begin
 
 ML \<open>
@@ -21,13 +21,13 @@ fun try_sketch fixer format opt_m st =
       in fixed end
   in result end;
 
-val _ = Outer_Syntax.command \<^command_keyword>\<open>super_sketch'\<close>
+val _ = Outer_Syntax.command \<^command_keyword>\<open>try_sketch\<close>
   "Makes a proof-sketch and attempts intermediate subgoals."
-  (Fixer.parse -- (Scan.option (Scan.trace Method.parse)) >> 
-    (fn (sketch_mode, opt_m0) =>
+  (Sketcher.parse -- Fixer.parse -- (Scan.option (Scan.trace Method.parse)) >> 
+    (fn ((sketch_format, fixer_mode), opt_m0) =>
       Toplevel.keep_proof (fn st =>
         let
-          val final_sketch = try_sketch sketch_mode Sketcher.SHOW_IFS opt_m0 st;
+          val final_sketch = try_sketch fixer_mode sketch_format opt_m0 st;
           val _ = Output.information (Active.sendback_markup_command final_sketch);
         in () end
       )
@@ -43,7 +43,8 @@ lemma
   assumes "\<forall>x. P x" and "\<forall>x. Q x" and "R"
   shows "\<And>a b. P a \<and> P b \<and> P c \<and> P d \<and> P e"
   using assms
-  super_sketch' SORRYS[simp] (intro conjI)
+  try_sketch FIX_SHOW SORRYS[simp] (intro conjI)
+  try_sketch SHOW_IFS SORRYS[simp] (intro conjI)
 proof-
   show goal1: "P a \<and> P b \<and> P c \<and> P d \<and> P e"
     if "\<forall>x. P x"
@@ -56,11 +57,11 @@ proof-
 
 lemma True
   apply simp
-  super_sketch' TRY
+  try_sketch SHOW_IFS TRY
   done
 
 lemma length_upt: "length ([0 ..< n]) = n"
-  super_sketch' HAMMER[simp] (induct n)
+  try_sketch SHOW_IFS HAMMER[simp] (induct n)
 proof(induct n)
   show goal0: "length [0..<0] = 0"
     by simp

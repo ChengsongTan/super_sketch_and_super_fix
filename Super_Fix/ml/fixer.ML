@@ -79,7 +79,7 @@ fun fix_with_sketch format indent handler1 opt_m st =
         else sep ^ (handler1 st')
       else let
         val sketches = Sketcher.sketch_goals_at format (indent+2) st';
-      in Sketcher.make_skeleton format indent m_txt sketches end
+      in Sketcher.make_skeleton indent m_txt sketches end
   in final_text end;
 
 
@@ -541,7 +541,7 @@ fun from_str str ms = (case str of
   | "TRY" => TRY ms
   | "HAMMER" => HAMMER ms
   | "LLM" => LLM ms
-  | another => raise Fail ("strategy_of_str: unknown mode" ^ another));
+  | another => raise Fail ("from_str: unsuported format '" ^ another ^ "'"));
 
 fun string_of fixer = 
   (case fixer of

@@ -16,9 +16,11 @@ sig
   type method = Method.text_range * Token.T list
   val sketch_method: method option -> string
 
-  datatype format = LEMMAS of Path.T * Path.T | SHOW_IFS
+  datatype format = LEMMAS of Path.T * Path.T | SHOW_IFS | FIX_SHOW
   val init_indent_from: format -> int
-  val make_skeleton: format -> int -> string -> string list -> string
+  val string_of: format -> string
+  val parse: format parser
+  val make_skeleton: int -> string -> string list -> string
   val sketch_goals_at: format -> int -> Toplevel.state -> string list
   val try_method: method option -> Toplevel.state -> int * bool * string * Toplevel.state
 end;
@@ -67,10 +69,26 @@ fun sketch_method opt_m = case opt_m of
 datatype format = 
   LEMMAS of Path.T * Path.T
   | SHOW_IFS
+  | FIX_SHOW
 
-fun init_indent_from format = (case format of LEMMAS _ => 0 | SHOW_IFS => 2);
+fun from_str str = (case str of 
+  "SHOW_IFS" => SHOW_IFS
+  | "FIX_SHOW" => FIX_SHOW
+  | another => raise Fail ("from_str: unsuported format '" ^ another ^ "'"));
 
-fun make_proof_qed_skel indent fst_m_txt sketches = 
+fun string_of format = 
+  (case format of
+    LEMMAS _ => "LEMMAS"
+    | SHOW_IFS => "SHOW_IFS"
+    | FIX_SHOW => "FIX_SHOW"
+  );
+
+val parse = (Parse.embedded 
+  >> (fn format =>  from_str format));
+
+fun init_indent_from format = (case format of LEMMAS _ => 0 | SHOW_IFS => 2 | FIX_SHOW => 2);
+
+fun make_skeleton indent fst_m_txt sketches = 
   let
     val sep = "\n" ^ Symbol.spaces indent;
     val skel = sketches
@@ -89,6 +107,18 @@ fun show_ifs_sketcher indent (goal_num, (opt_fixes, opt_assms, goal)) =
       then sep ^ "  sorry" else sep ^ "using that" ^ sep ^ "sorry"
   in shows ^ ifs ^ fors ^ sorry end;
 
+fun fix_show_sketcher indent (goal_num, (opt_fixes, opt_assms, goal)) =
+  let
+    val sep = Symbol.spaces indent;
+    fun pre_app str1 str2 = sep ^ str1 ^ str2 ^ "\n";
+    val fixes = the_default "" (Option.map (pre_app "fixes ") opt_fixes);
+    val assumes = the_default "" (Option.map (pre_app "assumes ") opt_assms);
+    val header = "thus goal" ^ Value.print_int goal_num ^ ": ";
+    val shows = sep ^ header ^ goal ^ "\n";
+    val sorry = if assumes = ""
+      then sep ^ "  sorry" else sep ^ "sorry"
+  in fixes ^ assumes ^ shows ^ sorry end;
+
 fun get_formatter format indent num =
   (case format of 
     LEMMAS _ => (fn (opt_fixes, opt_assms, goal) => 
@@ -101,12 +131,9 @@ fun get_formatter format indent num =
         then goal else sep ^ "shows " ^ goal;
       val sorry = sep ^ "  sorry"
     in header ^ fixes ^ assms ^ shows ^ sorry end)
-    | SHOW_IFS => (fn pass => show_ifs_sketcher indent (num, pass)));
-
-fun make_skeleton format indent m_txt sketches =
-  (case format of 
-    LEMMAS _ => make_proof_qed_skel indent m_txt sketches
-    | SHOW_IFS => make_proof_qed_skel indent m_txt sketches)
+    | SHOW_IFS => (fn pass => show_ifs_sketcher indent (num, pass))
+    | FIX_SHOW => (fn pass => fix_show_sketcher indent (num, pass))
+    );
 
 
 (* goals *)
@@ -132,12 +159,16 @@ fun upd_context_with (var_typs, assms, concl) ctxt =
       ctxt |> Variable.set_body true |> Proof_Context.add_fixes fixes |> snd
   in ((var_typs, assms, concl), ctxt') end;
 
-fun add_ands indent strs = 
+fun add_ands (format, indent) strs = 
   let 
-    val sep = "\n" ^ (Symbol.spaces (indent + 2)) ^ "  and ";
+    val sep = (case format of 
+      LEMMAS _ => "\n" ^ (Symbol.spaces (indent + 2)) ^ "  and "
+    | SHOW_IFS => "\n" ^ (Symbol.spaces (indent + 2)) ^ "  and "
+    | FIX_SHOW => "\n" ^ (Symbol.spaces indent) ^ "  and "
+    )
   in space_implode sep strs end;
 
-fun prepare_goal_data ctxt indent (fixes, assms, concl) = 
+fun prepare_goal_data ctxt (format, indent) (fixes, assms, concl) = 
   let
     val opt_assumes = if null assms then NONE
       else SOME (map (sketch_term ctxt) assms);
@@ -146,15 +177,15 @@ fun prepare_goal_data ctxt indent (fixes, assms, concl) =
     val goal = if null fixes 
       then sketch_term (Config.put show_sorts true (Config.put show_types true ctxt)) concl
       else sketch_term ctxt concl;
-  in (Option.map (add_ands indent) opt_fixes, 
-    Option.map (add_ands indent) opt_assumes, 
+  in (Option.map (add_ands (format, indent)) opt_fixes, 
+    Option.map (add_ands (format, indent)) opt_assumes, 
     goal)
   end;
 
-fun sketch_goal_as format indent ctxt (goal_num, goal_data) =
+fun sketch_goal_as (format, indent) ctxt (goal_num, goal_data) =
   let
     val ((fixes, assms, concl), ctxt') = upd_context_with goal_data ctxt;
-    val (opt_fixes, opt_assumes, goal_str) = prepare_goal_data ctxt' indent (fixes, assms, concl);
+    val (opt_fixes, opt_assumes, goal_str) = prepare_goal_data ctxt' (format, indent) (fixes, assms, concl);
     val formatter = get_formatter format indent goal_num;
   in formatter (opt_fixes, opt_assumes, goal_str) end;
 
@@ -162,7 +193,7 @@ fun sketch_goals_at format indent st =
   let            
     val ctxt = set_verbose (Toplevel.context_of st);
     val goals = Ops.enumerate (get_goals_at (Toplevel.proof_of st));
-  in Par_List.map (sketch_goal_as format indent ctxt) goals end;
+  in Par_List.map (sketch_goal_as (format, indent) ctxt) goals end;
 
 
 (* trying methods *)
