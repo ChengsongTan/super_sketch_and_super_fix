@@ -111,8 +111,8 @@ fun fix_show_sketcher indent (goal_num, (opt_fixes, opt_assms, goal)) =
   let
     val sep = Symbol.spaces indent;
     fun pre_app str1 str2 = sep ^ str1 ^ str2 ^ "\n";
-    val fixes = the_default "" (Option.map (pre_app "fixes ") opt_fixes);
-    val assumes = the_default "" (Option.map (pre_app "assumes ") opt_assms);
+    val fixes = the_default "" (Option.map (pre_app "fix ") opt_fixes);
+    val assumes = the_default "" (Option.map (pre_app "assume ") opt_assms);
     val header = "thus goal" ^ Value.print_int goal_num ^ ": ";
     val shows = sep ^ header ^ goal ^ "\n";
     val sorry = if assumes = ""
