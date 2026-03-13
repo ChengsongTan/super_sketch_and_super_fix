@@ -1,5 +1,5 @@
 theory Try_Sketch
-  imports "Super_Fix.Super_Fix"
+  imports "../Super_Fix/Super_Fix"
   keywords "try_sketch" :: diag
 begin
 

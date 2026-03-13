@@ -297,8 +297,17 @@ fun repair_sorrys_with_llm' fst_state ms stacts =
 
 (* Operations for Sledgehammer *)
 
+fun silence_methods debug =
+  Config.put Metis_Tactic.verbose debug
+  #> not debug ? (fn ctxt =>
+      ctxt
+      |> Simplifier_Trace.disable
+      |> Context_Position.set_visible false
+      |> Config.put Unify.unify_trace false
+      |> Config.put Argo_Tactic.trace "none")
+
 val hammer_silence_state =
-  Proof.map_contexts (Try0.silence_methods false #> Config.put SMT_Config.verbose false);
+  Proof.map_contexts (silence_methods false #> Config.put SMT_Config.verbose false);
 
 val remove_hammer_time = String.explode
   #> rev 
@@ -350,7 +359,7 @@ fun fix_with_hammer st =
 
 (* TODO: make all fixers report whether they succeeded with a boolean *)
 fun fix_with_try0 st = 
-  (case Try0.try0 (SOME (Time.fromSeconds 30)) [] (Toplevel.proof_of st) of 
+  (case Try0.try0 (SOME (Time.fromSeconds 30)) Try0.empty_facts (Toplevel.proof_of st) of 
     [] => "sorry"
     | {command, ...} :: _ => command);
 
